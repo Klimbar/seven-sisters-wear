@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rong Bah — Traditional Assamese Attire</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238B2323'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23C9A227' stroke-width='3'/><path d='M50 25 L55 45 L75 50 L55 55 L50 75 L45 55 L25 50 L45 45 Z' fill='%23C9A227'/></svg>">
+    <title>Seven Sisters Wear — Traditional North East India Attire</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238B2323'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23C9A227' stroke-width='3'/><path d='M50 25 L55 45 L75 50 L55 55 L50 75 L45 55 L25 50 L45 45 Z' fill='%23C9A227'/><text x='50' y='50' text-anchor='middle' dy='5' fill='%23FDF6E3' font-family='serif' font-size='12' font-weight='bold'>7S</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
@@ -29,6 +29,8 @@
             --text-dark: #2C1810;
             --text-body: #5C4033;
             --white: #FFFFFF;
+            --tribal-orange: #FF6B35;
+            --bamboo-green: #7BA098;
         }
 
         html {
@@ -164,6 +166,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            background: none;
+            border: none;
         }
 
         .nav.scrolled .nav-icon {
@@ -189,6 +193,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .seller-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--white);
+            border-radius: 4px;
+            background: transparent;
+            color: var(--white);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled .seller-btn {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .seller-btn:hover {
+            background: var(--primary);
+            color: var(--white);
         }
 
         .mobile-menu-btn {
@@ -490,38 +517,38 @@
             margin-top: 8px;
         }
 
-        /* Collections Grid */
-        .collections {
+        /* States Grid */
+        .states {
             background: var(--bg-cream);
         }
 
-        .collections-grid {
+        .states-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 30px;
         }
 
-        .collection-card {
+        .state-card {
             position: relative;
             aspect-ratio: 3/4;
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
-            group: collection;
+            group: state;
         }
 
-        .collection-card img {
+        .state-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
 
-        .collection-card:hover img {
+        .state-card:hover img {
             transform: scale(1.08);
         }
 
-        .collection-overlay {
+        .state-overlay {
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, rgba(44, 24, 16, 0.85) 0%, transparent 60%);
@@ -532,24 +559,24 @@
             transition: background 0.4s ease;
         }
 
-        .collection-card:hover .collection-overlay {
+        .state-card:hover .state-overlay {
             background: linear-gradient(to top, rgba(107, 28, 28, 0.9) 0%, rgba(107, 28, 28, 0.2) 100%);
         }
 
-        .collection-name {
+        .state-name {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
             color: var(--white);
             margin-bottom: 8px;
         }
 
-        .collection-desc {
+        .state-desc {
             color: rgba(255, 255, 255, 0.8);
             font-size: 15px;
             margin-bottom: 16px;
         }
 
-        .collection-link {
+        .state-link {
             color: var(--accent);
             font-size: 14px;
             font-weight: 600;
@@ -562,8 +589,59 @@
             transition: gap 0.3s ease;
         }
 
-        .collection-card:hover .collection-link {
+        .state-card:hover .state-link {
             gap: 14px;
+        }
+
+        /* Tribes Section */
+        .tribes {
+            background: var(--bg-light);
+        }
+
+        .tribes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .tribe-card {
+            background: var(--white);
+            padding: 36px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(44, 24, 16, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tribe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(44, 24, 16, 0.15);
+        }
+
+        .tribe-icon {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .tribe-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .tribe-state {
+            font-size: 13px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .tribe-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-body);
         }
 
         /* Products Section */
@@ -737,6 +815,45 @@
             text-decoration: line-through;
         }
 
+        /* Seller CTA Section */
+        .seller-cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            text-align: center;
+            color: var(--white);
+            padding: 80px 0;
+        }
+
+        .seller-cta .section-title {
+            color: var(--white);
+        }
+
+        .seller-cta .section-subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+        }
+
+        .seller-features {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .seller-feature {
+            text-align: center;
+        }
+
+        .seller-feature i {
+            font-size: 36px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .seller-feature p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
         /* Craftsman Story */
         .craftsman {
             background: var(--text-dark);
@@ -748,7 +865,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.5;
         }
 
@@ -817,32 +934,6 @@
         .craftsman-list i {
             font-size: 24px;
             color: var(--accent);
-        }
-
-        /* Custom Orders */
-        .custom-orders {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            text-align: center;
-            color: var(--white);
-            padding: 80px 0;
-        }
-
-        .custom-orders .section-title {
-            color: var(--white);
-        }
-
-        .custom-orders .section-subtitle {
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 30px;
-        }
-
-        .custom-orders .btn-secondary {
-            border-color: var(--white);
-        }
-
-        .custom-orders .btn-secondary:hover {
-            background: var(--white);
-            color: var(--primary);
         }
 
         /* Testimonials */
@@ -1010,7 +1101,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
             gap: 60px;
             margin-bottom: 60px;
         }
@@ -1025,6 +1116,7 @@
             gap: 12px;
             margin-bottom: 20px;
             color: var(--bg-cream);
+            text-decoration: none;
         }
 
         .footer-logo .logo-icon {
@@ -1059,6 +1151,7 @@
             color: var(--bg-cream);
             font-size: 18px;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
 
         .social-link:hover {
@@ -1396,8 +1489,12 @@
                 gap: 40px;
             }
 
-            .heritage-image-secondary {
+            .heritage-img-secondary {
                 display: none;
+            }
+
+            .states-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .products-grid {
@@ -1456,6 +1553,11 @@
             .heritage-stats {
                 justify-content: center;
             }
+
+            .seller-features {
+                flex-direction: column;
+                gap: 30px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1489,14 +1591,16 @@
                     <svg class="logo-icon" viewBox="0 0 40 40" fill="currentColor">
                         <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
                         <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
+                        <text x="20" y="20" text-anchor="middle" dy="5" fill="currentColor" font-family="serif" font-size="8" font-weight="bold">7S</text>
                     </svg>
-                    <span class="logo-text">Rong Bah</span>
+                    <span class="logo-text">Seven Sisters Wear</span>
                 </a>
                 <ul class="nav-links">
-                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#states">States</a></li>
+                    <li><a href="#tribes">Tribes</a></li>
                     <li><a href="#shop">Shop</a></li>
                     <li><a href="#story">Our Story</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#seller">Sell</a></li>
                 </ul>
                 <div class="nav-actions">
                     <div class="nav-icon">
@@ -1509,6 +1613,7 @@
                         <i class="ph ph-shopping-bag"></i>
                         <span class="cart-count">2</span>
                     </div>
+                    <button class="seller-btn">Become a Seller</button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i class="ph ph-list"></i>
                     </button>
@@ -1524,18 +1629,18 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <i class="ph ph-sparkle"></i>
-                Handwoven Heritage
+                Seven Sisters of India
             </div>
-            <h1 class="hero-title">Timeless <span>Muga</span> Elegance</h1>
-            <p class="hero-subtitle">Discover the artistry of traditional Assamese Mekhela Chadors, woven with centuries of heritage and passion by master craftspeople from the Brahmaputra valley.</p>
+            <h1 class="hero-title">Timeless <span>North East</span> Elegance</h1>
+            <p class="hero-subtitle">Discover the artistry of traditional clothing from all seven sisters of India — Assam, Nagaland, Manipur, Mizoram, Tripura, Meghalaya, and Arunachal Pradesh.</p>
             <div class="hero-cta">
                 <a href="#shop" class="btn btn-primary">
                     <i class="ph ph-shopping-bag"></i>
                     Shop Collection
                 </a>
-                <a href="#story" class="btn btn-secondary">
-                    <i class="ph ph-play"></i>
-                    Our Story
+                <a href="#seller" class="btn btn-secondary">
+                    <i class="ph ph-storefront"></i>
+                    Become a Seller
                 </a>
             </div>
         </div>
@@ -1546,18 +1651,18 @@
     </section>
 
     <!-- Heritage Section -->
-    <section class="heritage" id="heritage">
+    <section class="heritage" id="story">
         <div class="container">
             <div class="heritage-content">
                 <div class="heritage-images reveal">
-                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="Traditional Assamese weaving" class="heritage-img-main">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="Traditional North East weaving" class="heritage-img-main">
                     <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&q=80" alt="Artisan weaving" class="heritage-img-secondary">
                 </div>
                 <div class="heritage-text reveal">
                     <span class="section-label">Since 1892</span>
                     <h3>Where Tradition Meets Timeless Artistry</h3>
-                    <p>In the heart of Assam, where the Brahmaputra flows gently past ancient weaving villages, our family's tradition of silk weaving has been passed down through five generations.</p>
-                    <p>Each Mekhela Chador tells a story—not just of intricate patterns and natural dyes, but of dedication, patience, and an unwavering commitment to preserving the dying art of traditional Assamese weaving.</p>
+                    <p>In the heart of North East India, where diverse tribal communities have preserved their weaving traditions for generations, our platform celebrates the rich textile heritage of all seven sisters.</p>
+                    <p>Each garment tells a story — from the golden Muga silk of Assam to the vibrant Naga shawls, from Manipuri phaneks to Mizo puans, every piece carries centuries of cultural pride.</p>
                     <div class="heritage-stats">
                         <div class="stat-item">
                             <div class="stat-number">130+</div>
@@ -1577,45 +1682,121 @@
         </div>
     </section>
 
-    <!-- Collections Section -->
-    <section class="collections" id="collections">
+    <!-- States Section -->
+    <section class="states" id="states">
         <div class="container">
             <div class="section-header reveal">
-                <span class="section-label">Our Collections</span>
-                <h2 class="section-title">Three Silk Traditions</h2>
-                <p class="section-subtitle">Each silk type carries its own heritage, texture, and story unique to the lush valleys of Assam.</p>
+                <span class="section-label">The Seven Sisters</span>
+                <h2 class="section-title">Explore by State</h2>
+                <p class="section-subtitle">Each state carries its own heritage, textiles, and tribal traditions unique to the lush landscapes of North East India.</p>
                 <div class="section-divider"></div>
             </div>
-            <div class="collections-grid">
-                <div class="collection-card reveal">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Muga Silk">
-                    <div class="collection-overlay">
-                        <h3 class="collection-name">Muga Silk</h3>
-                        <p class="collection-desc">The golden silk of Assam, known for its natural luster and durability.</p>
-                        <span class="collection-link">
-                            Explore <i class="ph ph-arrow-right"></i>
-                        </span>
+            <div class="states-grid">
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Assam">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Assam</h3>
+                        <p class="state-desc">Muga, Eri & Pat silk sarees & Mekhela Chadors</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="collection-card reveal">
-                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Pat Silk">
-                    <div class="collection-overlay">
-                        <h3 class="collection-name">Pat Silk</h3>
-                        <p class="collection-desc">White silk prized for its delicate texture and elegant drape.</p>
-                        <span class="collection-link">
-                            Explore <i class="ph ph-arrow-right"></i>
-                        </span>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Nagaland">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Nagaland</h3>
+                        <p class="state-desc">Naga shawls with intricate tribal patterns</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="collection-card reveal">
-                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Eri Silk">
-                    <div class="collection-overlay">
-                        <h3 class="collection-name">Eri Silk</h3>
-                        <p class="collection-desc">The peace silk, soft and warm, perfect for everyday elegance.</p>
-                        <span class="collection-link">
-                            Explore <i class="ph ph-arrow-right"></i>
-                        </span>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Manipur">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Manipur</h3>
+                        <p class="state-desc">Phanek, Innaphi & traditional wrap-around skirts</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
                     </div>
+                </div>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="Mizoram">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Mizoram</h3>
+                        <p class="state-desc">Puan, Puanchei & traditional Mizo textiles</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Tripura">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Tripura</h3>
+                        <p class="state-desc">Rignai, Rikutu & Tripuri traditional wear</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Meghalaya">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Meghalaya</h3>
+                        <p class="state-desc">Jainsem, Dakmanda & Khasi traditional attire</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="state-card reveal">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Arunachal Pradesh">
+                    <div class="state-overlay">
+                        <h3 class="state-name">Arunachal Pradesh</h3>
+                        <p class="state-desc">Gale, Apatani & Monpa traditional garments</p>
+                        <span class="state-link">Explore <i class="ph ph-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tribes Section -->
+    <section class="tribes" id="tribes">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Tribal Heritage</span>
+                <h2 class="section-title">Featured Tribes</h2>
+                <p class="section-subtitle">Discover authentic traditional clothing from various tribes across North East India.</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="tribes-grid">
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Bodo Tribe</h3>
+                    <p class="tribe-state">Assam</p>
+                    <p class="tribe-desc">Known for Dokhona and traditional Bodo weave with distinctive geometric patterns.</p>
+                </div>
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Naga Tribes</h3>
+                    <p class="tribe-state">Nagaland</p>
+                    <p class="tribe-desc">16+ tribes including Ao, Angami, Sema with unique shawl patterns.</p>
+                </div>
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Meitei Tribe</h3>
+                    <p class="tribe-state">Manipur</p>
+                    <p class="tribe-desc">Creators of the famous Phanek with intricate geometric designs.</p>
+                </div>
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Mizo Tribe</h3>
+                    <p class="tribe-state">Mizoram</p>
+                    <p class="tribe-desc">Known for Puan textiles with beautiful stripes and intricate patterns.</p>
+                </div>
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Khasi & Jaintia</h3>
+                    <p class="tribe-state">Meghalaya</p>
+                    <p class="tribe-desc">Traditional Jainsem drapes with elegant folds and cultural significance.</p>
+                </div>
+                <div class="tribe-card reveal">
+                    <i class="ph ph-users-three tribe-icon"></i>
+                    <h3 class="tribe-name">Apatani Tribe</h3>
+                    <p class="tribe-state">Arunachal Pradesh</p>
+                    <p class="tribe-desc">Known for distinctive woven garments with unique tribal motifs.</p>
                 </div>
             </div>
         </div>
@@ -1626,8 +1807,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-label">Handpicked For You</span>
-                <h2 class="section-title">Featured Mekhela Chadors</h2>
-                <p class="section-subtitle">Each piece is a labor of love, taking weeks to craft using traditional handloom techniques.</p>
+                <h2 class="section-title">Featured Traditional Wear</h2>
+                <p class="section-subtitle">Each piece is a labor of love, taking weeks to craft using traditional handloom techniques from across North East India.</p>
                 <div class="section-divider"></div>
             </div>
             <div class="products-grid">
@@ -1647,7 +1828,7 @@
                     </div>
                     <div class="product-info">
                         <h3 class="product-name">Golden Harvest Mekhela Chador</h3>
-                        <p class="product-category">Muga Silk • Traditional</p>
+                        <p class="product-category">Assam • Bodo Tribe • Muga Silk</p>
                         <div class="product-price">
                             <span class="price-current">₹18,500</span>
                         </div>
@@ -1656,9 +1837,9 @@
 
                 <div class="product-card reveal" data-product="2">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Bihu Dance Mekhela Chador">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Naga Shawl">
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Bihu Dance Mekhela Chador">
+                            <button class="add-to-cart-btn" data-name="Naga Heritage Shawl">
                                 <i class="ph ph-shopping-bag"></i>
                                 Add to Cart
                             </button>
@@ -1668,8 +1849,8 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Bihu Dance Mekhela Chador</h3>
-                        <p class="product-category">Pat Silk • Contemporary</p>
+                        <h3 class="product-name">Naga Heritage Shawl</h3>
+                        <p class="product-category">Nagaland • Ao Tribe • Wool</p>
                         <div class="product-price">
                             <span class="price-current">₹22,000</span>
                         </div>
@@ -1678,9 +1859,9 @@
 
                 <div class="product-card reveal" data-product="3">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Peacock Bloom Eri Dress">
+                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Manipuri Phanek">
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Peacock Bloom Eri Dress">
+                            <button class="add-to-cart-btn" data-name="Manipuri Phanek">
                                 <i class="ph ph-shopping-bag"></i>
                                 Add to Cart
                             </button>
@@ -1691,8 +1872,8 @@
                         <span class="product-badge">New</span>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Peacock Bloom Eri Dress</h3>
-                        <p class="product-category">Eri Silk • Handwoven</p>
+                        <h3 class="product-name">Manipuri Phanek</h3>
+                        <p class="product-category">Manipur • Meitei Tribe • Cotton</p>
                         <div class="product-price">
                             <span class="price-current">₹14,200</span>
                         </div>
@@ -1701,9 +1882,9 @@
 
                 <div class="product-card reveal" data-product="4">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Jonbiri Pattern Chador">
+                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Mizo Puan">
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Jonbiri Pattern Chador">
+                            <button class="add-to-cart-btn" data-name="Mizo Puanchei">
                                 <i class="ph ph-shopping-bag"></i>
                                 Add to Cart
                             </button>
@@ -1713,164 +1894,75 @@
                         </button>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Jonbiri Pattern Chador</h3>
-                        <p class="product-category">Muga Silk • Premium</p>
+                        <h3 class="product-name">Mizo Puanchei</h3>
+                        <p class="product-category">Mizoram • Mizo Tribe • Traditional Weave</p>
                         <div class="product-price">
                             <span class="price-current">₹28,500</span>
                             <span class="price-original">₹32,000</span>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="product-card reveal" data-product="5">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80" alt="Moonlight Pat Silk">
-                        <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Moonlight Pat Silk">
-                                <i class="ph ph-shopping-bag"></i>
-                                Add to Cart
-                            </button>
-                        </div>
-                        <button class="product-wishlist" data-wishlist="5">
-                            <i class="ph ph-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Moonlight Pat Silk</h3>
-                        <p class="product-category">Pat Silk • Classic</p>
-                        <div class="product-price">
-                            <span class="price-current">₹19,800</span>
-                        </div>
-                    </div>
+    <!-- Seller CTA Section -->
+    <section class="seller-cta" id="seller">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">For Artisans</span>
+                <h2 class="section-title">Become a Seller</h2>
+                <p class="section-subtitle">Join our platform and showcase your traditional clothing to customers worldwide. Register as a seller and start selling today!</p>
+            </div>
+            <div class="seller-features reveal">
+                <div class="seller-feature">
+                    <i class="ph ph-storefront"></i>
+                    <p>List Your Products</p>
                 </div>
-
-                <div class="product-card reveal" data-product="6">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Sunset in Sualkuchi">
-                        <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Sunset in Sualkuchi">
-                                <i class="ph ph-shopping-bag"></i>
-                                Add to Cart
-                            </button>
-                        </div>
-                        <button class="product-wishlist" data-wishlist="6">
-                            <i class="ph ph-heart"></i>
-                        </button>
-                        <span class="product-badge">Limited</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Sunset in Sualkuchi</h3>
-                        <p class="product-category">Muga Silk • Limited Edition</p>
-                        <div class="product-price">
-                            <span class="price-current">₹35,000</span>
-                        </div>
-                    </div>
+                <div class="seller-feature">
+                    <i class="ph ph-chart-line"></i>
+                    <p>Track Your Earnings</p>
                 </div>
-
-                <div class="product-card reveal" data-product="7">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Nature's Embrace Eri">
-                        <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Nature's Embrace Eri">
-                                <i class="ph ph-shopping-bag"></i>
-                                Add to Cart
-                            </button>
-                        </div>
-                        <button class="product-wishlist" data-wishlist="7">
-                            <i class="ph ph-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Nature's Embrace Eri</h3>
-                        <p class="product-category">Eri Silk • Everyday</p>
-                        <div class="product-price">
-                            <span class="price-current">₹11,500</span>
-                        </div>
-                    </div>
+                <div class="seller-feature">
+                    <i class="ph ph-globe"></i>
+                    <p>Reach Global Customers</p>
                 </div>
-
-                <div class="product-card reveal" data-product="8">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Royal Muga Ensemble">
-                        <div class="product-actions">
-                            <button class="add-to-cart-btn" data-name="Royal Muga Ensemble">
-                                <i class="ph ph-shopping-bag"></i>
-                                Add to Cart
-                            </button>
-                        </div>
-                        <button class="product-wishlist" data-wishlist="8">
-                            <i class="ph ph-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Royal Muga Ensemble</h3>
-                        <p class="product-category">Muga Silk • Bridal</p>
-                        <div class="product-price">
-                            <span class="price-current">₹45,000</span>
-                            <span class="price-original">₹52,000</span>
-                        </div>
-                    </div>
+                <div class="seller-feature">
+                    <i class="ph ph-handshake"></i>
+                    <p>Get Verified & Trusted</p>
                 </div>
             </div>
+            <a href="#" class="btn btn-secondary">Register as Seller</a>
         </div>
     </section>
 
     <!-- Craftsman Story -->
-    <section class="craftsman" id="story">
-        <div class="container">
-            <div class="craftsman-content">
-                <div class="craftsman-images reveal">
-                    <div class="craftsman-img">
-                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Master weaver at work">
-                    </div>
-                    <div class="craftsman-img">
-                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Traditional loom">
-                    </div>
-                    <div class="craftsman-img">
-                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Silk threads">
-                    </div>
+    <section class="craftsman">
+        <div class="craftsman-content">
+            <div class="craftsman-images reveal">
+                <div class="craftsman-img">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&q=80" alt="Artisan 1">
                 </div>
-                <div class="craftsman-text reveal">
-                    <span class="section-label">Master Craftspeople</span>
-                    <h2 class="section-title">The Art Behind Each Thread</h2>
-                    <p>Our weavers are the backbone of Rong Bah. Each artisan brings decades of experience, having learned the craft from their parents and grandparents in the silk villages of Sualkuchi and nearby communities.</p>
-                    <ul class="craftsman-list">
-                        <li>
-                            <i class="ph ph-check-circle"></i>
-                            <span>100% natural silk and dyes</span>
-                        </li>
-                        <li>
-                            <i class="ph ph-check-circle"></i>
-                            <span>Traditional handloom weaving techniques</span>
-                        </li>
-                        <li>
-                            <i class="ph ph-check-circle"></i>
-                            <span>Fair wages and ethical practices</span>
-                        </li>
-                        <li>
-                            <i class="ph ph-check-circle"></i>
-                            <span>Each piece takes 15-45 days to complete</span>
-                        </li>
-                    </ul>
-                    <a href="#" class="btn btn-secondary">
-                        <i class="ph ph-users"></i>
-                        Meet Our Artisans
-                    </a>
+                <div class="craftsman-img">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&q=80" alt="Artisan 2">
+                </div>
+                <div class="craftsman-img">
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80" alt="Artisan 3">
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Custom Orders -->
-    <section class="custom-orders" id="custom">
-        <div class="container reveal">
-            <span class="section-label">Made For You</span>
-            <h2 class="section-title">Custom & Bespoke Orders</h2>
-            <p class="section-subtitle">Want something unique? We create custom Mekhela Chadors tailored to your measurements, preferred silk type, and personalized motifs. Perfect for weddings and special occasions.</p>
-            <a href="#" class="btn btn-secondary">
-                <i class="ph ph-pencil-simple"></i>
-                Request Custom Order
-            </a>
+            <div class="craftsman-text reveal">
+                <span class="section-label">The Artisans</span>
+                <h3>Master Craftspeople of North East</h3>
+                <p>Our weavers and artisans come from every corner of North East India — from the Bodo weavers of Assam to the Naga tribes of Nagaland, from Manipuri weavers to Mizo artisans.</p>
+                <p>Each brings decades of expertise, using traditional handloom techniques passed down through generations, creating fabrics of unparalleled beauty and cultural significance.</p>
+                <ul class="craftsman-list">
+                    <li><i class="ph ph-check-circle"></i> <span>100% Handwoven Using Traditional Looms</span></li>
+                    <li><i class="ph ph-check-circle"></i> <span>Natural Dyes Derived from Indigenous Plants</span></li>
+                    <li><i class="ph ph-check-circle"></i> <span>Each Piece Takes 4-8 Weeks to Complete</span></li>
+                    <li><i class="ph ph-check-circle"></i> <span>Authentic Tribal Certifications</span></li>
+                </ul>
+                <a href="#" class="btn btn-secondary">Meet Our Artisans</a>
+            </div>
         </div>
     </section>
 
@@ -1878,64 +1970,65 @@
     <section class="testimonials">
         <div class="container">
             <div class="section-header reveal">
-                <span class="section-label">What Our Customers Say</span>
-                <h2 class="section-title">Cherished by Many</h2>
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Stories from those who wear our heritage.</p>
                 <div class="section-divider"></div>
             </div>
             <div class="testimonials-grid">
                 <div class="testimonial-card reveal">
-                    <span class="testimonial-quote">"</span>
+                    <div class="testimonial-quote">"</div>
                     <div class="testimonial-stars">
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
                     </div>
-                    <p class="testimonial-text">I wore my Rong Bah Mekhela Chador for my wedding and received so many compliments. The quality is extraordinary—every intricate detail of the weaving tells a story. Truly a treasure.</p>
+                    <p class="testimonial-text">"The quality of the Muga silk is absolutely stunning. I received so many compliments. Seven Sisters Wear delivers authentic quality from across North East India."</p>
                     <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Rituporna" class="testimonial-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Priya Sharma" class="testimonial-avatar">
                         <div>
-                            <div class="testimonial-name">Rituporna Sharma</div>
+                            <div class="testimonial-name">Priya Sharma</div>
+                            <div class="testimonial-location">Mumbai, India</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-stars">
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                    </div>
+                    <p class="testimonial-text">"I've been searching for authentic Naga shawls for years. This platform connects me directly with tribal artisans. Worth every rupee."</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Ananya Patel" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Ananya Patel</div>
+                            <div class="testimonial-location">Bangalore, India</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-stars">
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                        <i class="ph ph-star-fill"></i>
+                    </div>
+                    <p class="testimonial-text">"The attention to detail in every piece is extraordinary. My Mizo Puan arrived beautifully packaged and exceeded all expectations."</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&q=80" alt="Ritu Goswami" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Ritu Goswami</div>
                             <div class="testimonial-location">Guwahati, Assam</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <span class="testimonial-quote">"</span>
-                    <div class="testimonial-stars">
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                    </div>
-                    <p class="testimonial-text">Living in Mumbai, I thought I'd never find authentic Mekhela Chadors. Rong Bah delivered absolutely stunning pieces to my doorstep. The packaging itself felt like receiving a gift.</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Ananya" class="testimonial-avatar">
-                        <div>
-                            <div class="testimonial-name">Ananya Kakoti</div>
-                            <div class="testimonial-location">Mumbai, Maharashtra</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <span class="testimonial-quote">"</span>
-                    <div class="testimonial-stars">
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                        <i class="ph-fill ph-star"></i>
-                    </div>
-                    <p class="testimonial-text">As a textile enthusiast, I'm particular about authenticity. The Eri Silk dress I purchased is clearly handwoven with natural dyes. Rong Bah is the real deal—a lifeline for traditional crafts.</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Meera" class="testimonial-avatar">
-                        <div>
-                            <div class="testimonial-name">Dr. Meera Goswami</div>
-                            <div class="testimonial-location">New Delhi</div>
                         </div>
                     </div>
                 </div>
@@ -1944,23 +2037,18 @@
     </section>
 
     <!-- Newsletter -->
-    <section class="newsletter" id="contact">
-        <div class="container">
-            <div class="newsletter-content reveal">
-                <span class="section-label">Stay Connected</span>
-                <h2 class="section-title">Join Our Circle</h2>
-                <p class="section-subtitle">Be the first to know about new collections, artisan stories, and exclusive offers. We promise only meaningful updates—no spam.</p>
-                <form class="newsletter-form" id="newsletterForm">
-                    <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Your email address" required>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="ph ph-paper-plane-tilt"></i>
-                        Subscribe
-                    </button>
-                </form>
-                <div class="newsletter-success" id="newsletterSuccess">
-                    <i class="ph ph-check-circle"></i>
-                    Welcome to Rong Bah! Check your inbox.
-                </div>
+    <section class="newsletter">
+        <div class="newsletter-content reveal">
+            <span class="section-label">Newsletter</span>
+            <h2 class="section-title">Stay Connected</h2>
+            <p class="section-subtitle">Subscribe to receive updates on new collections, artisan stories, and exclusive offers from North East India.</p>
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Your email address" id="newsletterEmail">
+                <button class="btn btn-primary" onclick="subscribeNewsletter()">Subscribe</button>
+            </div>
+            <div class="newsletter-success" id="newsletterSuccess">
+                <i class="ph ph-check-circle"></i>
+                <span>Thank you for subscribing!</span>
             </div>
         </div>
     </section>
@@ -1970,325 +2058,147 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="footer-logo logo">
+                    <a href="#" class="footer-logo">
                         <svg class="logo-icon" viewBox="0 0 40 40" fill="currentColor">
                             <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
                             <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
+                            <text x="20" y="20" text-anchor="middle" dy="5" fill="currentColor" font-family="serif" font-size="8" font-weight="bold">7S</text>
                         </svg>
-                        <span class="logo-text">Rong Bah</span>
-                    </div>
-                    <p class="footer-desc">Preserving the rich tradition of Assamese silk weaving, one Mekhela Chador at a time. Every purchase supports over 500 artisan families in the Brahmaputra valley.</p>
+                        <span class="logo-text">Seven Sisters Wear</span>
+                    </a>
+                    <p class="footer-desc">Preserving the art of traditional North East Indian weaving. Each piece tells a story of heritage, craftsmanship, and cultural pride from all seven sisters.</p>
                     <div class="footer-social">
-                        <a href="#" class="social-link"><i class="ph ph-instagram-logo"></i></a>
                         <a href="#" class="social-link"><i class="ph ph-facebook-logo"></i></a>
-                        <a href="#" class="social-link"><i class="ph ph-youtube-logo"></i></a>
-                        <a href="#" class="social-link"><i class="ph ph-whatsapp-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-instagram-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-pinterest-logo"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h4>Shop</h4>
                     <ul class="footer-links">
-                        <li><a href="#">New Arrivals</a></li>
-                        <li><a href="#">Bestsellers</a></li>
-                        <li><a href="#">Sale</a></li>
-                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">Assam Silk</a></li>
+                        <li><a href="#">Naga Shawls</a></li>
+                        <li><a href="#">Manipuri Phanek</a></li>
+                        <li><a href="#">Mizo Puan</a></li>
+                        <li><a href="#">Tripura Rignai</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Collections</h4>
+                    <h4>States</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Muga Silk</a></li>
-                        <li><a href="#">Pat Silk</a></li>
-                        <li><a href="#">Eri Silk</a></li>
-                        <li><a href="#">Custom Orders</a></li>
+                        <li><a href="#">Assam</a></li>
+                        <li><a href="#">Nagaland</a></li>
+                        <li><a href="#">Manipur</a></li>
+                        <li><a href="#">Mizoram</a></li>
+                        <li><a href="#">Tripura</a></li>
+                        <li><a href="#">Meghalaya</a></li>
+                        <li><a href="#">Arunachal Pradesh</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Help</h4>
+                    <h4>Company</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Artisans</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Seller</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Become a Seller</a></li>
+                        <li><a href="#">Seller Dashboard</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Seller FAQ</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Rong Bah. All rights reserved.</p>
+                <p>&copy; 2025 Seven Sisters Wear. All rights reserved.</p>
                 <div class="payment-methods">
                     <i class="ph ph-credit-card"></i>
-                    <i class="ph ph-bank"></i>
-                    <i class="ph ph-wallet"></i>
+                    <i class="ph ph-paypal-logo"></i>
+                    <i class="ph ph-apple-logo"></i>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Quick View Modal -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
-            <div class="modal-gallery">
-                <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Product" class="modal-main-image" id="modalMainImage">
-                <div class="modal-thumbnails">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="" class="modal-thumb active">
-                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="" class="modal-thumb">
-                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="" class="modal-thumb">
-                </div>
-            </div>
-            <div class="modal-details">
-                <button class="modal-close" id="modalClose">
-                    <i class="ph ph-x"></i>
-                </button>
-                <span class="modal-category" id="modalCategory">Muga Silk</span>
-                <h2 class="modal-title" id="modalTitle">Golden Harvest Mekhela Chador</h2>
-                <div class="modal-price" id="modalPrice">₹18,500</div>
-                <p class="modal-desc">Handwoven by master artisans in Sualkuchi using traditional techniques passed down through generations. Features the iconic golden Muga silk with intricate Bihu dancer motifs woven throughout.</p>
-                <div class="modal-options">
-                    <label class="option-label">Select Size</label>
-                    <div class="size-options">
-                        <button class="size-btn">XS</button>
-                        <button class="size-btn active">S</button>
-                        <button class="size-btn">M</button>
-                        <button class="size-btn">L</button>
-                        <button class="size-btn">XL</button>
-                    </div>
-                    <div class="quantity-selector">
-                        <label class="option-label">Quantity</label>
-                        <button class="qty-btn" id="qtyMinus">-</button>
-                        <span class="qty-value" id="qtyValue">1</span>
-                        <button class="qty-btn" id="qtyPlus">+</button>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-primary">
-                        <i class="ph ph-shopping-bag"></i>
-                        Add to Cart
-                    </button>
-                    <button class="btn btn-secondary" style="background: var(--primary); color: var(--white); border-color: var(--primary);">
-                        <i class="ph ph-heart"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" id="mobileMenuClose">
-            <i class="ph ph-x"></i>
-        </button>
-        <ul class="mobile-menu-links">
-            <li><a href="#collections">Collections</a></li>
-            <li><a href="#shop">Shop</a></li>
-            <li><a href="#story">Our Story</a></li>
-            <li><a href="#custom">Custom Orders</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </div>
-
     <script>
-        // Navigation scroll effect
-        const nav = document.getElementById('nav');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
+        // Scroll handling for nav
+        const handleScroll = () => {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
                 nav.classList.add('scrolled');
             } else {
                 nav.classList.remove('scrolled');
             }
-        });
-
-        // Mobile menu
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        const mobileMenuClose = document.getElementById('mobileMenuClose');
-
-        function openMobileMenu() {
-            mobileMenu.classList.add('active');
-            mobileOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            mobileOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        mobileMenuBtn.addEventListener('click', openMobileMenu);
-        mobileMenuClose.addEventListener('click', closeMobileMenu);
-        mobileOverlay.addEventListener('click', closeMobileMenu);
-
-        document.querySelectorAll('.mobile-menu-links a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        // Scroll reveal
-        const revealElements = document.querySelectorAll('.reveal');
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
         };
 
+        window.addEventListener('scroll', handleScroll);
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         revealElements.forEach(el => revealObserver.observe(el));
 
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                mobileOverlay.classList.add('active');
+            });
+        }
+
         // Wishlist toggle
         document.querySelectorAll('.product-wishlist').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
+            btn.addEventListener('click', () => {
                 btn.classList.toggle('active');
                 const icon = btn.querySelector('i');
                 if (btn.classList.contains('active')) {
-                    icon.className = 'ph-fill ph-heart';
+                    icon.className = 'ph ph-heart-fill';
                 } else {
                     icon.className = 'ph ph-heart';
                 }
             });
         });
 
-        // Add to cart feedback
-        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="ph ph-check"></i> Added!';
-                btn.style.background = 'var(--secondary)';
-                btn.style.color = 'var(--white)';
-
-                // Update cart count
-                const cartCount = document.querySelector('.cart-count');
-                cartCount.textContent = parseInt(cartCount.textContent) + 1;
-
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                }, 2000);
-            });
-        });
-
-        // Product quick view
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalClose = document.getElementById('modalClose');
-        const productCards = document.querySelectorAll('.product-card');
-
-        productCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const name = card.querySelector('.product-name').textContent;
-                const category = card.querySelector('.product-category').textContent;
-                const price = card.querySelector('.price-current').textContent;
-                const image = card.querySelector('.product-image img').src;
-
-                document.getElementById('modalTitle').textContent = name;
-                document.getElementById('modalCategory').textContent = category.split('•')[0].trim();
-                document.getElementById('modalPrice').textContent = price;
-                document.getElementById('modalMainImage').src = image;
-
-                modalOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        modalClose.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                closeMobileMenu();
-            }
-        });
-
-        // Size selection in modal
-        document.querySelectorAll('.size-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-
-        // Quantity selector
-        const qtyValue = document.getElementById('qtyValue');
-        const qtyMinus = document.getElementById('qtyMinus');
-        const qtyPlus = document.getElementById('qtyPlus');
-
-        qtyMinus.addEventListener('click', () => {
-            const current = parseInt(qtyValue.textContent);
-            if (current > 1) {
-                qtyValue.textContent = current - 1;
-            }
-        });
-
-        qtyPlus.addEventListener('click', () => {
-            const current = parseInt(qtyValue.textContent);
-            if (current < 10) {
-                qtyValue.textContent = current + 1;
-            }
-        });
-
-        // Thumbnail selection in modal
-        document.querySelectorAll('.modal-thumb').forEach(thumb => {
-            thumb.addEventListener('click', () => {
-                document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
-                thumb.classList.add('active');
-                document.getElementById('modalMainImage').src = thumb.src;
-            });
-        });
-
-        // Newsletter form
-        const newsletterForm = document.getElementById('newsletterForm');
-        const newsletterEmail = document.getElementById('newsletterEmail');
-        const newsletterSuccess = document.getElementById('newsletterSuccess');
-
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const email = newsletterEmail.value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!emailRegex.test(email)) {
-                newsletterEmail.classList.add('error');
-                setTimeout(() => {
-                    newsletterEmail.classList.remove('error');
-                }, 600);
+        // Newsletter subscription
+        function subscribeNewsletter() {
+            const emailInput = document.getElementById('newsletterEmail');
+            const successMsg = document.getElementById('newsletterSuccess');
+            
+            if (!emailInput.value || !emailInput.value.includes('@')) {
+                emailInput.classList.add('error');
+                setTimeout(() => emailInput.classList.remove('error'), 400);
                 return;
             }
 
-            newsletterForm.style.display = 'none';
-            newsletterSuccess.classList.add('show');
-        });
+            successMsg.classList.add('show');
+            emailInput.value = '';
+            setTimeout(() => successMsg.classList.remove('show'), 3000);
+        }
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
