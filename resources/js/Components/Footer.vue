@@ -8,7 +8,7 @@
                             <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
                             <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
                         </svg>
-                        <span class="font-serif text-xl font-bold">Rong Bah</span>
+                        <span class="font-serif text-xl font-bold">Seven Sisters Wear</span>
                     </a>
                     <p class="text-sm opacity-80 leading-relaxed mb-6">Preserving the art of traditional Assamese weaving. Each piece tells a story of heritage, craftsmanship, and cultural pride.</p>
                     <div class="flex gap-3">
@@ -59,7 +59,7 @@
             </div>
 
             <div class="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-sm opacity-70">&copy; 2025 Rong Bah. All rights reserved.</p>
+                <p class="text-sm opacity-70">&copy; 2025 Seven Sisters Wear. All rights reserved.</p>
                 <div class="payment-methods flex gap-4 opacity-50">
                     <i class="ph ph-credit-card"></i>
                     <i class="ph ph-paypal-logo"></i>

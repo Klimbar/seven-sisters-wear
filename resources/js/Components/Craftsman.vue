@@ -19,7 +19,7 @@
                 <div class="text-cream">
                     <span class="text-xs tracking-widest uppercase text-accent mb-3 block">The Artisans</span>
                     <h3 class="font-serif text-4xl text-cream mb-6">Master Craftspeople of Assam</h3>
-                    <p class="opacity-85 mb-5">Our weavers are the heartbeat of Rong Bah. Each brings decades of expertise passed down through generations, using traditional handloom techniques that produce fabrics of unparalleled beauty and quality.</p>
+                    <p class="opacity-85 mb-5">Our weavers are the heartbeat of Seven Sisters Wear. Each brings decades of expertise passed down through generations, using traditional handloom techniques that produce fabrics of unparalleled beauty and quality.</p>
                     <p class="opacity-85 mb-8">Every thread tells a story of dedication, every pattern a celebration of Assamese heritage.</p>
                     
                     <ul class="space-y-4">

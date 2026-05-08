@@ -44,7 +44,7 @@ const testimonials = [
     },
     {
         id: 2,
-        text: "I've been searching for authentic Mekhela Chadors for years. Rong Bah delivers genuine quality that I couldn't find anywhere else. Worth every rupee.",
+        text: "I've been searching for authentic Mekhela Chadors for years. Seven Sisters Wear delivers genuine quality that I couldn't find anywhere else. Worth every rupee.",
         name: "Ananya Patel",
         location: "Bangalore, India",
         avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"

@@ -7,7 +7,7 @@
                         <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
                         <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
                     </svg>
-                    <span class="logo-text">Rong Bah</span>
+                    <span class="logo-text">Seven Sisters Wear</span>
                 </a>
 
                 <ul class="nav-links hidden md:flex">
