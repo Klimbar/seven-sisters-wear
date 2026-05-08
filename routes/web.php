@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TribeController;
@@ -44,9 +43,7 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 
 // Cart routes (requires auth)
 Route::middleware('auth')->group(function () {
-    Route::get('/cart', function () {
-        return Inertia::render('Cart');
-    })->name('cart');
+    Route::get('/cart', [ProductController::class, 'cart'])->name('cart');
     
     Route::post('/cart/add/{product}', [ProductController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
@@ -55,58 +52,23 @@ Route::middleware('auth')->group(function () {
 
 // Wishlist routes (requires auth)
 Route::middleware('auth')->group(function () {
-    Route::get('/wishlist', function () {
-        return Inertia::render('Wishlist');
-    })->name('wishlist');
+    Route::get('/wishlist', [ProductController::class, 'wishlist'])->name('wishlist');
     
     Route::post('/wishlist/toggle/{product}', [ProductController::class, 'toggleWishlist'])->name('wishlist.toggle');
 });
 
 // Order routes (requires auth)
 Route::middleware('auth')->group(function () {
-    Route::get('/orders', function () {
-        return Inertia::render('Orders/Index');
-    })->name('orders.index');
+    Route::get('/orders', [ProductController::class, 'orders'])->name('orders.index');
     
-    Route::get('/orders/{order}', function () {
-        return Inertia::render('Orders/Show');
-    })->name('orders.show');
+    Route::get('/orders/{order}', [ProductController::class, 'orderShow'])->name('orders.show');
 });
 
 // Checkout routes (requires auth)
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout', function () {
-        return Inertia::render('Checkout');
-    })->name('checkout');
+    Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout');
     
     Route::post('/orders', [ProductController::class, 'placeOrder'])->name('orders.store');
-});
-
-// Seller registration and login
-Route::get('/seller/register', [SellerController::class, 'showRegistrationForm'])->name('seller.register');
-Route::post('/seller/register', [SellerController::class, 'register'])->name('seller.store');
-Route::get('/seller/login', function () {
-    return Inertia::render('Seller/Login');
-})->name('seller.login');
-
-// Seller dashboard (requires auth + seller role)
-Route::middleware(['auth', 'seller'])->group(function () {
-    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
-    
-    // Product management for sellers
-    Route::get('/seller/products', [SellerController::class, 'products'])->name('seller.products');
-    Route::get('/seller/products/create', [SellerController::class, 'createProduct'])->name('seller.products.create');
-    Route::post('/seller/products', [SellerController::class, 'storeProduct'])->name('seller.products.store');
-    Route::get('/seller/products/{product}/edit', [SellerController::class, 'editProduct'])->name('seller.products.edit');
-    Route::patch('/seller/products/{product}', [SellerController::class, 'updateProduct'])->name('seller.products.update');
-    Route::delete('/seller/products/{product}', [SellerController::class, 'deleteProduct'])->name('seller.products.destroy');
-    
-    // Order management for sellers
-    Route::get('/seller/orders', [SellerController::class, 'orders'])->name('seller.orders');
-    Route::patch('/seller/orders/{order}/status', [SellerController::class, 'updateOrderStatus'])->name('seller.orders.update-status');
-    
-    // Earnings
-    Route::get('/seller/earnings', [SellerController::class, 'earnings'])->name('seller.earnings');
 });
 
 // Admin routes (requires auth + admin role)
@@ -127,14 +89,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::patch('/products/{product}/approve', function () {
         // Approve product logic
     })->name('admin.products.approve');
-    
-    // Seller management
-    Route::get('/sellers', function () {
-        return Inertia::render('Admin/Sellers/Index');
-    })->name('admin.sellers.index');
-    Route::patch('/sellers/{user}/approve', function () {
-        // Approve seller logic
-    })->name('admin.sellers.approve');
     
     // Orders overview
     Route::get('/orders', function () {

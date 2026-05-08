@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('seller_id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('tribe_id')->nullable();
             $table->string('name');
@@ -28,7 +27,6 @@ return new class extends Migration
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
 
-            $table->foreign('seller_id')->references('id')->on('sellers')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
             $table->foreign('tribe_id')->references('id')->on('tribes')->onDelete('set null');
         });

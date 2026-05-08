@@ -16,11 +16,6 @@ class State extends Model
         return $this->hasMany(Tribe::class);
     }
 
-    public function sellers(): HasMany
-    {
-        return $this->hasMany(Seller::class);
-    }
-
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

@@ -15,7 +15,6 @@ class RoleSeeder extends Seeder
     {
         // Create roles
         $adminRole = Role::create(['name' => 'admin']);
-        $sellerRole = Role::create(['name' => 'seller']);
         $customerRole = Role::create(['name' => 'customer']);
 
         // Create an admin user
@@ -25,14 +24,6 @@ class RoleSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('admin');
-
-        // Create a seller user
-        $seller = User::factory()->create([
-            'name' => 'Seller User',
-            'email' => 'seller@example.com',
-            'password' => bcrypt('password'),
-        ]);
-        $seller->assignRole('seller');
 
         // Create a customer user
         $customer = User::factory()->create([

@@ -3,19 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Tribe extends Model
+class Category extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'state_id', 'description', 'image'
+        'name', 'slug', 'description', 'image'
     ];
-
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
-    }
 
     public function products(): HasMany
     {

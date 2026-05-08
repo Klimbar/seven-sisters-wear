@@ -8,58 +8,26 @@ use Illuminate\Http\Request;
 class StateController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display listing of states
      */
     public function index()
     {
-        //
+        $states = State::with('tribes', 'products')->get();
+
+        return inertia('States/Index', [
+            'states' => $states
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Display single state with tribes and products
      */
     public function show(State $state)
     {
-        //
-    }
+        $state->load(['tribes.products.images', 'products.images']);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(State $state)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, State $state)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(State $state)
-    {
-        //
+        return inertia('States/Show', [
+            'state' => $state
+        ]);
     }
 }
