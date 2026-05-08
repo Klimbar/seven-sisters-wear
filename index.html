@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rong Bah — Traditional Assamese Attire</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238B2323'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23C9A227' stroke-width='3'/><path d='M50 25 L55 45 L75 50 L55 55 L50 75 L45 55 L25 50 L45 45 Z' fill='%23C9A227'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B2323;
+            --primary-dark: #6B1C1C;
+            --primary-light: #A83232;
+            --secondary: #2D5016;
+            --accent: #C9A227;
+            --accent-coral: #E07B53;
+            --bg-cream: #FDF6E3;
+            --bg-light: #F5ECD7;
+            --bg-pattern: #EDE4CF;
+            --text-dark: #2C1810;
+            --text-body: #5C4033;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-body);
+            background-color: var(--bg-cream);
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: var(--text-dark);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: var(--bg-cream);
+            box-shadow: 0 2px 20px rgba(44, 24, 16, 0.1);
+            padding: 12px 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--white);
+            transition: color 0.4s ease;
+        }
+
+        .nav.scrolled .logo {
+            color: var(--text-dark);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav.scrolled .nav-links a {
+            color: var(--text-body);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav.scrolled .nav-icon {
+            color: var(--text-dark);
+        }
+
+        .nav-icon:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-coral);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn i {
+            font-size: 28px;
+            color: var(--white);
+            transition: color 0.3s ease;
+        }
+
+        .nav.scrolled .mobile-menu-btn i {
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            animation: heroZoom 25s ease infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(44, 24, 16, 0.75) 0%,
+                rgba(107, 28, 28, 0.6) 50%,
+                rgba(45, 80, 22, 0.5) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: var(--white);
+            max-width: 800px;
+            padding: 0 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 2.5vw, 22px);
+            opacity: 0.9;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            box-shadow: 0 8px 30px rgba(139, 35, 35, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            text-align: center;
+            animation: scrollBounce 2s ease infinite;
+        }
+
+        .hero-scroll i {
+            font-size: 28px;
+            opacity: 0.8;
+        }
+
+        .hero-scroll span {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-body);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Heritage Section */
+        .heritage {
+            background: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heritage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, var(--bg-cream), var(--bg-light));
+        }
+
+        .heritage-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .heritage-images {
+            position: relative;
+        }
+
+        .heritage-img-main {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(44, 24, 16, 0.2);
+        }
+
+        .heritage-img-secondary {
+            position: absolute;
+            width: 50%;
+            bottom: -40px;
+            right: -40px;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(44, 24, 16, 0.2);
+            border: 4px solid var(--bg-cream);
+        }
+
+        .heritage-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .heritage-text p {
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
+        .heritage-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--bg-pattern);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-body);
+            margin-top: 8px;
+        }
+
+        /* Collections Grid */
+        .collections {
+            background: var(--bg-cream);
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .collection-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            group: collection;
+        }
+
+        .collection-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .collection-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .collection-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(44, 24, 16, 0.85) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            transition: background 0.4s ease;
+        }
+
+        .collection-card:hover .collection-overlay {
+            background: linear-gradient(to top, rgba(107, 28, 28, 0.9) 0%, rgba(107, 28, 28, 0.2) 100%);
+        }
+
+        .collection-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .collection-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .collection-link {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s ease;
+        }
+
+        .collection-card:hover .collection-link {
+            gap: 14px;
+        }
+
+        /* Products Section */
+        .products {
+            background: var(--bg-light);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(44, 24, 16, 0.15);
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-actions {
+            position: absolute;
+            inset: 0;
+            background: rgba(44, 24, 16, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .add-to-cart-btn {
+            background: var(--white);
+            color: var(--text-dark);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        .product-card:hover .add-to-cart-btn {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .product-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .product-card:hover .product-wishlist {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-wishlist:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .product-wishlist.active {
+            background: var(--primary);
+            color: var(--white);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-coral);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .product-category {
+            font-size: 13px;
+            color: var(--text-body);
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-current {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .price-original {
+            font-size: 16px;
+            color: var(--text-body);
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        /* Craftsman Story */
+        .craftsman {
+            background: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .craftsman::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .craftsman-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .craftsman-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .craftsman-img {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .craftsman-img:first-child {
+            grid-row: span 2;
+        }
+
+        .craftsman-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .craftsman-text {
+            color: var(--bg-cream);
+        }
+
+        .craftsman-text .section-label {
+            color: var(--accent);
+        }
+
+        .craftsman-text .section-title {
+            color: var(--bg-cream);
+            margin-bottom: 24px;
+        }
+
+        .craftsman-text p {
+            opacity: 0.85;
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
+        .craftsman-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .craftsman-list li {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .craftsman-list i {
+            font-size: 24px;
+            color: var(--accent);
+        }
+
+        /* Custom Orders */
+        .custom-orders {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            text-align: center;
+            color: var(--white);
+            padding: 80px 0;
+        }
+
+        .custom-orders .section-title {
+            color: var(--white);
+        }
+
+        .custom-orders .section-subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+        }
+
+        .custom-orders .btn-secondary {
+            border-color: var(--white);
+        }
+
+        .custom-orders .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--bg-cream);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 36px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(44, 24, 16, 0.08);
+        }
+
+        .testimonial-quote {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 60px;
+            color: var(--bg-light);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+
+        .testimonial-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: var(--text-body);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .testimonial-location {
+            font-size: 13px;
+            color: var(--text-body);
+            opacity: 0.7;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--bg-light);
+            position: relative;
+        }
+
+        .newsletter::before,
+        .newsletter::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--primary) 0px,
+                var(--primary) 20px,
+                var(--accent) 20px,
+                var(--accent) 40px,
+                var(--secondary) 40px,
+                var(--secondary) 60px
+            );
+        }
+
+        .newsletter::before { top: 0; }
+        .newsletter::after { bottom: 0; }
+
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 80px 24px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 16px 24px;
+            border: 2px solid var(--bg-pattern);
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            background: var(--white);
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .newsletter-input.error {
+            border-color: #e74c3c;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .newsletter-success {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .newsletter-success.show {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--bg-cream);
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: var(--bg-cream);
+        }
+
+        .footer-logo .logo-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .footer-logo .logo-text {
+            font-size: 24px;
+        }
+
+        .footer-desc {
+            font-size: 15px;
+            opacity: 0.8;
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(253, 246, 227, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-cream);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--text-dark);
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--bg-cream);
+            text-decoration: none;
+            opacity: 0.8;
+            font-size: 15px;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(253, 246, 227, 0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 16px;
+            font-size: 28px;
+            opacity: 0.5;
+        }
+
+        /* Quick View Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(44, 24, 16, 0.85);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-gallery {
+            background: var(--bg-light);
+            padding: 20px;
+        }
+
+        .modal-main-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .modal-thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-thumb {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .modal-thumb:hover,
+        .modal-thumb.active {
+            opacity: 1;
+            border-color: var(--primary);
+        }
+
+        .modal-details {
+            padding: 40px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal-category {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .modal-price {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .modal-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--text-body);
+        }
+
+        .modal-options {
+            margin-bottom: 30px;
+        }
+
+        .option-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .size-btn {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--bg-pattern);
+            background: var(--white);
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .size-btn:hover,
+        .size-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--bg-pattern);
+            background: var(--white);
+            border-radius: 4px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .qty-value {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: var(--bg-cream);
+            z-index: 2001;
+            padding: 80px 30px 30px;
+            transition: right 0.4s ease;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+        }
+
+        .mobile-menu-links li {
+            margin-bottom: 20px;
+        }
+
+        .mobile-menu-links a {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(44, 24, 16, 0.5);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 56px;
+            }
+
+            .heritage-content,
+            .craftsman-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .heritage-image-secondary {
+                display: none;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .modal {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-gallery {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .heritage-stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .hero-cta .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="#" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40" fill="currentColor">
+                        <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
+                    </svg>
+                    <span class="logo-text">Rong Bah</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#shop">Shop</a></li>
+                    <li><a href="#story">Our Story</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="nav-icon">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="ph ph-heart"></i>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="ph ph-shopping-bag"></i>
+                        <span class="cart-count">2</span>
+                    </div>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="ph ph-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="ph ph-sparkle"></i>
+                Handwoven Heritage
+            </div>
+            <h1 class="hero-title">Timeless <span>Muga</span> Elegance</h1>
+            <p class="hero-subtitle">Discover the artistry of traditional Assamese Mekhela Chadors, woven with centuries of heritage and passion by master craftspeople from the Brahmaputra valley.</p>
+            <div class="hero-cta">
+                <a href="#shop" class="btn btn-primary">
+                    <i class="ph ph-shopping-bag"></i>
+                    Shop Collection
+                </a>
+                <a href="#story" class="btn btn-secondary">
+                    <i class="ph ph-play"></i>
+                    Our Story
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <i class="ph ph-caret-down"></i>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- Heritage Section -->
+    <section class="heritage" id="heritage">
+        <div class="container">
+            <div class="heritage-content">
+                <div class="heritage-images reveal">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="Traditional Assamese weaving" class="heritage-img-main">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&q=80" alt="Artisan weaving" class="heritage-img-secondary">
+                </div>
+                <div class="heritage-text reveal">
+                    <span class="section-label">Since 1892</span>
+                    <h3>Where Tradition Meets Timeless Artistry</h3>
+                    <p>In the heart of Assam, where the Brahmaputra flows gently past ancient weaving villages, our family's tradition of silk weaving has been passed down through five generations.</p>
+                    <p>Each Mekhela Chador tells a story—not just of intricate patterns and natural dyes, but of dedication, patience, and an unwavering commitment to preserving the dying art of traditional Assamese weaving.</p>
+                    <div class="heritage-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">130+</div>
+                            <div class="stat-label">Years of Heritage</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Artisan Partners</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">12K+</div>
+                            <div class="stat-label">Happy Customers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collections Section -->
+    <section class="collections" id="collections">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Our Collections</span>
+                <h2 class="section-title">Three Silk Traditions</h2>
+                <p class="section-subtitle">Each silk type carries its own heritage, texture, and story unique to the lush valleys of Assam.</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="collections-grid">
+                <div class="collection-card reveal">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Muga Silk">
+                    <div class="collection-overlay">
+                        <h3 class="collection-name">Muga Silk</h3>
+                        <p class="collection-desc">The golden silk of Assam, known for its natural luster and durability.</p>
+                        <span class="collection-link">
+                            Explore <i class="ph ph-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="collection-card reveal">
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Pat Silk">
+                    <div class="collection-overlay">
+                        <h3 class="collection-name">Pat Silk</h3>
+                        <p class="collection-desc">White silk prized for its delicate texture and elegant drape.</p>
+                        <span class="collection-link">
+                            Explore <i class="ph ph-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="collection-card reveal">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Eri Silk">
+                    <div class="collection-overlay">
+                        <h3 class="collection-name">Eri Silk</h3>
+                        <p class="collection-desc">The peace silk, soft and warm, perfect for everyday elegance.</p>
+                        <span class="collection-link">
+                            Explore <i class="ph ph-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="shop">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Handpicked For You</span>
+                <h2 class="section-title">Featured Mekhela Chadors</h2>
+                <p class="section-subtitle">Each piece is a labor of love, taking weeks to craft using traditional handloom techniques.</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal" data-product="1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80" alt="Golden Harvest Mekhela Chador">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Golden Harvest Mekhela Chador">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="1">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                        <span class="product-badge">Bestseller</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Golden Harvest Mekhela Chador</h3>
+                        <p class="product-category">Muga Silk • Traditional</p>
+                        <div class="product-price">
+                            <span class="price-current">₹18,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Bihu Dance Mekhela Chador">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Bihu Dance Mekhela Chador">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="2">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Bihu Dance Mekhela Chador</h3>
+                        <p class="product-category">Pat Silk • Contemporary</p>
+                        <div class="product-price">
+                            <span class="price-current">₹22,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="3">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Peacock Bloom Eri Dress">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Peacock Bloom Eri Dress">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="3">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Peacock Bloom Eri Dress</h3>
+                        <p class="product-category">Eri Silk • Handwoven</p>
+                        <div class="product-price">
+                            <span class="price-current">₹14,200</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="4">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Jonbiri Pattern Chador">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Jonbiri Pattern Chador">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="4">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Jonbiri Pattern Chador</h3>
+                        <p class="product-category">Muga Silk • Premium</p>
+                        <div class="product-price">
+                            <span class="price-current">₹28,500</span>
+                            <span class="price-original">₹32,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80" alt="Moonlight Pat Silk">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Moonlight Pat Silk">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="5">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Moonlight Pat Silk</h3>
+                        <p class="product-category">Pat Silk • Classic</p>
+                        <div class="product-price">
+                            <span class="price-current">₹19,800</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="6">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Sunset in Sualkuchi">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Sunset in Sualkuchi">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="6">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                        <span class="product-badge">Limited</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sunset in Sualkuchi</h3>
+                        <p class="product-category">Muga Silk • Limited Edition</p>
+                        <div class="product-price">
+                            <span class="price-current">₹35,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="7">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Nature's Embrace Eri">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Nature's Embrace Eri">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="7">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Nature's Embrace Eri</h3>
+                        <p class="product-category">Eri Silk • Everyday</p>
+                        <div class="product-price">
+                            <span class="price-current">₹11,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-product="8">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Royal Muga Ensemble">
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-name="Royal Muga Ensemble">
+                                <i class="ph ph-shopping-bag"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button class="product-wishlist" data-wishlist="8">
+                            <i class="ph ph-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Royal Muga Ensemble</h3>
+                        <p class="product-category">Muga Silk • Bridal</p>
+                        <div class="product-price">
+                            <span class="price-current">₹45,000</span>
+                            <span class="price-original">₹52,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Craftsman Story -->
+    <section class="craftsman" id="story">
+        <div class="container">
+            <div class="craftsman-content">
+                <div class="craftsman-images reveal">
+                    <div class="craftsman-img">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=80" alt="Master weaver at work">
+                    </div>
+                    <div class="craftsman-img">
+                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=500&q=80" alt="Traditional loom">
+                    </div>
+                    <div class="craftsman-img">
+                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&q=80" alt="Silk threads">
+                    </div>
+                </div>
+                <div class="craftsman-text reveal">
+                    <span class="section-label">Master Craftspeople</span>
+                    <h2 class="section-title">The Art Behind Each Thread</h2>
+                    <p>Our weavers are the backbone of Rong Bah. Each artisan brings decades of experience, having learned the craft from their parents and grandparents in the silk villages of Sualkuchi and nearby communities.</p>
+                    <ul class="craftsman-list">
+                        <li>
+                            <i class="ph ph-check-circle"></i>
+                            <span>100% natural silk and dyes</span>
+                        </li>
+                        <li>
+                            <i class="ph ph-check-circle"></i>
+                            <span>Traditional handloom weaving techniques</span>
+                        </li>
+                        <li>
+                            <i class="ph ph-check-circle"></i>
+                            <span>Fair wages and ethical practices</span>
+                        </li>
+                        <li>
+                            <i class="ph ph-check-circle"></i>
+                            <span>Each piece takes 15-45 days to complete</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="ph ph-users"></i>
+                        Meet Our Artisans
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Orders -->
+    <section class="custom-orders" id="custom">
+        <div class="container reveal">
+            <span class="section-label">Made For You</span>
+            <h2 class="section-title">Custom & Bespoke Orders</h2>
+            <p class="section-subtitle">Want something unique? We create custom Mekhela Chadors tailored to your measurements, preferred silk type, and personalized motifs. Perfect for weddings and special occasions.</p>
+            <a href="#" class="btn btn-secondary">
+                <i class="ph ph-pencil-simple"></i>
+                Request Custom Order
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">What Our Customers Say</span>
+                <h2 class="section-title">Cherished by Many</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <div class="testimonial-stars">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="testimonial-text">I wore my Rong Bah Mekhela Chador for my wedding and received so many compliments. The quality is extraordinary—every intricate detail of the weaving tells a story. Truly a treasure.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Rituporna" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Rituporna Sharma</div>
+                            <div class="testimonial-location">Guwahati, Assam</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <div class="testimonial-stars">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="testimonial-text">Living in Mumbai, I thought I'd never find authentic Mekhela Chadors. Rong Bah delivered absolutely stunning pieces to my doorstep. The packaging itself felt like receiving a gift.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Ananya" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Ananya Kakoti</div>
+                            <div class="testimonial-location">Mumbai, Maharashtra</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <span class="testimonial-quote">"</span>
+                    <div class="testimonial-stars">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="testimonial-text">As a textile enthusiast, I'm particular about authenticity. The Eri Silk dress I purchased is clearly handwoven with natural dyes. Rong Bah is the real deal—a lifeline for traditional crafts.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Meera" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Dr. Meera Goswami</div>
+                            <div class="testimonial-location">New Delhi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter" id="contact">
+        <div class="container">
+            <div class="newsletter-content reveal">
+                <span class="section-label">Stay Connected</span>
+                <h2 class="section-title">Join Our Circle</h2>
+                <p class="section-subtitle">Be the first to know about new collections, artisan stories, and exclusive offers. We promise only meaningful updates—no spam.</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Your email address" required>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="ph ph-paper-plane-tilt"></i>
+                        Subscribe
+                    </button>
+                </form>
+                <div class="newsletter-success" id="newsletterSuccess">
+                    <i class="ph ph-check-circle"></i>
+                    Welcome to Rong Bah! Check your inbox.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="currentColor">
+                            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
+                        </svg>
+                        <span class="logo-text">Rong Bah</span>
+                    </div>
+                    <p class="footer-desc">Preserving the rich tradition of Assamese silk weaving, one Mekhela Chador at a time. Every purchase supports over 500 artisan families in the Brahmaputra valley.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="ph ph-instagram-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-facebook-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-youtube-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-whatsapp-logo"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">Sale</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Muga Silk</a></li>
+                        <li><a href="#">Pat Silk</a></li>
+                        <li><a href="#">Eri Silk</a></li>
+                        <li><a href="#">Custom Orders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Help</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rong Bah. All rights reserved.</p>
+                <div class="payment-methods">
+                    <i class="ph ph-credit-card"></i>
+                    <i class="ph ph-bank"></i>
+                    <i class="ph ph-wallet"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-gallery">
+                <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Product" class="modal-main-image" id="modalMainImage">
+                <div class="modal-thumbnails">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="" class="modal-thumb active">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" alt="" class="modal-thumb">
+                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="" class="modal-thumb">
+                </div>
+            </div>
+            <div class="modal-details">
+                <button class="modal-close" id="modalClose">
+                    <i class="ph ph-x"></i>
+                </button>
+                <span class="modal-category" id="modalCategory">Muga Silk</span>
+                <h2 class="modal-title" id="modalTitle">Golden Harvest Mekhela Chador</h2>
+                <div class="modal-price" id="modalPrice">₹18,500</div>
+                <p class="modal-desc">Handwoven by master artisans in Sualkuchi using traditional techniques passed down through generations. Features the iconic golden Muga silk with intricate Bihu dancer motifs woven throughout.</p>
+                <div class="modal-options">
+                    <label class="option-label">Select Size</label>
+                    <div class="size-options">
+                        <button class="size-btn">XS</button>
+                        <button class="size-btn active">S</button>
+                        <button class="size-btn">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                    </div>
+                    <div class="quantity-selector">
+                        <label class="option-label">Quantity</label>
+                        <button class="qty-btn" id="qtyMinus">-</button>
+                        <span class="qty-value" id="qtyValue">1</span>
+                        <button class="qty-btn" id="qtyPlus">+</button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary">
+                        <i class="ph ph-shopping-bag"></i>
+                        Add to Cart
+                    </button>
+                    <button class="btn btn-secondary" style="background: var(--primary); color: var(--white); border-color: var(--primary);">
+                        <i class="ph ph-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            <i class="ph ph-x"></i>
+        </button>
+        <ul class="mobile-menu-links">
+            <li><a href="#collections">Collections</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#custom">Custom Orders</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // Navigation scroll effect
+        const nav = document.getElementById('nav');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        document.querySelectorAll('.mobile-menu-links a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Wishlist toggle
+        document.querySelectorAll('.product-wishlist').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                if (btn.classList.contains('active')) {
+                    icon.className = 'ph-fill ph-heart';
+                } else {
+                    icon.className = 'ph ph-heart';
+                }
+            });
+        });
+
+        // Add to cart feedback
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="ph ph-check"></i> Added!';
+                btn.style.background = 'var(--secondary)';
+                btn.style.color = 'var(--white)';
+
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                cartCount.textContent = parseInt(cartCount.textContent) + 1;
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 2000);
+            });
+        });
+
+        // Product quick view
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const name = card.querySelector('.product-name').textContent;
+                const category = card.querySelector('.product-category').textContent;
+                const price = card.querySelector('.price-current').textContent;
+                const image = card.querySelector('.product-image img').src;
+
+                document.getElementById('modalTitle').textContent = name;
+                document.getElementById('modalCategory').textContent = category.split('•')[0].trim();
+                document.getElementById('modalPrice').textContent = price;
+                document.getElementById('modalMainImage').src = image;
+
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeMobileMenu();
+            }
+        });
+
+        // Size selection in modal
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Quantity selector
+        const qtyValue = document.getElementById('qtyValue');
+        const qtyMinus = document.getElementById('qtyMinus');
+        const qtyPlus = document.getElementById('qtyPlus');
+
+        qtyMinus.addEventListener('click', () => {
+            const current = parseInt(qtyValue.textContent);
+            if (current > 1) {
+                qtyValue.textContent = current - 1;
+            }
+        });
+
+        qtyPlus.addEventListener('click', () => {
+            const current = parseInt(qtyValue.textContent);
+            if (current < 10) {
+                qtyValue.textContent = current + 1;
+            }
+        });
+
+        // Thumbnail selection in modal
+        document.querySelectorAll('.modal-thumb').forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                document.getElementById('modalMainImage').src = thumb.src;
+            });
+        });
+
+        // Newsletter form
+        const newsletterForm = document.getElementById('newsletterForm');
+        const newsletterEmail = document.getElementById('newsletterEmail');
+        const newsletterSuccess = document.getElementById('newsletterSuccess');
+
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = newsletterEmail.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                newsletterEmail.classList.add('error');
+                setTimeout(() => {
+                    newsletterEmail.classList.remove('error');
+                }, 600);
+                return;
+            }
+
+            newsletterForm.style.display = 'none';
+            newsletterSuccess.classList.add('show');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
