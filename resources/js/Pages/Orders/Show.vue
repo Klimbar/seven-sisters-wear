@@ -71,6 +71,11 @@
                             {{ order.payment_status }}
                         </span>
                     </div>
+                    
+                    <div v-if="order.status === 'delivered'" class="border-t pt-4 mt-4">
+                        <Button label="Request Return" icon="pi pi-replay" class="w-full" 
+                                @click="$inertia.visit(`/returns/create?order_id=${order.id}`)" />
+                    </div>
                 </div>
             </div>
         </div>

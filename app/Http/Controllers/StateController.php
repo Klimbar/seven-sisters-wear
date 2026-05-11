@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\State;
-use Illuminate\Http\Request;
 
 class StateController extends Controller
 {
@@ -15,7 +14,7 @@ class StateController extends Controller
         $states = State::with('tribes', 'products')->get();
 
         return inertia('States/Index', [
-            'states' => $states
+            'states' => $states,
         ]);
     }
 
@@ -27,7 +26,7 @@ class StateController extends Controller
         $state->load(['tribes.products.images', 'products.images']);
 
         return inertia('States/Show', [
-            'state' => $state
+            'state' => $state,
         ]);
     }
 }

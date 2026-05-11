@@ -64,10 +64,25 @@
                 <!-- Order Summary -->
                 <div class="order-summary bg-white p-6 rounded-lg shadow-sm h-fit">
                     <h3 class="font-serif text-xl mb-6">Order Summary</h3>
-                    
+
+                    <!-- Coupon Input -->
+                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div v-if="appliedDiscount > 0" class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm text-text-body">Coupon Applied:</span>
+                                <span class="font-semibold text-green-600 ml-2">{{ couponCode }}</span>
+                            </div>
+                            <button @click="removeCoupon" class="text-red-500 text-sm hover:underline">Remove</button>
+                        </div>
+                        <div v-else class="flex gap-2">
+                            <InputText v-model="form.coupon_code" placeholder="Enter coupon code" class="flex-1" />
+                            <Button label="Apply" @click="applyCoupon" size="small" />
+                        </div>
+                    </div>
+
                     <div class="space-y-4 mb-6">
                         <div v-for="item in cartItems" :key="item.id" class="flex gap-4">
-                            <img :src="item.product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&q=80'" 
+                            <img :src="item.product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&q=80'"
                                  :alt="item.product.name" class="w-16 h-16 object-cover rounded">
                             <div class="flex-1">
                                 <h4 class="text-sm font-medium">{{ item.product.name }}</h4>
@@ -82,7 +97,11 @@
                     <div class="space-y-3">
                         <div class="flex justify-between">
                             <span class="text-text-body">Subtotal</span>
-                            <span>₹{{ subtotal.toLocaleString() }}</span>
+                            <span>₹{{ calculatedSubtotal.toLocaleString() }}</span>
+                        </div>
+                        <div v-if="appliedDiscount > 0" class="flex justify-between text-green-600">
+                            <span class="text-text-body">Discount</span>
+                            <span>-₹{{ appliedDiscount.toLocaleString() }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-text-body">Shipping</span>
@@ -114,32 +133,64 @@ import Button from 'primevue/button';
 import Textarea from 'primevue/textarea';
 import RadioButton from 'primevue/radiobutton';
 import Divider from 'primevue/divider';
+import InputText from 'primevue/inputtext';
 
 const props = defineProps({
-    cartItems: Array
+    cartItems: Array,
+    subtotal: Number,
+    discount: Number,
+    coupon: Object,
+    couponCode: String
 });
 
 const loading = ref(false);
+const appliedDiscount = ref(props.discount || 0);
+
 const form = ref({
     shipping_address: '',
-    payment_method: 'cod'
+    payment_method: 'cod',
+    coupon_code: props.couponCode || ''
 });
 
-const subtotal = computed(() => {
-    return props.cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+const calculatedSubtotal = computed(() => {
+    if (props.subtotal !== undefined) {
+        return props.subtotal;
+    }
+    return props.cartItems.reduce((sum, item) => {
+        const price = item.variant_id ? (item.product.variants?.find(v => v.id === item.variant_id)?.price || item.product.price) : item.product.price;
+        return sum + (price * item.quantity);
+    }, 0);
 });
 
 const shipping = computed(() => {
-    return subtotal.value > 2000 ? 0 : 150;
+    return calculatedSubtotal.value > 2000 ? 0 : 150;
 });
 
 const tax = computed(() => {
-    return Math.round(subtotal.value * 0.18);
+    return Math.round((calculatedSubtotal.value - appliedDiscount.value) * 0.18);
 });
 
 const total = computed(() => {
-    return subtotal.value + shipping.value + tax.value;
+    return calculatedSubtotal.value + shipping.value + tax.value - appliedDiscount.value;
 });
+
+const applyCoupon = () => {
+    if (!form.value.coupon_code) return;
+    router.get('/checkout', { coupon_code: form.value.coupon_code }, {
+        preserveState: true,
+        onSuccess: (page) => {
+            if (page.props.discount) {
+                appliedDiscount.value = page.props.discount;
+            }
+        }
+    });
+};
+
+const removeCoupon = () => {
+    appliedDiscount.value = 0;
+    form.value.coupon_code = '';
+    router.get('/checkout', {}, { preserveState: true });
+};
 
 const placeOrder = () => {
     loading.value = true;

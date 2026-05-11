@@ -1,7 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReturnController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\TribeController;
 use Illuminate\Support\Facades\Route;
@@ -40,11 +45,12 @@ Route::get('/tribes/{tribe}', [TribeController::class, 'show'])->name('tribes.sh
 // Shop/Products routes
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review')->middleware('auth');
 
 // Cart routes (requires auth)
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [ProductController::class, 'cart'])->name('cart');
-    
+
     Route::post('/cart/add/{product}', [ProductController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
     Route::patch('/cart/update/{id}', [ProductController::class, 'updateCart'])->name('cart.update');
@@ -53,57 +59,79 @@ Route::middleware('auth')->group(function () {
 // Wishlist routes (requires auth)
 Route::middleware('auth')->group(function () {
     Route::get('/wishlist', [ProductController::class, 'wishlist'])->name('wishlist');
-    
+
     Route::post('/wishlist/toggle/{product}', [ProductController::class, 'toggleWishlist'])->name('wishlist.toggle');
 });
 
 // Order routes (requires auth)
 Route::middleware('auth')->group(function () {
     Route::get('/orders', [ProductController::class, 'orders'])->name('orders.index');
-    
     Route::get('/orders/{order}', [ProductController::class, 'orderShow'])->name('orders.show');
+    Route::get('/orders/{order}/invoice', [InvoiceController::class, 'show'])->name('orders.invoice');
+});
+
+// Return routes (requires auth)
+Route::middleware('auth')->group(function () {
+    Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
+    Route::get('/returns/create', [ReturnController::class, 'create'])->name('returns.create');
+    Route::get('/returns/{returnRequest}', [ReturnController::class, 'show'])->name('returns.show');
+    Route::post('/returns', [ReturnController::class, 'store'])->name('returns.store');
 });
 
 // Checkout routes (requires auth)
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout');
-    
+    Route::post('/coupon/apply', [CouponController::class, 'apply'])->name('coupon.apply');
+    Route::post('/coupon/remove', [CouponController::class, 'remove'])->name('coupon.remove');
     Route::post('/orders', [ProductController::class, 'placeOrder'])->name('orders.store');
 });
 
 // Admin routes (requires auth + admin role)
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('admin.dashboard');
-    
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
     // User management
-    Route::get('/users', function () {
-        return Inertia::render('Admin/Users/Index');
-    })->name('admin.users.index');
-    
-    // Product moderation
-    Route::get('/products', function () {
-        return Inertia::render('Admin/Products/Index');
-    })->name('admin.products.index');
-    Route::patch('/products/{product}/approve', function () {
-        // Approve product logic
-    })->name('admin.products.approve');
-    
-    // Orders overview
-    Route::get('/orders', function () {
-        return Inertia::render('Admin/Orders/Index');
-    })->name('admin.orders.index');
-    
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users.index');
+    Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.updateRole');
+
+    // Product management
+    Route::get('/products', [AdminController::class, 'products'])->name('admin.products.index');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('admin.products.create');
+    Route::post('/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
+    Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
+    Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
+    Route::delete('/products/{product}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
+
+    // Orders management
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders.index');
+    Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
+    Route::get('/orders/{order}/invoice', [InvoiceController::class, 'adminShow'])->name('admin.orders.invoice');
+    Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
+
+    // Returns management
+    Route::get('/returns', [ReturnController::class, 'adminIndex'])->name('admin.returns.index');
+    Route::get('/returns/{returnRequest}', [ReturnController::class, 'adminShow'])->name('admin.returns.show');
+    Route::patch('/returns/{returnRequest}', [ReturnController::class, 'updateStatus'])->name('admin.returns.update');
+
     // Category management
-    Route::get('/categories', function () {
-        return Inertia::render('Admin/Categories/Index');
-    })->name('admin.categories.index');
-    
+    Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories.index');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+    Route::patch('/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+    Route::delete('/categories/{category}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy');
+
+    // Coupon management
+    Route::get('/coupons', [CouponController::class, 'index'])->name('admin.coupons.index');
+    Route::post('/coupons', [CouponController::class, 'store'])->name('admin.coupons.store');
+    Route::patch('/coupons/{coupon}', [CouponController::class, 'update'])->name('admin.coupons.update');
+    Route::delete('/coupons/{coupon}', [CouponController::class, 'destroy'])->name('admin.coupons.destroy');
+
+    // Review management
+    Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('admin.reviews.index');
+    Route::patch('/reviews/{review}', [ReviewController::class, 'updateStatus'])->name('admin.reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroyAdmin'])->name('admin.reviews.destroy');
+
     // Reports
-    Route::get('/reports', function () {
-        return Inertia::render('Admin/Reports/Index');
-    })->name('admin.reports');
+    Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
 });
 
 // Contact page

@@ -11,7 +11,7 @@ class Product extends Model
     protected $fillable = [
         'category_id', 'tribe_id', 'name', 'slug',
         'description', 'price', 'discount_price', 'stock',
-        'fabric', 'occasion', 'status', 'is_approved'
+        'fabric', 'occasion', 'status', 'is_approved',
     ];
 
     protected $casts = [
@@ -54,5 +54,29 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    public function hasVariants(): bool
+    {
+        return $this->variants()->exists();
+    }
+
+    public function getEffectivePrice(): float
+    {
+        return $this->discount_price ?? $this->price;
+    }
+
+    public function getTotalStock(): int
+    {
+        if ($this->hasVariants()) {
+            return $this->variants()->sum('stock');
+        }
+
+        return $this->stock;
     }
 }

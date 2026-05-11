@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class State extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description', 'image'
+        'name', 'slug', 'description', 'image',
     ];
 
     public function tribes(): HasMany

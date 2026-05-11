@@ -47,11 +47,14 @@
                 <!-- Products Grid -->
                 <div class="md:col-span-3">
                     <div class="grid md:grid-cols-3 gap-6">
-                        <div v-for="product in products.data" :key="product.id" class="product-card bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all">
-                            <div class="relative aspect-[3/4] overflow-hidden">
-                                <img :src="product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80'" :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
-                                <button class="product-wishlist absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-lg" @click="toggleWishlist(product)">
+                        <Link v-for="product in products.data" :key="product.id" :href="`/products/${product.id}`" class="product-card bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all block">
+                            <div class="relative aspect-[3/4] overflow-hidden group">
+                                <img :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                                <button class="product-wishlist absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-lg" @click.prevent="toggleWishlist(product)">
                                     <i :class="product.is_wishlisted ? 'pi pi-heart-fill text-red-500' : 'pi pi-heart'"></i>
+                                </button>
+                                <button v-if="product.stock > 0" class="absolute bottom-0 left-0 right-0 bg-primary text-white py-3 opacity-0 group-hover:opacity-100 transition-all font-medium translate-y-full group-hover:translate-y-0" @click.prevent="quickAddToCart(product)">
+                                    Quick Add to Cart
                                 </button>
                             </div>
                             <div class="p-5">
@@ -62,7 +65,7 @@
                                     <span v-if="product.discount_price" class="text-sm text-text-body opacity-50 line-through">₹{{ product.discount_price.toLocaleString() }}</span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
                     <!-- Pagination -->
@@ -78,7 +81,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 import InputText from 'primevue/inputtext';
@@ -136,6 +139,22 @@ const toggleWishlist = (product) => {
         preserveState: true,
         onSuccess: () => {
             product.is_wishlisted = !product.is_wishlisted;
+        }
+    });
+};
+
+const getProductImage = (product) => {
+    if (product.images && product.images.length > 0) {
+        return product.images[0].image_path || product.images[0].url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
+    }
+    return 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
+};
+
+const quickAddToCart = (product) => {
+    router.post(`/cart/add/${product.id}`, { quantity: 1 }, {
+        preserveState: true,
+        onSuccess: () => {
+            alert('Product added to cart!');
         }
     });
 };

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Tribe extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'state_id', 'description', 'image'
+        'name', 'slug', 'state_id', 'description', 'image',
     ];
 
     public function state(): BelongsTo

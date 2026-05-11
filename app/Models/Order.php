@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id', 'total_amount', 'shipping_address', 
-        'payment_method', 'payment_status', 'status'
+        'user_id', 'total_amount', 'shipping_address',
+        'payment_method', 'payment_status', 'status',
     ];
 
     protected $casts = [
         'total_amount' => 'decimal:2',
         'payment_status' => 'string',
-        'status' => 'string'
+        'status' => 'string',
     ];
 
     public function user(): BelongsTo

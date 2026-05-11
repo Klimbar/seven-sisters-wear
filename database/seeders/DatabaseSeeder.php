@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\State;
 use App\Models\Tribe;
-use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Tripura', 'slug' => 'tripura', 'description' => 'Known for traditional handloom and cotton weaving.'],
             ['name' => 'Meghalaya', 'slug' => 'meghalaya', 'description' => 'Home to traditional weaving by Khasi, Garo, and Jaintia tribes.'],
             ['name' => 'Arunachal Pradesh', 'slug' => 'arunachal-pradesh', 'description' => 'Diverse tribal communities with unique textile traditions.'],
-            ['name' => 'Sikkim', 'slug' => 'sikkim', 'description' => 'Known for Buddhist influence in textile designs.']
+            ['name' => 'Sikkim', 'slug' => 'sikkim', 'description' => 'Known for Buddhist influence in textile designs.'],
         ];
 
         foreach ($states as $stateData) {
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Garo', 'slug' => 'garo', 'state_id' => 6, 'description' => 'Tribal community with unique textile patterns.'],
             ['name' => 'Naga', 'slug' => 'naga', 'state_id' => 2, 'description' => 'Diverse tribal groups known for distinctive shawls.'],
             ['name' => 'Mizo', 'slug' => 'mizo', 'state_id' => 4, 'description' => 'Tribal community with rich textile heritage.'],
-            ['name' => 'Manipuri', 'slug' => 'manipuri', 'state_id' => 3, 'description' => 'Known for traditional attire and dance costumes.']
+            ['name' => 'Manipuri', 'slug' => 'manipuri', 'state_id' => 3, 'description' => 'Known for traditional attire and dance costumes.'],
         ];
 
         foreach ($tribes as $tribeData) {
@@ -49,11 +49,16 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Shawls', 'slug' => 'shawls', 'description' => 'Traditional shawls from North-East India.'],
             ['name' => 'Jewelry', 'slug' => 'jewelry', 'description' => 'Traditional tribal jewelry and ornaments.'],
             ['name' => 'Jackets', 'slug' => 'jackets', 'description' => 'Traditional jackets and upper wear.'],
-            ['name' => 'Handloom Fabrics', 'slug' => 'handloom-fabrics', 'description' => 'Pure handloom fabrics by the yard.']
+            ['name' => 'Handloom Fabrics', 'slug' => 'handloom-fabrics', 'description' => 'Pure handloom fabrics by the yard.'],
         ];
 
         foreach ($categories as $categoryData) {
             Category::create($categoryData);
         }
+
+        // Seed products
+        $this->call([
+            ProductSeeder::class,
+        ]);
     }
 }

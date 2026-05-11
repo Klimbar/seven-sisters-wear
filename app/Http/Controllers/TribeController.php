@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tribe;
-use Illuminate\Http\Request;
 
 class TribeController extends Controller
 {
@@ -15,7 +14,7 @@ class TribeController extends Controller
         $tribes = Tribe::with('state', 'products')->get();
 
         return inertia('Tribes/Index', [
-            'tribes' => $tribes
+            'tribes' => $tribes,
         ]);
     }
 
@@ -27,7 +26,7 @@ class TribeController extends Controller
         $tribe->load(['state', 'products.images']);
 
         return inertia('Tribes/Show', [
-            'tribe' => $tribe
+            'tribe' => $tribe,
         ]);
     }
 }
