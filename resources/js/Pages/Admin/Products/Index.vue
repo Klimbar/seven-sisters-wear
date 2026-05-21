@@ -144,9 +144,3 @@ const deleteProduct = (id) => {
     }
 };
 </script>
-
-<style scoped>
-.bg-primary {
-    background-color: #8B2323;
-}
-</style>

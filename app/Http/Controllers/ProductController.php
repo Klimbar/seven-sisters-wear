@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Tribe;
 use App\Models\Wishlist;
+use App\Services\Pay0ShopService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -22,36 +23,43 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $userId = Auth::id();
+
         $query = Product::with(['category', 'tribe', 'images'])
             ->where('status', 'active')
-            ->where('is_approved', true);
+            ->where('is_approved', true)
+            ->withCount(['wishlists' => function ($q) use ($userId) {
+                if ($userId) {
+                    $q->where('user_id', $userId);
+                }
+            }]);
 
         // Filters
-        if ($request->has('category')) {
+        if ($request->filled('category')) {
             $query->whereHas('category', function ($q) use ($request) {
                 $q->where('slug', $request->category);
             });
         }
 
-        if ($request->has('tribe')) {
+        if ($request->filled('tribe')) {
             $query->whereHas('tribe', function ($q) use ($request) {
                 $q->where('slug', $request->tribe);
             });
         }
 
-        if ($request->has('fabric')) {
+        if ($request->filled('fabric')) {
             $query->where('fabric', $request->fabric);
         }
 
-        if ($request->has('min_price')) {
+        if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->min_price);
         }
 
-        if ($request->has('max_price')) {
+        if ($request->filled('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%'.$request->search.'%')
                     ->orWhere('description', 'like', '%'.$request->search.'%');
@@ -76,7 +84,17 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $userId = Auth::id();
+        $isWishlisted = false;
+
+        if ($userId) {
+            $isWishlisted = Wishlist::where('user_id', $userId)
+                ->where('product_id', $product->id)
+                ->exists();
+        }
+
         $product->load(['category', 'tribe', 'images', 'reviews.user']);
+        $product->is_wishlisted = $isWishlisted;
 
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
@@ -280,7 +298,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'shipping_address' => 'required|string',
-            'payment_method' => 'required|in:cod,upi,card,netbanking,wallet',
+            'payment_method' => 'required|in:cod,upi,netbanking,wallet',
             'coupon_code' => 'nullable|string',
         ]);
 
@@ -348,11 +366,44 @@ class ProductController extends Controller
             $coupon->incrementUsage();
         }
 
-        Cart::where('user_id', Auth::id())->delete();
+        // For COD, complete order immediately
+        if ($request->payment_method === 'cod') {
+            Cart::where('user_id', Auth::id())->delete();
 
-        $order->load('user', 'items.product');
-        Mail::to($order->user->email)->send(new OrderConfirmation($order));
+            $order->load('user', 'items.product');
+            Mail::to($order->user->email)->send(new OrderConfirmation($order));
 
-        return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully');
+            return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully');
+        }
+
+        // For online payments, initiate PayIN payment
+        $user = Auth::user();
+        $pay0ShopService = new Pay0ShopService();
+        $callbackUrl = config('services.pay0shop.callback_url') . '/payment/callback';
+
+        $response = $pay0ShopService->createOrder([
+            'customer_mobile' => $user->phone ?? '9999999999',
+            'customer_name' => $user->name ?? 'Customer',
+            'amount' => (float) $total,
+            'order_id' => $order->order_number,
+            'redirect_url' => $callbackUrl,
+            'remark1' => 'Order Payment',
+            'remark2' => 'Seven Sisters Wear',
+        ]);
+
+        if ($response['status'] ?? false) {
+            Cart::where('user_id', Auth::id())->delete();
+
+            $order->update([
+                'payment_transaction_id' => $response['result']['orderId'] ?? null,
+            ]);
+
+            return redirect($response['result']['payment_url'] ?? route('orders.show', $order))
+                ->with('success', 'Redirecting to payment...');
+        }
+
+        // If payment initiation fails, order remains with pending payment
+        return redirect()->route('orders.show', $order)
+            ->with('warning', 'Order created but payment initiation failed. Please try again.');
     }
 }

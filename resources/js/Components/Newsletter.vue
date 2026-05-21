@@ -1,6 +1,5 @@
 <template>
     <section class="newsletter">
-        <div class="pattern-bar top"></div>
         <div class="pattern-bar bottom"></div>
         
         <div class="max-w-xl mx-auto text-center px-6 py-20">

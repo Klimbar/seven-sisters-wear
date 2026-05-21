@@ -7,6 +7,20 @@
                 Back to Orders
             </button>
 
+            <!-- Flash Messages -->
+            <div v-if="$page.props.flash?.success" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.success }}
+            </div>
+            <div v-if="$page.props.flash?.info" class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.info }}
+            </div>
+            <div v-if="$page.props.flash?.error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.error }}
+            </div>
+            <div v-if="$page.props.flash?.warning" class="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.warning }}
+            </div>
+
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="md:col-span-2">
                     <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
@@ -66,9 +80,9 @@
                     <div class="border-t pt-4">
                         <h4 class="font-medium mb-2">Payment Method</h4>
                         <p class="text-text-body capitalize">{{ order.payment_method }}</p>
-                        <span class="inline-block mt-2 px-3 py-1 rounded-full text-xs" 
-                              :class="order.payment_status === 'success' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'">
-                            {{ order.payment_status }}
+                        <span class="inline-block mt-2 px-3 py-1 rounded-full text-xs"
+                              :class="paymentStatusClass">
+                            {{ paymentStatusLabel }}
                         </span>
                     </div>
                     
@@ -84,11 +98,30 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 
 const props = defineProps({
     order: Object
+});
+
+const paymentStatusClass = computed(() => {
+    const classes = {
+        'paid': 'bg-green-100 text-green-800',
+        'pending': 'bg-yellow-100 text-yellow-800',
+        'failed': 'bg-red-100 text-red-800',
+    };
+    return classes[props.order.payment_status] || 'bg-gray-100 text-gray-800';
+});
+
+const paymentStatusLabel = computed(() => {
+    const labels = {
+        'paid': 'Paid',
+        'pending': 'Payment Pending',
+        'failed': 'Payment Failed',
+    };
+    return labels[props.order.payment_status] || props.order.payment_status;
 });
 
 const getStatusClass = (status) => {

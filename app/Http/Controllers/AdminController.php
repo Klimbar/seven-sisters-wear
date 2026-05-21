@@ -40,7 +40,7 @@ class AdminController extends Controller
             ->groupBy('status')
             ->get();
 
-        return inertia('Admin/Dashboard', [
+        return inertia('Admin/Dashboard/Index', [
             'stats' => $stats,
             'recentOrders' => $recentOrders,
             'topProducts' => $topProducts,
@@ -282,7 +282,7 @@ class AdminController extends Controller
 
     public function users(Request $request)
     {
-        $query = User::query();
+        $query = User::with('roles');
 
         if ($request->has('search')) {
             $query->where('name', 'like', '%'.$request->search.'%')

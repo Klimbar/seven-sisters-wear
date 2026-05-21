@@ -3,7 +3,18 @@
         <Navbar />
         <div class="container mx-auto px-6 py-24">
             <h1 class="font-serif text-4xl text-center mb-12">Checkout</h1>
-            
+
+            <!-- Flash Messages -->
+            <div v-if="$page.props.flash?.error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.error }}
+            </div>
+            <div v-if="$page.props.flash?.warning" class="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.warning }}
+            </div>
+            <div v-if="$page.props.flash?.success" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+                {{ $page.props.flash.success }}
+            </div>
+
             <div v-if="cartItems.length === 0" class="text-center py-16">
                 <p class="text-text-body text-lg mb-6">Your cart is empty</p>
                 <Button label="Continue Shopping" @click="$inertia.visit('/shop')" />
@@ -43,15 +54,6 @@
                                     <label for="upi" class="cursor-pointer flex-1">
                                         <span class="font-medium">UPI</span>
                                         <p class="text-sm text-text-body">Pay via UPI (GPay, PhonePe, etc.)</p>
-                                    </label>
-                                </label>
-
-                                <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50"
-                                       :class="form.payment_method === 'card' ? 'border-primary bg-primary/5' : ''">
-                                    <RadioButton v-model="form.payment_method" inputId="card" name="payment" value="card" />
-                                    <label for="card" class="cursor-pointer flex-1">
-                                        <span class="font-medium">Credit/Debit Card</span>
-                                        <p class="text-sm text-text-body">Pay securely with your card</p>
                                     </label>
                                 </label>
                             </div>

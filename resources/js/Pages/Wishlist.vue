@@ -37,9 +37,12 @@
 
 <script setup>
 import { router } from '@inertiajs/vue3';
+import { useToast } from 'primevue/usetoast';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 import Button from 'primevue/button';
+
+const toast = useToast();
 
 const props = defineProps({
     wishlistItems: Array
@@ -47,13 +50,18 @@ const props = defineProps({
 
 const toggleWishlist = (product) => {
     router.post(`/wishlist/toggle/${product.id}`, {}, {
-        preserveState: true
+        preserveState: true,
+        preserveScroll: true
     });
 };
 
 const addToCart = (product) => {
     router.post(`/cart/add/${product.id}`, { quantity: 1 }, {
-        preserveState: true
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.add({ severity: 'success', summary: 'Added to Cart', detail: `${product.name} has been added to your cart.`, life: 3000 });
+        }
     });
 };
 </script>

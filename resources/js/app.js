@@ -7,6 +7,8 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
+import ToastService from 'primevue/toastservice';
+import Toast from 'primevue/toast';
 import 'primeicons/primeicons.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -19,7 +21,7 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        return createApp({ render: () => h('div', [h(App, props), h(Toast)]) })
             .use(plugin)
             .use(ZiggyVue)
             .use(PrimeVue, {
@@ -31,6 +33,7 @@ createInertiaApp({
                     }
                 }
             })
+            .use(ToastService)
             .mount(el);
     },
     progress: {

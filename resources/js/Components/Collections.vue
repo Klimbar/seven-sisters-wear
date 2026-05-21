@@ -9,42 +9,83 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Muga Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
+                <div v-for="collection in collections" :key="collection.id" class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal" @click="visitCategory(collection)">
+                    <img :src="getCollectionImage(collection)" :alt="collection.name" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
                     <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
-                        <h3 class="font-serif text-2xl text-white mb-2">Muga Silk</h3>
-                        <p class="text-white/80 text-sm mb-4">The golden silk of Assam, known for its natural luster and durability.</p>
+                        <h3 class="font-serif text-2xl text-white mb-2">{{ collection.name }}</h3>
+                        <p class="text-white/80 text-sm mb-4">{{ collection.description || 'Explore our ' + collection.name + ' collection' }}</p>
                         <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
-                            Explore <i class="ph ph-arrow-right"></i>
+                            Explore <i class="pi pi-arrow-right"></i>
                         </span>
                     </div>
                 </div>
 
-                <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
-                    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Pat Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
-                    <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
-                        <h3 class="font-serif text-2xl text-white mb-2">Pat Silk</h3>
-                        <p class="text-white/80 text-sm mb-4">White silk prized for its delicate texture and elegant drape.</p>
-                        <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
-                            Explore <i class="ph ph-arrow-right"></i>
-                        </span>
+                <!-- Fallback if no collections from DB -->
+                <template v-if="!collections || collections.length === 0">
+                    <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Muga Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
+                        <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
+                            <h3 class="font-serif text-2xl text-white mb-2">Muga Silk</h3>
+                            <p class="text-white/80 text-sm mb-4">The golden silk of Assam, known for its natural luster and durability.</p>
+                            <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
+                                Explore <i class="pi pi-arrow-right"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
-                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Eri Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
-                    <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
-                        <h3 class="font-serif text-2xl text-white mb-2">Eri Silk</h3>
-                        <p class="text-white/80 text-sm mb-4">The peace silk, soft and warm, perfect for everyday elegance.</p>
-                        <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
-                            Explore <i class="ph ph-arrow-right"></i>
-                        </span>
+                    <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
+                        <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80" alt="Pat Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
+                        <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
+                            <h3 class="font-serif text-2xl text-white mb-2">Pat Silk</h3>
+                            <p class="text-white/80 text-sm mb-4">White silk prized for its delicate texture and elegant drape.</p>
+                            <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
+                                Explore <i class="pi pi-arrow-right"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="collection-card relative aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group reveal">
+                        <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80" alt="Eri Silk" class="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108">
+                        <div class="absolute inset-0 bg-gradient-to-t from-text-dark/85 to-transparent flex flex-col justify-end p-8">
+                            <h3 class="font-serif text-2xl text-white mb-2">Eri Silk</h3>
+                            <p class="text-white/80 text-sm mb-4">The peace silk, soft and warm, perfect for everyday elegance.</p>
+                            <span class="text-accent text-sm font-semibold tracking-wider uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
+                                Explore <i class="pi pi-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </section>
 </template>
 
 <script setup>
+import { router } from '@inertiajs/vue3';
+
+const props = defineProps({
+    collections: {
+        type: Array,
+        default: () => []
+    }
+});
+
+const getCollectionImage = (collection) => {
+    if (collection.image) {
+        return collection.image;
+    }
+    // Default images based on name
+    const defaults = {
+        'Muga Silk': 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80',
+        'Pat Silk': 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&q=80',
+        'Eri Silk': 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80'
+    };
+    return defaults[collection.name] || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80';
+};
+
+const visitCategory = (collection) => {
+    if (collection.slug) {
+        router.visit(`/shop?category=${collection.slug}`);
+    }
+};
 </script>

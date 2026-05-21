@@ -14,6 +14,20 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                serif: ['Playfair Display', 'Georgia', 'serif'],
+            },
+            colors: {
+                primary: '#8B2323',
+                accent: '#C8956C',
+                'accent-coral': '#E07B5A',
+                secondary: '#4A6741',
+                cream: {
+                    DEFAULT: '#FDF8F0',
+                    light: '#FAF5EB',
+                    pattern: '#E8DFD3',
+                },
+                'text-dark': '#2C1810',
+                'text-body': '#5C4A3E',
             },
         },
     },

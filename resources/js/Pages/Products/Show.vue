@@ -204,6 +204,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { useToast } from 'primevue/usetoast';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Thumbs } from 'swiper/modules';
 import 'swiper/css';
@@ -216,6 +217,8 @@ import Footer from '@/Components/Footer.vue';
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import Rating from 'primevue/rating';
+
+const toast = useToast();
 
 const modules = [Navigation, Pagination, Thumbs];
 
@@ -308,13 +311,15 @@ const nextSlide = () => {
 };
 
 const addToCart = () => {
-    router.post(`/cart/add/${props.product.id}`, { 
+    router.post(`/cart/add/${props.product.id}`, {
         quantity: quantity.value,
         variant_id: selectedVariant.value?.id || null
     }, {
         preserveState: true,
+        preserveScroll: true,
         onSuccess: () => {
             quantity.value = 1;
+            toast.add({ severity: 'success', summary: 'Added to Cart', detail: `${props.product.name} has been added to your cart.`, life: 3000 });
         }
     });
 };
@@ -322,6 +327,7 @@ const addToCart = () => {
 const toggleWishlist = () => {
     router.post(`/wishlist/toggle/${props.product.id}`, {}, {
         preserveState: true,
+        preserveScroll: true,
         onSuccess: () => {
             props.product.is_wishlisted = !props.product.is_wishlisted;
         }

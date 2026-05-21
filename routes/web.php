@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnController;
@@ -26,7 +27,27 @@ use Inertia\Inertia;
 
 // Home page
 Route::get('/', function () {
-    return Inertia::render('Home');
+    $userId = \Illuminate\Support\Facades\Auth::id();
+
+    $featuredProducts = \App\Models\Product::with(['category', 'images'])
+        ->where('status', 'active')
+        ->where('is_approved', true)
+        ->withCount(['wishlists' => function ($q) use ($userId) {
+            if ($userId) {
+                $q->where('user_id', $userId);
+            }
+        }])
+        ->latest()
+        ->limit(8)
+        ->get();
+
+    $collections = \App\Models\Category::whereIn('name', ['Muga Silk', 'Pat Silk', 'Eri Silk'])
+        ->get();
+
+    return Inertia::render('Home', [
+        'featuredProducts' => $featuredProducts,
+        'collections' => $collections,
+    ]);
 });
 
 // About/Story page
@@ -84,7 +105,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/coupon/apply', [CouponController::class, 'apply'])->name('coupon.apply');
     Route::post('/coupon/remove', [CouponController::class, 'remove'])->name('coupon.remove');
     Route::post('/orders', [ProductController::class, 'placeOrder'])->name('orders.store');
+
+    // Payment routes
+    Route::post('/payment/initiate', [PaymentController::class, 'initiate'])->name('payment.initiate');
+    Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 });
+
+// PayIN webhook (no auth - called by payment gateway)
+Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('payment.webhook');
 
 // Admin routes (requires auth + admin role)
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
@@ -139,9 +167,9 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-// Dashboard (existing route)
+// Dashboard - redirect to shop
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return redirect()->route('shop');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Profile routes (existing)

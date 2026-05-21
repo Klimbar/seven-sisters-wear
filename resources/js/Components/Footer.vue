@@ -3,11 +3,8 @@
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-16 mb-16">
                 <div class="max-w-xs">
-                    <a href="#" class="flex items-center gap-3 mb-5">
-                        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="currentColor">
-                            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <path d="M20 8 L22 18 L32 20 L22 22 L20 32 L18 22 L8 20 L18 18 Z" fill="currentColor"/>
-                        </svg>
+                    <a href="/" class="flex items-center gap-3 mb-5">
+                        <img src="/images/logo.webp" alt="Seven Sisters Wear" class="w-9 h-9 object-contain" />
                         <span class="font-serif text-xl font-bold">Seven Sisters Wear</span>
                     </a>
                     <p class="text-sm opacity-80 leading-relaxed mb-6">Preserving the art of traditional Assamese weaving. Each piece tells a story of heritage, craftsmanship, and cultural pride.</p>
@@ -58,13 +55,8 @@
                 </div>
             </div>
 
-            <div class="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-sm opacity-70">&copy; 2025 Seven Sisters Wear. All rights reserved.</p>
-                <div class="payment-methods flex gap-4 opacity-50">
-                    <i class="ph ph-credit-card"></i>
-                    <i class="ph ph-paypal-logo"></i>
-                    <i class="ph ph-apple-logo"></i>
-                </div>
+            <div class="border-t border-cream/10 pt-8">
+                <p class="text-sm opacity-70">&copy; 2026 Seven Sisters Wear. All rights reserved.</p>
             </div>
         </div>
     </footer>

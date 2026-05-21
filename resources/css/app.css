@@ -1,3 +1,25 @@
+:root {
+    /* Brand Colors */
+    --color-primary: #8B2323;
+    --color-accent: #C8956C;
+    --color-secondary: #4A6741;
+    --color-accent-coral: #E07B5A;
+
+    /* Warm Neutrals */
+    --color-cream: #FDF8F0;
+    --color-cream-light: #FAF5EB;
+    --color-cream-pattern: #E8DFD3;
+
+    
+    /* Text */
+    --color-text-dark: #2C1810;
+    --color-text-body: #5C4A3E;
+    --color-white: #FFFFFF;
+
+    /* Typography */
+    --font-serif: 'Playfair Display', Georgia, serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
