@@ -23,3 +23,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.p-toast {
+    top: 80px !important;
+}
