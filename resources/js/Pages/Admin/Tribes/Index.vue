@@ -159,6 +159,7 @@ const updateTribe = () => {
 
     updateLoading.value = true;
     router.patch(route('admin.tribes.update', selectedTribe.value.id), editForm.value, {
+        preserveState: true,
         onFinish: () => {
             updateLoading.value = false;
             editDialogVisible.value = false;

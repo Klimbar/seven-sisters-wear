@@ -72,6 +72,7 @@ const submitReturn = () => {
         reason: form.value.reason,
         description: form.value.description
     }, {
+        preserveState: true,
         onFinish: () => {
             loading.value = false;
         }

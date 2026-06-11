@@ -230,6 +230,7 @@ const removeCoupon = () => {
 const placeOrder = () => {
     loading.value = true;
     router.post('/orders', form.value, {
+        preserveState: true,
         onFinish: () => {
             loading.value = false;
         }

@@ -145,6 +145,7 @@ const updateCategory = () => {
 
     updateLoading.value = true;
     router.patch(route('admin.categories.update', selectedCategory.value.id), editForm.value, {
+        preserveState: true,
         onFinish: () => {
             updateLoading.value = false;
             editDialogVisible.value = false;

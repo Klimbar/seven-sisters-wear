@@ -219,6 +219,7 @@ const formatDate = (value) => {
 const updateStatus = () => {
     updating.value = true;
     router.patch(route('admin.returns.update', props.returnRequest.id), form.value, {
+        preserveState: true,
         onFinish: () => {
             updating.value = false;
         }

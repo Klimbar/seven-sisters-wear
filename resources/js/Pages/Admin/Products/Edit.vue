@@ -267,6 +267,7 @@ const deleteAdditionalImage = (imageId) => {
     }
 
     router.delete(route('admin.products.images.destroy', [props.product.id, imageId]), {
+        preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
             existingAdditionalImages.value = existingAdditionalImages.value.filter(image => image.id !== imageId);
@@ -293,6 +294,7 @@ const submitForm = () => {
         variants: filteredVariants
     }, {
         forceFormData: true,
+        preserveState: true,
         onFinish: () => {
             loading.value = false;
         }

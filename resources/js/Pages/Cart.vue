@@ -89,11 +89,17 @@ const total = computed(() => {
 });
 
 const removeItem = (id) => {
-    router.delete(`/cart/remove/${id}`);
+    router.delete(`/cart/remove/${id}`, {
+        preserveState: true,
+        preserveScroll: true
+    });
 };
 
 const updateQuantity = (item) => {
-    router.patch(`/cart/update/${item.id}`, { quantity: item.quantity });
+    router.patch(`/cart/update/${item.id}`, { quantity: item.quantity }, {
+        preserveState: true,
+        preserveScroll: true
+    });
 };
 
 const itemPrice = (item) => {

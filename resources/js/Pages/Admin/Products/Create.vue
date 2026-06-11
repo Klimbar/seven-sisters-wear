@@ -240,6 +240,7 @@ const submitForm = () => {
         variants: variants
     }, {
         forceFormData: true,
+        preserveState: true,
         onFinish: () => {
             loading.value = false;
         }

@@ -140,7 +140,9 @@ const onPageChange = (event) => {
 
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
-        router.delete(route('admin.products.destroy', id));
+        router.delete(route('admin.products.destroy', id), {
+            preserveState: true
+        });
     }
 };
 </script>

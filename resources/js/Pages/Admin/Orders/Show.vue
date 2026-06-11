@@ -161,6 +161,7 @@ const updateStatus = () => {
     router.patch(route('admin.orders.updateStatus', props.order.id), {
         status: newStatus.value
     }, {
+        preserveState: true,
         onFinish: () => {
             updatingStatus.value = false;
         }
@@ -172,6 +173,7 @@ const updatePaymentStatus = () => {
     router.patch(route('admin.orders.updatePaymentStatus', props.order.id), {
         payment_status: newPaymentStatus.value
     }, {
+        preserveState: true,
         onFinish: () => {
             updatingPayment.value = false;
         }

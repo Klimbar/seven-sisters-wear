@@ -376,6 +376,7 @@ const deleteReview = (item) => {
 
     deletingReviewId.value = review.id;
     router.delete(`/reviews/${review.id}`, {
+        preserveState: true,
         preserveScroll: true,
         onFinish: () => {
             deletingReviewId.value = null;
