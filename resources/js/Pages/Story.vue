@@ -10,7 +10,7 @@
 
                 <div class="grid md:grid-cols-2 gap-12 mb-16">
                     <div>
-                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&q=80" 
+                        <img src="/images/placeholders/heritage-main.webp" 
                              alt="Traditional weaving" class="w-full rounded-lg shadow-lg">
                     </div>
                     <div class="flex flex-col justify-center">
@@ -46,7 +46,7 @@
                         </div>
                         <div class="text-center">
                             <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="pi pi-leaf text-2xl text-primary"></i>
+                                <i class="pi pi-globe text-2xl text-primary"></i>
                             </div>
                             <h3 class="font-serif text-xl mb-2">Sustainability</h3>
                             <p class="text-text-body">Using natural dyes and eco-friendly processes that respect our environment.</p>

@@ -15,7 +15,7 @@ Seven Sisters Wear is a web-based e-commerce platform designed to promote, showc
 
 The platform focuses on garments and handloom products such as Mekhela Chador, Muga silk, Pat silk, Eri silk, shawls, ethnic accessories, and tribe-specific cultural wear. Unlike generic e-commerce platforms where traditional clothing is treated as a small category, this system provides a dedicated digital marketplace with cultural context, product discovery, cart management, secure checkout, order tracking, reviews, returns, coupons, and an administrative dashboard.
 
-The project is developed using Laravel, Vue.js, Inertia.js, Tailwind CSS, and MySQL/SQLite. Laravel provides the backend MVC structure, authentication, routing, database models, middleware, and business logic. Vue.js and Inertia.js provide a modern single-page application experience while still using Laravel as the main server-side framework. The system includes customer-facing modules and admin modules for product management, inventory, orders, returns, reviews, coupons, users, and reports.
+The project is developed using Laravel, Vue.js, Inertia.js, Tailwind CSS, and a relational database, with MySQL as the primary deployment database and SQLite usable for compatible local testing. Laravel provides the backend MVC structure, authentication, routing, database models, middleware, and business logic. Vue.js and Inertia.js provide a modern single-page application experience while still using Laravel as the main server-side framework. The system includes customer-facing modules and admin modules for product management, inventory, orders, returns, reviews, coupons, tribes, users, and reports.
 
 The thesis documents the need for a specialized traditional dress e-commerce platform, the system objectives, design methodology, architecture, database structure, implemented modules, testing approach, limitations, and future enhancement possibilities.
 
@@ -163,14 +163,14 @@ The project scope includes both customer-side and admin-side functionality.
 | --- | --- |
 | Authentication | Registration, login, logout, password reset, email/OTP verification, Google login support |
 | Product Catalog | Product listing, product details, images, categories, variants, stock, status |
-| Discovery | Shop page, state pages, tribe pages, search and filters |
+| Discovery | Shop page, state and tribe discovery pages, search, category, tribe, fabric, and price filters |
 | Customer Actions | Cart, wishlist, checkout, coupon application, order placement |
 | Orders | Order history, order details, invoice generation, status display |
 | Payments | Payment initiation, callback handling, webhook endpoint, payment status updates |
 | Reviews | Product reviews, ratings, review images, admin moderation |
 | Returns | Customer return requests, return details, admin return approval/rejection workflow |
-| Admin Panel | Dashboard, product management, category management, user roles, order management, reports |
-| Notifications | Email templates for OTP verification, order confirmation, order status, and return status |
+| Admin Panel | Dashboard, product management, category management, tribe management, user roles, order management, returns, reviews, coupons, and reports |
+| Notifications | Email templates for OTP verification, order confirmation, order status, return status, and contact messages |
 | UI | Responsive Vue.js interface with Tailwind CSS and PrimeVue support |
 
 ### Out of Scope for Current Version
@@ -243,7 +243,7 @@ The project is technically feasible because the selected technologies are stable
 | Vue.js | Supports reusable frontend components and responsive user interfaces |
 | Inertia.js | Connects Laravel and Vue without requiring a separate API-only backend |
 | Tailwind CSS | Enables fast responsive UI development |
-| MySQL/SQLite | Provides reliable relational data storage |
+| MySQL/SQLite | Provides reliable relational data storage, with MySQL used as the primary deployment database |
 | Vite | Provides fast frontend asset compilation |
 
 The application can be developed and tested locally and later deployed to a production server using Apache or Nginx. Laravel's ecosystem also supports future scaling through queues, caching, storage drivers, and service integrations.
@@ -278,9 +278,9 @@ Requirement analysis defines what the system should do and how users will intera
 
 | User | Requirement |
 | --- | --- |
-| Visitor | View home page, shop page, product details, state pages, tribe pages, story page, and contact page |
+| Visitor | View home page, shop page, product details, state and tribe discovery pages, story page, and contact page |
 | Customer | Register, log in, verify account, manage profile, use wishlist/cart, place orders, submit reviews, request returns |
-| Admin | Manage products, categories, users, orders, payments, returns, reviews, coupons, and reports |
+| Admin | Manage products, categories, tribes, users, orders, payments, returns, reviews, coupons, and reports |
 
 ### 8.2 Functional Requirements
 
@@ -331,7 +331,7 @@ The system stores structured data for users, products, categories, states, tribe
 | Place Order | Customer | Confirm cart items and create an order |
 | Submit Review | Customer | Add rating and feedback for a product |
 | Request Return | Customer | Submit return request for an eligible order |
-| Manage Product | Admin | Add, edit, delete, approve, or update product stock |
+| Manage Product | Admin | Add, edit, delete, and update product stock and status |
 | Manage Order | Admin | View order details and update order/payment status |
 | Moderate Review | Admin | Approve, reject, or delete customer reviews |
 | Manage Coupon | Admin | Create and maintain discount coupons |
@@ -363,10 +363,10 @@ Models and Services
         |
         v
 Database
-(MySQL in production, SQLite in development)
+(MySQL primary, SQLite for compatible local testing)
         |
         v
-Inertia Response / Blade Email / PDF Invoice
+Inertia Response / Blade Email / Web Invoice
         |
         v
 Vue.js Pages and Components
@@ -484,7 +484,7 @@ The interface is designed to be responsive, readable, and culturally appropriate
 | Coupon code | Updated order total |
 | Checkout form | New order record |
 | Payment callback | Updated payment status |
-| Review form | Product review awaiting or receiving approval |
+| Review form | Product review saved and available for admin moderation |
 | Return form | Return request record |
 | Admin status update | Updated order or return status |
 
@@ -509,7 +509,7 @@ The following diagrams can be inserted in the final formatted thesis:
 | Frontend | Vue.js 3, Inertia.js |
 | Styling | Tailwind CSS, PrimeVue |
 | Build Tool | Vite |
-| Database | MySQL for production, SQLite for development |
+| Database | MySQL for production, SQLite for compatible local testing |
 | Authentication | Laravel Breeze, Laravel authentication, Socialite |
 | Authorization | Admin middleware, Spatie Permission package |
 | Payments | Payment controller and gateway service integration |
@@ -538,7 +538,7 @@ The following diagrams can be inserted in the final formatted thesis:
 | PHP | PHP 8.3 or compatible version based on project dependencies |
 | Composer | Required for Laravel dependencies |
 | Node.js and npm | Required for frontend dependencies and Vite |
-| Database | MySQL or SQLite |
+| Database | MySQL, with SQLite usable for compatible local testing |
 | Web Server | Laravel development server, Apache, or Nginx |
 | Browser | Chrome, Firefox, Edge, or Safari |
 
@@ -621,7 +621,7 @@ The authentication module allows users to register, log in, verify email/OTP, re
 
 ### 14.2 Product Catalog Module
 
-The product catalog module displays products to customers through the home page, shop page, product details page, state pages, and tribe pages. Product records include images, category, pricing, approval status, variants, and inventory details.
+The product catalog module displays products to customers through the home page, shop page, product details page, and tribe-based discovery pages. State pages organize regional discovery by showing state information and related tribes, while products are associated with tribes for cultural categorization. Product records include images, category, pricing, approval status, variants, fabric, occasion, and inventory details.
 
 ### 14.3 Cart Module
 
@@ -641,7 +641,7 @@ The payment module initiates payment requests, handles payment callbacks, and re
 
 ### 14.7 Order Management Module
 
-Customers can view their order history, order details, and invoices. Admins can view all orders, inspect order details, update order status, update payment status, and generate invoices.
+Customers can view their order history, order details, and web invoices. Admins can view all orders, inspect order details, update order status, update payment status, and view invoices.
 
 ### 14.8 Review and Rating Module
 
@@ -653,11 +653,15 @@ Customers can submit return requests with reasons and supporting details. Admins
 
 ### 14.10 Admin Dashboard Module
 
-The admin dashboard provides centralized control over products, categories, users, orders, returns, reviews, coupons, and reports. It helps administrators monitor sales activity, stock, order flow, and customer interaction.
+The admin dashboard provides centralized control over products, categories, tribes, users, orders, returns, reviews, coupons, and reports. It helps administrators monitor sales activity, stock, order flow, and customer interaction.
 
 ### 14.11 Email Notification Module
 
-The system includes email templates for OTP verification, order confirmation, order status updates, and return status updates. These notifications improve communication and trust during the shopping process.
+The system includes email templates for OTP verification, order confirmation, order status updates, return status updates, and contact form messages. These notifications improve communication and trust during the shopping process.
+
+### 14.12 Contact Module
+
+The contact module allows visitors and customers to send enquiries through the contact page. Submitted messages are validated and sent to the configured support email address using Laravel Mail.
 
 ---
 
@@ -709,17 +713,19 @@ Testing is performed through Laravel's testing tools and manual validation of ke
 | --- | --- |
 | Authentication | Login, registration, password reset, email verification |
 | Product Management | Product creation, update, deletion, image handling, variant handling |
+| Product Variants | Variant display, variant cart selection, variant ownership validation, variant pricing in checkout |
 | Cart | Add, update, remove, quantity validation |
 | Checkout | Address handling, coupon application, order creation |
 | Orders | Customer order history, admin order management, invoice generation |
 | Payments | Payment initiation, callback, webhook, payment status update |
 | Reviews | Review creation, update, deletion, admin moderation |
 | Returns | Return request creation, admin status update |
+| Contact | Contact message validation and email sending |
 | Admin | Role-protected dashboard and management pages |
 
 ### Existing Test Structure
 
-The project contains Laravel feature tests for authentication, registration, email verification, password reset, profile update, and admin product behavior. Unit tests are also available as part of the test suite structure.
+The project contains Laravel feature tests for authentication, registration, email verification, password reset, password confirmation, password update, profile update, admin product behavior, product variant selection, and contact form behavior. Unit tests are also available as part of the test suite structure.
 
 ### 16.1 Sample Test Cases
 
@@ -741,6 +747,8 @@ The project contains Laravel feature tests for authentication, registration, ema
 | TC-14 | Admin creates product | Product is stored and visible in admin list |
 | TC-15 | Admin updates order status | Order status changes successfully |
 | TC-16 | Non-admin accesses admin route | Access is denied or redirected |
+| TC-17 | Select product variant before checkout | Variant is saved to cart and variant price is used |
+| TC-18 | Submit contact form | Contact email is sent to the configured support address |
 
 ### 16.2 Validation Testing
 
@@ -762,7 +770,7 @@ The expected result of testing is that all major customer and admin workflows op
 
 ## 17. Screenshots and Output
 
-This section will contain screenshots of the developed Seven Sisters Wear website. The screenshots will demonstrate the user interface, customer workflow, admin workflow, and important system features.
+This section is reserved for screenshots of the developed Seven Sisters Wear website. The screenshots should demonstrate the user interface, customer workflow, admin workflow, and important system features. The placeholders below should be replaced with actual screenshots before final thesis submission.
 
 ### 17.1 Home Page
 
@@ -832,9 +840,9 @@ This section will contain screenshots of the developed Seven Sisters Wear websit
 
 ### 17.12 Admin Product Management
 
-**Screenshot Placeholder:** Insert screenshot of the admin product management page showing product list, add product button, edit option, delete option, stock, status, and approval details.
+**Screenshot Placeholder:** Insert screenshot of the admin product management page showing product list, add product button, edit option, delete option, stock, and status details.
 
-**Description:** The product management page allows administrators to add, edit, delete, approve, and manage product inventory.
+**Description:** The product management page allows administrators to add, edit, delete, and manage product inventory and product status.
 
 ### 17.13 Admin Order Management
 

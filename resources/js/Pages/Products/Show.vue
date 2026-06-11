@@ -99,7 +99,17 @@
                     <!-- Variant Selection -->
                     <div v-if="product.variants && product.variants.length > 0" class="variants mb-7">
                         <div>
-                            <span class="mb-3 block text-sm font-semibold text-text-dark">Select Variant</span>
+                            <div class="mb-3 flex items-center justify-between">
+                                <span class="text-sm font-semibold text-text-dark">Select Variant</span>
+                                <button 
+                                    v-if="selectedVariant" 
+                                    type="button" 
+                                    class="text-xs font-semibold text-primary hover:underline"
+                                    @click="selectedVariant = null"
+                                >
+                                    Clear Selection
+                                </button>
+                            </div>
                             <div class="flex gap-2 flex-wrap">
                                 <button 
                                     v-for="variant in product.variants" 
@@ -107,7 +117,7 @@
                                     class="rounded-lg border px-4 py-2.5 text-sm font-medium transition-all disabled:cursor-not-allowed disabled:opacity-45"
                                     :class="selectedVariant?.id === variant.id ? 'border-primary bg-primary text-white shadow-sm' : 'border-cream-pattern bg-white text-text-dark hover:border-primary hover:bg-primary/5'"
                                     :disabled="variant.stock === 0"
-                                    @click="selectedVariant = variant"
+                                    @click="selectedVariant = selectedVariant?.id === variant.id ? null : variant"
                                 >
                                     {{ variant.size }} {{ variant.color ? `• ${variant.color}` : '' }}
                                     <span v-if="variant.stock === 0" class="text-xs ml-1 opacity-50">(Out of stock)</span>

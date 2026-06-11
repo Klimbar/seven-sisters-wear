@@ -237,7 +237,7 @@ class AdminController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Product updated successfully');
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
     }
 
     public function destroyProduct(Product $product)
