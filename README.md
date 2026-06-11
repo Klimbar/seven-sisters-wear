@@ -5,16 +5,17 @@
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/PHP-8.2+-blue.svg" alt="PHP Version"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Laravel-12.x-red.svg" alt="Laravel Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/PHP-8.3+-blue.svg" alt="PHP Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Laravel-13.x-red.svg" alt="Laravel Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Vue.js-3.x-green.svg" alt="Vue.js Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Inertia.js-3.x-purple.svg" alt="Inertia.js Version"></a>
 </p>
 
 ## About Seven Sisters Wear
 
 Seven Sisters Wear is a traditional e-commerce platform dedicated to showcasing and selling authentic traditional attire from Northeast India, particularly Assam. Our platform specializes in handwoven Mekhela Chadors, made from the finest Muga, Pat, and Eri silks.
 
-Built with the powerful **Laravel** PHP framework and **Vue.js**, our platform serves as a dedicated marketplace where traditional artisans can showcase their craftsmanship and customers can discover, explore, and purchase authentic ethnic clothing.
+Built with **Laravel**, **Vue.js**, and **Inertia.js**, our platform serves as a dedicated marketplace where traditional artisans can showcase their craftsmanship and customers can discover, explore, and purchase authentic ethnic clothing.
 
 ### Key Features
 
@@ -26,20 +27,21 @@ Built with the powerful **Laravel** PHP framework and **Vue.js**, our platform s
 
 ## Tech Stack
 
-- **Backend**: Laravel 12.x (PHP 8.2+)
-- **Frontend**: Vue.js 3.x with PrimeVue components
+- **Backend**: Laravel 13.x (PHP 8.3+)
+- **Frontend**: Vue.js 3.x with PrimeVue 4 components
+- **SPA Layer**: Inertia.js 3.x (connects Laravel and Vue without a separate API)
 - **Styling**: Tailwind CSS with custom design system
 - **Build Tool**: Vite
-- **Database**: SQLite (development) / MySQL (production)
+- **Database**: MySQL (production) / SQLite (local testing)
 
 ## Getting Started
 
 ### Prerequisites
 
-- PHP 8.2 or higher
+- PHP 8.3 or higher
 - Composer
 - Node.js & NPM
-- SQLite (for development)
+- SQLite (for development) or MySQL (for production)
 
 ### Installation
 
