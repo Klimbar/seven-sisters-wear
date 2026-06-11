@@ -32,7 +32,7 @@ class ReviewController extends Controller
         }
 
         $hasOrdered = OrderItem::whereHas('order', function ($query) {
-            $query->where('user_id', Auth::id())->where('payment_status', 'completed');
+            $query->where('user_id', Auth::id())->where('payment_status', 'completed')->where('status', 'delivered');
         })->where('product_id', $product->id)->exists();
 
         if (! $hasOrdered) {

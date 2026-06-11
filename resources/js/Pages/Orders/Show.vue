@@ -278,7 +278,7 @@ const props = defineProps({
     order: Object
 });
 
-const canReviewOrder = computed(() => props.order.payment_status === 'completed');
+const canReviewOrder = computed(() => props.order.payment_status === 'completed' && props.order.status === 'delivered');
 
 const existingReview = (item) => item.product?.reviews?.[0] || null;
 

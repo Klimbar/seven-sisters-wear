@@ -8,10 +8,10 @@
                 </a>
 
                 <ul class="nav-links hidden md:flex">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/shop">Shop</a></li>
-                    <li><a href="/orders">My Orders</a></li>
-                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/" :class="{ active: isActive('/') }">Home</a></li>
+                    <li><a href="/shop" :class="{ active: isActive('/shop') }">Shop</a></li>
+                    <li><a href="/orders" :class="{ active: isActive('/orders') }">My Orders</a></li>
+                    <li><a href="/contact" :class="{ active: isActive('/contact') }">Contact</a></li>
                 </ul>
 
                 <div class="nav-actions">
@@ -138,6 +138,12 @@ const initials = computed(() => {
 const isHomePage = computed(() => page.url === '/');
 const navbarScrolled = computed(() => !isHomePage.value || scrolled.value);
 
+const isActive = (path) => {
+    const current = page.url.split('?')[0].split('#')[0];
+    if (path === '/') return current === '/';
+    return current === path || current.startsWith(path + '/');
+};
+
 const handleScroll = () => {
     scrolled.value = window.scrollY > 50;
 };
@@ -250,7 +256,8 @@ onUnmounted(() => {
     transition: width 0.3s ease;
 }
 
-.nav-links a:hover::after {
+.nav-links a:hover::after,
+.nav-links a.active::after {
     width: 100%;
 }
 

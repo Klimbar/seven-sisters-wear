@@ -102,7 +102,7 @@ class ProductController extends Controller
                 ->exists();
 
             $hasPurchasedProduct = OrderItem::whereHas('order', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('payment_status', 'completed');
+                $query->where('user_id', $userId)->where('payment_status', 'completed')->where('status', 'delivered');
             })->where('product_id', $product->id)->exists();
 
             $hasReviewedProduct = $product->reviews()
@@ -455,7 +455,7 @@ class ProductController extends Controller
         // For COD, complete order immediately
         if ($request->payment_method === 'cod') {
             $order->update([
-                'payment_status' => 'completed',
+                'payment_status' => 'pending',
                 'status' => 'processing',
             ]);
 

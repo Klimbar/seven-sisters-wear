@@ -144,7 +144,7 @@ To design and develop a responsive, secure, and user-friendly e-commerce web app
 - To improve digital visibility for North-East Indian textile traditions.
 - To support cultural preservation through product storytelling and region-specific categorization.
 - To implement customer authentication, profile management, wishlist, cart, checkout, and order history.
-- To support product reviews and rating features, including review moderation.
+- To support product reviews and rating features.
 - To provide an admin dashboard for managing products, categories, users, orders, returns, reviews, coupons, and reports.
 - To implement product variants, stock tracking, coupons, invoice generation, and return requests.
 - To support payment workflow integration through a payment controller and gateway callback/webhook handling.
@@ -167,7 +167,7 @@ The project scope includes both customer-side and admin-side functionality.
 | Customer Actions | Cart, wishlist, checkout, coupon application, order placement |
 | Orders | Order history, order details, invoice generation, status display |
 | Payments | Payment initiation, callback handling, webhook endpoint, payment status updates |
-| Reviews | Product reviews, ratings, review images, admin moderation |
+| Reviews | Product reviews, ratings, review images |
 | Returns | Customer return requests, return details, admin return approval/rejection workflow |
 | Admin Panel | Dashboard, product management, category management, tribe management, user roles, order management, returns, reviews, coupons, and reports |
 | Notifications | Email templates for OTP verification, order confirmation, order status, return status, and contact messages |
@@ -302,8 +302,7 @@ Requirement analysis defines what the system should do and how users will intera
 | FR-14 | Return Request | Customers should be able to request returns for orders |
 | FR-15 | Admin Product Management | Admins should be able to create, edit, delete, and manage products |
 | FR-16 | Admin Order Management | Admins should be able to view and update order/payment status |
-| FR-17 | Admin Review Moderation | Admins should be able to moderate customer reviews |
-| FR-18 | Admin Reports | Admins should be able to view business reports |
+| FR-17 | Admin Reports | Admins should be able to view business reports |
 
 ### 8.3 Non-Functional Requirements
 
@@ -333,7 +332,6 @@ The system stores structured data for users, products, categories, states, tribe
 | Request Return | Customer | Submit return request for an eligible order |
 | Manage Product | Admin | Add, edit, delete, and update product stock and status |
 | Manage Order | Admin | View order details and update order/payment status |
-| Moderate Review | Admin | Approve, reject, or delete customer reviews |
 | Manage Coupon | Admin | Create and maintain discount coupons |
 
 ---
@@ -371,6 +369,8 @@ Inertia Response / Blade Email / Web Invoice
         v
 Vue.js Pages and Components
 ```
+
+**Figure 10.1:** System Architecture Diagram *(insert diagram here)*
 
 ### Architectural Layers
 
@@ -414,6 +414,8 @@ View Order History and Invoice
 Submit Review or Return Request
 ```
 
+**Figure 10.5:** Customer Order Workflow *(insert diagram here)*
+
 ### 10.2 Admin Workflow
 
 ```text
@@ -427,16 +429,18 @@ Monitor Orders and Payments
      |
 Update Order Status
      |
-Moderate Reviews
-     |
 Handle Return Requests
      |
 View Reports
 ```
 
+**Figure 10.6:** Admin Management Workflow *(insert diagram here)*
+
 ### 10.3 Level 0 DFD Description
 
-At Level 0, the system is represented as a single process called **Seven Sisters Wear E-Commerce System**. External entities include Customer, Admin, and Payment Gateway. The customer sends registration, login, cart, order, review, and return data to the system. The admin sends product, category, order status, coupon, review moderation, and return status data to the system. The payment gateway sends payment callback and webhook data. The system returns product information, order confirmation, payment status, invoices, and notifications.
+At Level 0, the system is represented as a single process called **Seven Sisters Wear E-Commerce System**. External entities include Customer, Admin, and Payment Gateway. The customer sends registration, login, cart, order, review, and return data to the system. The admin sends product, category, order status, coupon, and return status data to the system. The payment gateway sends payment callback and webhook data. The system returns product information, order confirmation, payment status, invoices, and notifications.
+
+**Figure 10.2:** Level 0 Data Flow Diagram *(insert diagram here)*
 
 ### 10.4 Level 1 DFD Description
 
@@ -449,9 +453,11 @@ At Level 1, the main process is divided into:
 | Cart and Wishlist Process | Handles saved products, cart items, quantity updates, and removals |
 | Checkout Process | Handles address, coupon, order creation, and payment initiation |
 | Order Process | Handles order history, order details, invoices, and admin status updates |
-| Review Process | Handles customer reviews, review images, and admin moderation |
+| Review Process | Handles customer reviews and review images |
 | Return Process | Handles customer return requests and admin return decisions |
 | Admin Process | Handles dashboard, product, user, category, coupon, order, return, review, and report management |
+
+**Figure 10.3:** Level 1 Data Flow Diagram *(insert diagram here)*
 
 ### 10.5 ER Diagram Description
 
@@ -469,6 +475,8 @@ Key ER relationships include:
 - Review to ReviewImage: one-to-many
 - Category to Product: one-to-many
 
+**Figure 10.4:** Entity Relationship Diagram *(insert diagram here)*
+
 ### 10.6 Interface Design Principles
 
 The interface is designed to be responsive, readable, and culturally appropriate. Product cards use image-focused layouts because traditional clothing is visually driven. Admin pages are designed to be functional and information-dense so administrators can quickly manage products, orders, and returns.
@@ -484,7 +492,7 @@ The interface is designed to be responsive, readable, and culturally appropriate
 | Coupon code | Updated order total |
 | Checkout form | New order record |
 | Payment callback | Updated payment status |
-| Review form | Product review saved and available for admin moderation |
+| Review form | Product review saved |
 | Return form | Return request record |
 | Admin status update | Updated order or return status |
 
@@ -645,7 +653,7 @@ Customers can view their order history, order details, and web invoices. Admins 
 
 ### 14.8 Review and Rating Module
 
-Customers can submit reviews and ratings for products. Reviews can include images. Admins can moderate reviews by approving, updating, or deleting inappropriate reviews.
+Customers can submit reviews and ratings for products. Reviews can include images.
 
 ### 14.9 Return Management Module
 
@@ -718,7 +726,7 @@ Testing is performed through Laravel's testing tools and manual validation of ke
 | Checkout | Address handling, coupon application, order creation |
 | Orders | Customer order history, admin order management, invoice generation |
 | Payments | Payment initiation, callback, webhook, payment status update |
-| Reviews | Review creation, update, deletion, admin moderation |
+| Reviews | Review creation, update, deletion |
 | Returns | Return request creation, admin status update |
 | Contact | Contact message validation and email sending |
 | Admin | Role-protected dashboard and management pages |
@@ -760,7 +768,7 @@ Usability testing focuses on whether users can complete common tasks without con
 
 ### 16.4 Admin Workflow Testing
 
-Admin workflow testing verifies that administrative functions are protected and operational. This includes product creation, image management, order status update, payment status update, review moderation, return request handling, coupon management, and report viewing.
+Admin workflow testing verifies that administrative functions are protected and operational. This includes product creation, image management, order status update, payment status update, return request handling, coupon management, and report viewing.
 
 ### 16.5 Result Summary
 
@@ -856,13 +864,7 @@ This section is reserved for screenshots of the developed Seven Sisters Wear web
 
 **Description:** The coupon management page allows administrators to create, update, and delete discount coupons used during checkout.
 
-### 17.15 Admin Review Moderation
-
-**Screenshot Placeholder:** Insert screenshot of the admin review management page showing submitted reviews, approval status, and moderation actions.
-
-**Description:** The review moderation page allows administrators to approve, reject, or delete customer reviews.
-
-### 17.16 Admin Return Management
+### 17.15 Admin Return Management
 
 **Screenshot Placeholder:** Insert screenshot of the admin return management page showing return requests, reasons, customer details, and status update options.
 
