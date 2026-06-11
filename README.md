@@ -1,7 +1,7 @@
 # Seven Sisters Wear
 
 <p align="center">
-  <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" width="400" alt="Seven Sisters Wear Logo">
+  <img src="public/images/logo.webp" width="400" alt="Seven Sisters Wear Logo">
 </p>
 
 <p align="center">
