@@ -27,10 +27,42 @@
                         <!-- Shipping Address -->
                         <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
                             <h3 class="font-serif text-xl mb-6">Shipping Address</h3>
-                            <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Full Name <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.full_name" class="w-full" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Phone Number <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.phone" type="tel" class="w-full" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Address Line 1 <span class="text-red-500">*</span></label>
+                                    <Textarea v-model="form.address_line1" rows="3" class="w-full" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Address Line 2 <span class="text-text-body font-normal">(Optional)</span></label>
+                                    <InputText v-model="form.address_line2" class="w-full" />
+                                </div>
                                 <div>
-                                    <label class="block text-sm font-medium mb-2">Address</label>
-                                    <Textarea v-model="form.shipping_address" rows="3" class="w-full" required />
+                                    <label class="block text-sm font-medium mb-2">City <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.city" class="w-full" required />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">District</label>
+                                    <InputText v-model="form.district" class="w-full" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">State <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.state" class="w-full" required />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Pincode <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.pincode" class="w-full" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Country <span class="text-red-500">*</span></label>
+                                    <InputText v-model="form.country" class="w-full" required />
                                 </div>
                             </div>
                         </div>
@@ -84,13 +116,14 @@
 
                     <div class="space-y-4 mb-6">
                         <div v-for="item in cartItems" :key="item.id" class="flex gap-4">
-                            <img :src="item.product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&q=80'"
-                                 :alt="item.product.name" class="w-16 h-16 object-cover rounded">
+                            <img v-if="item.product.images?.[0]?.url" :src="item.product.images[0].url" :alt="item.product.name" class="w-16 h-16 object-cover rounded">
+                            <div v-else class="flex h-16 w-16 items-center justify-center rounded bg-gray-100 text-xs text-gray-500">No image</div>
                             <div class="flex-1">
                                 <h4 class="text-sm font-medium">{{ item.product.name }}</h4>
+                                <p v-if="variantLabel(item)" class="text-xs text-text-body">Variant: {{ variantLabel(item) }}</p>
                                 <p class="text-xs text-text-body">Qty: {{ item.quantity }}</p>
                             </div>
-                            <span class="text-sm font-semibold">₹{{ (item.product.price * item.quantity).toLocaleString() }}</span>
+                            <span class="text-sm font-semibold">₹{{ (itemPrice(item) * item.quantity).toLocaleString() }}</span>
                         </div>
                     </div>
 
@@ -108,10 +141,6 @@
                         <div class="flex justify-between">
                             <span class="text-text-body">Shipping</span>
                             <span>₹{{ shipping.toLocaleString() }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-text-body">Tax (18% GST)</span>
-                            <span>₹{{ tax.toLocaleString() }}</span>
                         </div>
                         <Divider />
                         <div class="flex justify-between font-bold text-lg">
@@ -140,6 +169,7 @@ import InputText from 'primevue/inputtext';
 const props = defineProps({
     cartItems: Array,
     subtotal: Number,
+    shipping: Number,
     discount: Number,
     coupon: Object,
     couponCode: String
@@ -149,7 +179,15 @@ const loading = ref(false);
 const appliedDiscount = ref(props.discount || 0);
 
 const form = ref({
-    shipping_address: '',
+    full_name: '',
+    phone: '',
+    address_line1: '',
+    address_line2: '',
+    city: '',
+    district: '',
+    state: '',
+    pincode: '',
+    country: 'India',
     payment_method: 'cod',
     coupon_code: props.couponCode || ''
 });
@@ -159,21 +197,16 @@ const calculatedSubtotal = computed(() => {
         return props.subtotal;
     }
     return props.cartItems.reduce((sum, item) => {
-        const price = item.variant_id ? (item.product.variants?.find(v => v.id === item.variant_id)?.price || item.product.price) : item.product.price;
-        return sum + (price * item.quantity);
+        return sum + (itemPrice(item) * item.quantity);
     }, 0);
 });
 
 const shipping = computed(() => {
-    return calculatedSubtotal.value > 2000 ? 0 : 150;
-});
-
-const tax = computed(() => {
-    return Math.round((calculatedSubtotal.value - appliedDiscount.value) * 0.18);
+    return props.shipping ?? 100;
 });
 
 const total = computed(() => {
-    return calculatedSubtotal.value + shipping.value + tax.value - appliedDiscount.value;
+    return calculatedSubtotal.value + shipping.value - appliedDiscount.value;
 });
 
 const applyCoupon = () => {
@@ -201,5 +234,17 @@ const placeOrder = () => {
             loading.value = false;
         }
     });
+};
+
+const itemPrice = (item) => {
+    return Number(item.variant?.price || item.product.discount_price || item.product.price);
+};
+
+const variantLabel = (item) => {
+    if (!item.variant) {
+        return '';
+    }
+
+    return [item.variant.size, item.variant.color].filter(Boolean).join(' / ');
 };
 </script>

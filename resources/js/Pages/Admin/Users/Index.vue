@@ -47,6 +47,13 @@
                             <div class="flex items-center gap-2">
                                 <Select v-model="userRoles[user.id]" :options="roleOptions" optionLabel="name" optionValue="value" 
                                         class="text-sm w-32" @change="updateRole(user.id)" />
+                                <Button
+                                    icon="pi pi-trash"
+                                    size="small"
+                                    text
+                                    severity="danger"
+                                    @click="deleteUser(user)"
+                                />
                             </div>
                         </td>
                     </tr>
@@ -66,6 +73,7 @@ import { router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
+import Button from 'primevue/button';
 import Paginator from 'primevue/paginator';
 
 const props = defineProps({
@@ -110,5 +118,13 @@ const updateRole = (userId) => {
     router.patch(route('admin.users.updateRole', userId), {
         role: userRoles.value[userId]
     }, { preserveState: true });
+};
+
+const deleteUser = (user) => {
+    if (!confirm(`Delete user "${user.name}"?`)) return;
+
+    router.delete(route('admin.users.destroy', user.id), {
+        preserveState: true
+    });
 };
 </script>

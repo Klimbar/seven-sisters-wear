@@ -9,6 +9,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\Tribe;
 use App\Models\Wishlist;
 use App\Services\Pay0ShopService;
@@ -28,6 +29,12 @@ class ProductController extends Controller
         $query = Product::with(['category', 'tribe', 'images'])
             ->where('status', 'active')
             ->where('is_approved', true)
+            ->withAvg(['reviews as approved_reviews_avg_rating' => function ($q) {
+                $q->where('is_approved', true);
+            }], 'rating')
+            ->withCount(['reviews as approved_reviews_count' => function ($q) {
+                $q->where('is_approved', true);
+            }])
             ->withCount(['wishlists' => function ($q) use ($userId) {
                 if ($userId) {
                     $q->where('user_id', $userId);
@@ -86,25 +93,50 @@ class ProductController extends Controller
     {
         $userId = Auth::id();
         $isWishlisted = false;
+        $hasPurchasedProduct = false;
+        $hasReviewedProduct = false;
 
         if ($userId) {
             $isWishlisted = Wishlist::where('user_id', $userId)
                 ->where('product_id', $product->id)
                 ->exists();
+
+            $hasPurchasedProduct = OrderItem::whereHas('order', function ($query) use ($userId) {
+                $query->where('user_id', $userId)->where('payment_status', 'completed');
+            })->where('product_id', $product->id)->exists();
+
+            $hasReviewedProduct = $product->reviews()
+                ->where('user_id', $userId)
+                ->exists();
         }
 
-        $product->load(['category', 'tribe', 'images', 'reviews.user']);
+        $product->load([
+            'category',
+            'tribe',
+            'images',
+            'variants',
+            'reviews' => function ($query) {
+                $query->where('is_approved', true)->latest();
+            },
+            'reviews.user',
+            'reviews.images',
+        ]);
         $product->is_wishlisted = $isWishlisted;
 
-        $relatedProducts = Product::where('category_id', $product->category_id)
+        $relatedProducts = Product::with('images')
+            ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('status', 'active')
+            ->where('is_approved', true)
             ->limit(4)
             ->get();
 
         return inertia('Products/Show', [
             'product' => $product,
             'relatedProducts' => $relatedProducts,
+            'canReview' => (bool) ($userId && $hasPurchasedProduct && ! $hasReviewedProduct),
+            'hasPurchasedProduct' => $hasPurchasedProduct,
+            'hasReviewedProduct' => $hasReviewedProduct,
         ]);
     }
 
@@ -120,9 +152,24 @@ class ProductController extends Controller
 
         $quantity = $request->input('quantity', 1);
         $variantId = $request->input('variant_id');
+        $variant = null;
 
         if ($product->hasVariants() && ! $variantId) {
             return redirect()->back()->with('error', 'Please select a variant');
+        }
+
+        if ($variantId) {
+            $variant = ProductVariant::where('product_id', $product->id)->find($variantId);
+
+            if (! $variant) {
+                return redirect()->back()->with('error', 'Please select a valid variant');
+            }
+
+            if ($variant->stock < $quantity) {
+                return redirect()->back()->with('error', 'Selected variant is out of stock');
+            }
+        } elseif ($product->stock < $quantity) {
+            return redirect()->back()->with('error', 'Product is out of stock');
         }
 
         $cartItem = Cart::where('user_id', Auth::id())
@@ -131,6 +178,12 @@ class ProductController extends Controller
             ->first();
 
         if ($cartItem) {
+            $newQuantity = $cartItem->quantity + $quantity;
+
+            if (($variant?->stock ?? $product->stock) < $newQuantity) {
+                return redirect()->back()->with('error', 'Not enough stock available');
+            }
+
             $cartItem->increment('quantity', $quantity);
         } else {
             Cart::create([
@@ -165,9 +218,18 @@ class ProductController extends Controller
             'quantity' => 'integer|min:1|max:10',
         ]);
 
-        Cart::where('id', $id)
+        $cartItem = Cart::with(['product', 'variant'])
+            ->where('id', $id)
             ->where('user_id', Auth::id())
-            ->update(['quantity' => $request->quantity]);
+            ->firstOrFail();
+
+        $availableStock = $cartItem->variant?->stock ?? $cartItem->product->stock;
+
+        if ($availableStock < $request->quantity) {
+            return redirect()->back()->with('error', 'Not enough stock available');
+        }
+
+        $cartItem->update(['quantity' => $request->quantity]);
 
         return redirect()->back()->with('success', 'Cart updated');
     }
@@ -200,7 +262,7 @@ class ProductController extends Controller
      */
     public function cart()
     {
-        $cartItems = Cart::with('product.images')
+        $cartItems = Cart::with(['product.images', 'variant'])
             ->where('user_id', Auth::id())
             ->get();
 
@@ -214,7 +276,7 @@ class ProductController extends Controller
      */
     public function orders()
     {
-        $orders = Order::with('items.product.images')
+        $orders = Order::with(['items.product.images', 'items.variant', 'returnRequest'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -234,7 +296,16 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $order->load('items.product.images');
+        $userId = Auth::id();
+
+        $order->load([
+            'items.product.images',
+            'items.variant',
+            'returnRequest',
+            'items.product.reviews' => function ($query) use ($userId) {
+                $query->where('user_id', $userId)->with('images');
+            },
+        ]);
 
         return inertia('Orders/Show', [
             'order' => $order,
@@ -260,16 +331,14 @@ class ProductController extends Controller
      */
     public function checkout(Request $request)
     {
-        $cartItems = Cart::with(['product.images', 'product.variants'])
+        $cartItems = Cart::with(['product.images', 'variant'])
             ->where('user_id', Auth::id())
             ->get();
 
         $subtotal = $cartItems->sum(function ($item) {
-            $price = $item->variant_id
-                ? $item->product->variants()->find($item->variant_id)?->price
-                : $item->product->price;
+            $price = $item->variant?->price ?? $item->product->getEffectivePrice();
 
-            return ($price ?? $item->product->price) * $item->quantity;
+            return $price * $item->quantity;
         });
 
         $coupon = null;
@@ -285,6 +354,7 @@ class ProductController extends Controller
         return inertia('Checkout', [
             'cartItems' => $cartItems,
             'subtotal' => $subtotal,
+            'shipping' => $this->shippingCharge(),
             'coupon' => $coupon,
             'discount' => $discount,
             'couponCode' => $request->coupon_code,
@@ -297,12 +367,20 @@ class ProductController extends Controller
     public function placeOrder(Request $request)
     {
         $request->validate([
-            'shipping_address' => 'required|string',
+            'full_name' => 'required|string|max:255',
+            'phone' => ['required', 'string', 'max:20'],
+            'address_line1' => 'required|string|max:1000',
+            'address_line2' => 'nullable|string|max:1000',
+            'city' => 'required|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'state' => 'required|string|max:255',
+            'pincode' => 'required|string|max:20',
+            'country' => 'required|string|max:255',
             'payment_method' => 'required|in:cod,upi,netbanking,wallet',
             'coupon_code' => 'nullable|string',
         ]);
 
-        $cartItems = Cart::with(['product', 'product.variants'])
+        $cartItems = Cart::with(['product', 'variant'])
             ->where('user_id', Auth::id())
             ->get();
 
@@ -310,12 +388,22 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Cart is empty');
         }
 
-        $subtotal = $cartItems->sum(function ($item) {
-            $price = $item->variant_id
-                ? $item->product->variants()->find($item->variant_id)?->price
-                : $item->product->price;
+        foreach ($cartItems as $item) {
+            if ($item->variant_id && ! $item->variant) {
+                return redirect()->back()->with('error', 'A selected variant is no longer available');
+            }
 
-            return ($price ?? $item->product->price) * $item->quantity;
+            $availableStock = $item->variant?->stock ?? $item->product->stock;
+
+            if ($availableStock < $item->quantity) {
+                return redirect()->back()->with('error', 'Not enough stock available for '.$item->product->name);
+            }
+        }
+
+        $subtotal = $cartItems->sum(function ($item) {
+            $price = $item->variant?->price ?? $item->product->getEffectivePrice();
+
+            return $price * $item->quantity;
         });
 
         $discount = 0;
@@ -328,14 +416,14 @@ class ProductController extends Controller
             }
         }
 
-        $total = $subtotal - $discount;
+        $shipping = $this->shippingCharge();
+        $total = $subtotal + $shipping - $discount;
 
         $order = Order::create([
             'user_id' => Auth::id(),
-            'order_number' => 'ORD-'.time().rand(1000, 9999),
             'total_amount' => $total,
             'discount_amount' => $discount,
-            'shipping_address' => $request->shipping_address,
+            'shipping_address' => $this->formatShippingAddress($request),
             'payment_method' => $request->payment_method,
             'status' => 'pending',
             'payment_status' => 'pending',
@@ -343,20 +431,18 @@ class ProductController extends Controller
         ]);
 
         foreach ($cartItems as $item) {
-            $price = $item->variant_id
-                ? $item->product->variants()->find($item->variant_id)?->price
-                : $item->product->price;
+            $price = $item->variant?->price ?? $item->product->getEffectivePrice();
 
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $item->product_id,
                 'variant_id' => $item->variant_id,
                 'quantity' => $item->quantity,
-                'price' => $price ?? $item->product->price,
+                'price' => $price,
             ]);
 
             if ($item->variant_id) {
-                $item->product->variants()->find($item->variant_id)->decrement('stock', $item->quantity);
+                $item->variant?->decrement('stock', $item->quantity);
             } else {
                 $item->product->decrement('stock', $item->quantity);
             }
@@ -368,9 +454,14 @@ class ProductController extends Controller
 
         // For COD, complete order immediately
         if ($request->payment_method === 'cod') {
+            $order->update([
+                'payment_status' => 'completed',
+                'status' => 'processing',
+            ]);
+
             Cart::where('user_id', Auth::id())->delete();
 
-            $order->load('user', 'items.product');
+            $order->load('user', 'items.product', 'items.variant');
             Mail::to($order->user->email)->send(new OrderConfirmation($order));
 
             return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully');
@@ -405,5 +496,37 @@ class ProductController extends Controller
         // If payment initiation fails, order remains with pending payment
         return redirect()->route('orders.show', $order)
             ->with('warning', 'Order created but payment initiation failed. Please try again.');
+    }
+
+    private function formatShippingAddress(Request $request): string
+    {
+        $lines = [
+            $request->full_name,
+            $request->phone,
+            $request->address_line1,
+        ];
+
+        if ($request->filled('address_line2')) {
+            $lines[] = $request->address_line2;
+        }
+
+        $location = trim(implode(', ', array_filter([
+            $request->city,
+            $request->district,
+        ])));
+
+        if ($location !== '') {
+            $lines[] = $location;
+        }
+
+        $lines[] = trim(sprintf('%s - %s', $request->state, $request->pincode));
+        $lines[] = $request->country;
+
+        return implode("\n", array_filter($lines));
+    }
+
+    private function shippingCharge(): int
+    {
+        return 100;
     }
 }

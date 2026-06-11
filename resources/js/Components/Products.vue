@@ -3,15 +3,16 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 reveal">
                 <span class="text-xs tracking-widest uppercase text-accent mb-3 block">Handpicked For You</span>
-                <h2 class="font-serif text-4xl md:text-5xl text-text-dark mb-4">Featured Mekhela Chadors</h2>
-                <p class="text-text-body max-w-xl mx-auto mb-4">Each piece is a labor of love, taking weeks to craft using traditional handloom techniques.</p>
+                <h2 class="font-serif text-4xl md:text-5xl text-text-dark mb-4">Featured Traditional Wear</h2>
+                <p class="text-text-body max-w-xl mx-auto mb-4">Explore selected traditional dresses and handwoven pieces from communities across North East India.</p>
                 <div class="w-[60px] h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded"></div>
             </div>
 
             <div v-if="products && products.length > 0" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div v-for="product in products" :key="product.id" class="product-card bg-white rounded-lg overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-xl reveal" @click="visitProduct(product)">
                     <div class="relative aspect-[3/4] overflow-hidden">
-                        <img :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div v-else class="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">No image</div>
                         <div class="product-actions absolute inset-0 bg-text-dark/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                             <button class="add-to-cart-btn bg-white text-text-dark px-7 py-3 rounded font-semibold flex items-center gap-2 hover:bg-primary hover:text-white transition-colors" @click.stop="quickAddToCart(product)">
                                 <i class="pi pi-shopping-cart"></i>
@@ -26,8 +27,8 @@
                         <h3 class="font-serif text-lg text-text-dark mb-1">{{ product.name }}</h3>
                         <p class="text-sm text-text-body opacity-70 mb-3">{{ product.category?.name }} • {{ product.fabric }}</p>
                         <div class="flex items-center gap-3">
-                            <span class="font-semibold text-xl text-primary">₹{{ product.price.toLocaleString() }}</span>
-                            <span v-if="product.discount_price" class="text-sm text-text-body opacity-50 line-through">₹{{ product.discount_price.toLocaleString() }}</span>
+                            <span class="font-semibold text-xl text-primary">₹{{ (product.discount_price || product.price).toLocaleString() }}</span>
+                            <span v-if="product.discount_price" class="text-sm text-text-body opacity-50 line-through">₹{{ product.price.toLocaleString() }}</span>
                         </div>
                     </div>
                 </div>
@@ -62,12 +63,8 @@ const props = defineProps({
 });
 
 const page = usePage();
-
 const getProductImage = (product) => {
-    if (product.images && product.images.length > 0) {
-        return product.images[0].image_path || product.images[0].url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
-    }
-    return 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
+    return product.images?.[0]?.url || null;
 };
 
 const visitProduct = (product) => {
@@ -107,4 +104,5 @@ const quickAddToCart = (product) => {
 .product-card {
     cursor: pointer;
 }
+
 </style>

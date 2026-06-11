@@ -37,24 +37,24 @@ import Card from 'primevue/card';
 const testimonials = [
     {
         id: 1,
-        text: "The quality of the Muga silk is absolutely stunning. I received so many compliments at my wedding. The craftsmanship is truly remarkable.",
+        text: "The traditional dress I ordered felt authentic and beautifully made. I received so many compliments at my wedding. The craftsmanship is truly remarkable.",
         name: "Priya Sharma",
         location: "Mumbai, India",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+        avatar: "/images/placeholders/testimonial-1.webp"
     },
     {
         id: 2,
-        text: "I've been searching for authentic Mekhela Chadors for years. Seven Sisters Wear delivers genuine quality that I couldn't find anywhere else. Worth every rupee.",
+        text: "I've been searching for authentic North East traditional wear for years. Seven Sisters Wear delivers genuine quality that I couldn't find anywhere else. Worth every rupee.",
         name: "Ananya Patel",
         location: "Bangalore, India",
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"
+        avatar: "/images/placeholders/testimonial-2.webp"
     },
     {
         id: 3,
-        text: "The attention to detail in every piece is extraordinary. My Jonbiri Chador arrived beautifully packaged and exceeded all expectations.",
+        text: "The attention to detail in every piece is extraordinary. The fabric, pattern, and finishing exceeded all expectations.",
         name: "Ritu Goswami",
-        location: "Guwahati, Assam",
-        avatar: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&q=80"
+        location: "Guwahati, India",
+        avatar: "/images/placeholders/testimonial-3.webp"
     }
 ];
 </script>
@@ -91,4 +91,5 @@ const testimonials = [
 .stars {
     color: var(--color-accent);
 }
+
 </style>

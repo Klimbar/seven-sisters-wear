@@ -88,18 +88,18 @@ class PaymentController extends Controller
 
             if ($txnStatus === 'SUCCESS') {
                 $order->update([
-                    'payment_status' => 'paid',
-                    'status' => 'confirmed',
+                    'payment_status' => 'completed',
+                    'status' => 'processing',
                     'payment_utr' => $response['result']['utr'] ?? null,
                 ]);
 
                 return redirect()->route('orders.show', $order)
-                    ->with('success', 'Payment successful! Order confirmed.');
+                    ->with('success', 'Payment successful! Order is processing.');
             } elseif ($txnStatus === 'PENDING') {
                 $order->update(['payment_status' => 'pending']);
 
                 return redirect()->route('orders.show', $order)
-                    ->with('info', 'Payment is pending. We will update you once confirmed.');
+                    ->with('info', 'Payment is pending. We will update you when it is completed.');
             }
         }
 
@@ -141,8 +141,8 @@ class PaymentController extends Controller
 
         if ($status === 'SUCCESS') {
             $order->update([
-                'payment_status' => 'paid',
-                'status' => 'confirmed',
+                'payment_status' => 'completed',
+                'status' => 'processing',
                 'payment_utr' => $request->utr ?? null,
             ]);
 

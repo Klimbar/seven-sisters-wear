@@ -50,6 +50,13 @@
                     <span>Categories</span>
                 </Link>
 
+                <Link :href="route('admin.tribes.index')"
+                      class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+                      :class="$page.url.startsWith('/admin/tribes') ? 'bg-primary text-white' : 'text-gray-300 hover:bg-gray-800'">
+                    <i class="pi pi-map-marker"></i>
+                    <span>Tribes</span>
+                </Link>
+
                 <Link :href="route('admin.coupons.index')"
                       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
                       :class="$page.url.startsWith('/admin/coupons') ? 'bg-primary text-white' : 'text-gray-300 hover:bg-gray-800'">
@@ -83,4 +90,3 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 </script>
-

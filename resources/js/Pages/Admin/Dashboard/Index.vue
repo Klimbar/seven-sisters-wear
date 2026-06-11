@@ -96,7 +96,7 @@
                     <div v-else class="space-y-4">
                         <div v-for="order in recentOrders" :key="order.id" class="flex justify-between items-center pb-4 border-b last:border-0">
                             <div>
-                                <p class="font-medium text-gray-900">Order #{{ order.id }}</p>
+                                <p class="font-medium text-gray-900">Order {{ order.order_number }}</p>
                                 <p class="text-sm text-gray-500">{{ order.user?.name || 'Guest' }}</p>
                             </div>
                             <div class="text-right">
@@ -123,8 +123,8 @@
                         <div v-for="product in topProducts" :key="product.id" class="flex justify-between items-center">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 bg-gray-100 rounded overflow-hidden">
-                                    <img :src="product.images?.[0]?.url || 'https://via.placeholder.com/100'" 
-                                         class="w-full h-full object-cover">
+                                    <img v-if="product.images?.[0]?.url" :src="product.images[0].url" class="w-full h-full object-cover">
+                                    <div v-else class="flex h-full w-full items-center justify-center text-xs text-gray-500">No image</div>
                                 </div>
                                 <span class="font-medium text-gray-900">{{ product.name }}</span>
                             </div>
@@ -150,8 +150,7 @@ const props = defineProps({
 const getStatusClass = (status) => {
     const classes = {
         'pending': 'bg-yellow-100 text-yellow-800',
-        'confirmed': 'bg-blue-100 text-blue-800',
-        'packed': 'bg-purple-100 text-purple-800',
+        'processing': 'bg-blue-100 text-blue-800',
         'shipped': 'bg-indigo-100 text-indigo-800',
         'delivered': 'bg-green-100 text-green-800',
         'cancelled': 'bg-red-100 text-red-800',

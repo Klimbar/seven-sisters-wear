@@ -51,8 +51,8 @@
                             {{ index + 1 }}
                         </span>
                         <div class="w-10 h-10 bg-gray-100 rounded overflow-hidden">
-                            <img :src="product.images?.[0]?.url || 'https://via.placeholder.com/100'" 
-                                 class="w-full h-full object-cover">
+                            <img v-if="product.images?.[0]?.url" :src="product.images[0].url" class="w-full h-full object-cover">
+                            <div v-else class="flex h-full w-full items-center justify-center text-xs text-gray-500">No image</div>
                         </div>
                         <div class="flex-1">
                             <p class="font-medium text-gray-900">{{ product.name }}</p>
@@ -80,12 +80,10 @@ const props = defineProps({
 const getStatusColor = (status) => {
     const colors = {
         'pending': 'bg-yellow-500',
-        'confirmed': 'bg-blue-500',
-        'packed': 'bg-purple-500',
+        'processing': 'bg-blue-500',
         'shipped': 'bg-indigo-500',
         'delivered': 'bg-green-500',
-        'cancelled': 'bg-red-500',
-        'returned': 'bg-gray-500'
+        'cancelled': 'bg-red-500'
     };
     return colors[status] || 'bg-gray-500';
 };

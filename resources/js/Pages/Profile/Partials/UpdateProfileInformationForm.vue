@@ -10,7 +10,6 @@ const toast = useToast();
 
 const form = useForm({
     name: user.name,
-    email: user.email,
 });
 
 const updateProfile = () => {
@@ -30,7 +29,7 @@ const updateProfile = () => {
                 Profile Information
             </h2>
             <p class="mt-2 text-sm text-text-body">
-                Update your account's profile information and email address.
+                Update your account's profile information.
             </p>
         </header>
 
@@ -55,16 +54,13 @@ const updateProfile = () => {
                 <label for="email" class="block text-sm font-medium text-text-dark">Email</label>
                 <InputText
                     id="email"
-                    v-model="form.email"
+                    :model-value="user.email"
                     type="email"
                     class="w-full"
-                    :invalid="!!form.errors.email"
-                    required
+                    disabled
                     autocomplete="username"
                 />
-                <Message v-if="form.errors.email" severity="error" size="small" variant="simple">
-                    {{ form.errors.email }}
-                </Message>
+                <p class="text-sm text-text-body">Email address changes are not available from your profile.</p>
             </div>
 
             <div class="flex items-center gap-4 pt-2">

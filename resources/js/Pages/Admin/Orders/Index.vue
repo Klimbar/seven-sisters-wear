@@ -9,7 +9,7 @@
         <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
             <div class="flex flex-wrap gap-4">
                 <div class="flex-1 min-w-[200px]">
-                    <InputText v-model="search" placeholder="Search by Order ID..." class="w-full" @input="applyFilters" />
+                    <InputText v-model="search" placeholder="Search by Order Number..." class="w-full" @input="applyFilters" />
                 </div>
                 <div class="min-w-[150px]">
                     <Select v-model="statusFilter" :options="statusOptions" optionLabel="name" optionValue="value" 
@@ -34,7 +34,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     <tr v-for="order in orders.data" :key="order.id" class="hover:bg-gray-50">
-                        <td class="px-6 py-4 font-medium text-gray-900">#{{ order.id }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900">{{ order.order_number }}</td>
                         <td class="px-6 py-4 text-gray-600">{{ order.user?.name || 'Guest' }}</td>
                         <td class="px-6 py-4 text-gray-600">{{ order.items?.length || 0 }} items</td>
                         <td class="px-6 py-4 font-semibold">₹{{ order.total_amount?.toLocaleString() }}</td>
@@ -45,8 +45,12 @@
                         </td>
                         <td class="px-6 py-4 text-gray-500 text-sm">{{ new Date(order.created_at).toLocaleDateString() }}</td>
                         <td class="px-6 py-4">
-                            <Link :href="route('admin.orders.show', order.id)" class="text-blue-600 hover:text-blue-800">
-                                <i class="pi pi-eye"></i>
+                            <Link
+                                :href="route('admin.orders.show', order.id)"
+                                class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 hover:text-blue-800"
+                            >
+                                <i class="pi pi-eye" aria-hidden="true"></i>
+                                <span>View</span>
                             </Link>
                         </td>
                     </tr>
@@ -62,7 +66,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
@@ -78,22 +82,21 @@ const statusFilter = ref(props.filters?.status || '');
 
 const statusOptions = [
     { name: 'Pending', value: 'pending' },
-    { name: 'Confirmed', value: 'confirmed' },
-    { name: 'Packed', value: 'packed' },
+    { name: 'Processing', value: 'processing' },
     { name: 'Shipped', value: 'shipped' },
     { name: 'Delivered', value: 'delivered' },
-    { name: 'Cancelled', value: 'cancelled' }
+    { name: 'Cancelled', value: 'cancelled' },
+    { name: 'Returned', value: 'returned' }
 ];
 
 const getStatusClass = (status) => {
     const classes = {
         'pending': 'bg-yellow-100 text-yellow-800',
-        'confirmed': 'bg-blue-100 text-blue-800',
-        'packed': 'bg-purple-100 text-purple-800',
+        'processing': 'bg-blue-100 text-blue-800',
         'shipped': 'bg-indigo-100 text-indigo-800',
         'delivered': 'bg-green-100 text-green-800',
         'cancelled': 'bg-red-100 text-red-800',
-        'returned': 'bg-gray-100 text-gray-800'
+        'returned': 'bg-purple-100 text-purple-800'
     };
     return classes[status] || 'bg-gray-100 text-gray-800';
 };

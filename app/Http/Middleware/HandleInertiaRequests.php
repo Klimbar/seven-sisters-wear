@@ -35,10 +35,13 @@ class HandleInertiaRequests extends Middleware
             $cartCount = Cart::where('user_id', $request->user()->id)->sum('quantity');
         }
 
+        $user = $request->user();
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                'is_admin' => $user?->hasRole('admin') ?? false,
             ],
             'cartCount' => $cartCount,
         ];

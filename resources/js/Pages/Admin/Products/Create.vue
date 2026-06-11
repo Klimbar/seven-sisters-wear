@@ -62,9 +62,30 @@
             </div>
 
             <div class="mt-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Image URLs (one per line) *</label>
-                <Textarea v-model="imageUrlsInput" rows="4" class="w-full" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" />
-                <p class="text-sm text-gray-500 mt-1">Enter full image URLs, one per line</p>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Primary Product Image *</label>
+                <input type="file" accept="image/*" required class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-white hover:file:bg-opacity-90" @change="handlePrimaryImageChange" />
+                <p class="text-sm text-gray-500 mt-1">This image is used on product cards and as the first image on the product page.</p>
+                <div v-if="primaryImagePreview" class="mt-3 h-32 w-32 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                    <img :src="primaryImagePreview.url" alt="Primary product preview" class="h-full w-full object-cover">
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Additional Images</label>
+                <input type="file" accept="image/*" multiple class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-gray-700 file:px-4 file:py-2 file:text-white hover:file:bg-gray-800" @change="handleAdditionalImagesChange" />
+                <p class="text-sm text-gray-500 mt-1">Select multiple files to add a gallery. You can remove selected images before saving.</p>
+                <div v-if="additionalImagePreviews.length" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-6">
+                    <div v-for="(preview, index) in additionalImagePreviews" :key="preview.url" class="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                        <img :src="preview.url" :alt="`Additional product preview ${index + 1}`" class="h-24 w-full object-contain">
+                        <button
+                            type="button"
+                            class="absolute right-1 top-1 rounded bg-white/90 px-2 py-1 text-xs font-medium text-red-600 shadow hover:bg-white"
+                            @click="removeAdditionalImage(index)"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Variants Section -->
@@ -113,7 +134,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -128,7 +149,10 @@ const props = defineProps({
 });
 
 const loading = ref(false);
-const imageUrlsInput = ref('');
+const primaryImage = ref(null);
+const primaryImagePreview = ref(null);
+const additionalImages = ref([]);
+const additionalImagePreviews = ref([]);
 
 const form = ref({
     name: '',
@@ -164,13 +188,42 @@ const removeVariant = (index) => {
     form.value.variants.splice(index, 1);
 };
 
+const handlePrimaryImageChange = (event) => {
+    const file = event.target.files?.[0] || null;
+
+    if (primaryImagePreview.value?.url) {
+        URL.revokeObjectURL(primaryImagePreview.value.url);
+    }
+
+    primaryImage.value = file;
+    primaryImagePreview.value = file ? {
+        name: file.name,
+        url: URL.createObjectURL(file)
+    } : null;
+};
+
+const handleAdditionalImagesChange = (event) => {
+    const selectedFiles = Array.from(event.target.files || []);
+
+    additionalImages.value = [...additionalImages.value, ...selectedFiles];
+    additionalImagePreviews.value = [
+        ...additionalImagePreviews.value,
+        ...selectedFiles.map((file) => ({
+            name: file.name,
+            url: URL.createObjectURL(file)
+        }))
+    ];
+    event.target.value = '';
+};
+
+const removeAdditionalImage = (index) => {
+    URL.revokeObjectURL(additionalImagePreviews.value[index].url);
+    additionalImagePreviews.value.splice(index, 1);
+    additionalImages.value.splice(index, 1);
+};
+
 const submitForm = () => {
     loading.value = true;
-
-    const imageUrls = imageUrlsInput.value
-        .split('\n')
-        .map(url => url.trim())
-        .filter(url => url.length > 0);
 
     // Filter out empty variants
     const variants = form.value.variants.filter(v => v.size || v.color).map(v => ({
@@ -182,9 +235,11 @@ const submitForm = () => {
 
     router.post(route('admin.products.store'), {
         ...form.value,
-        image_urls: imageUrls,
+        primary_image: primaryImage.value,
+        additional_images: additionalImages.value,
         variants: variants
     }, {
+        forceFormData: true,
         onFinish: () => {
             loading.value = false;
         }

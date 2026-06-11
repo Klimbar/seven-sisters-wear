@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -20,6 +22,21 @@ class Order extends Model
         'status' => 'string',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (Order $order) {
+            if ($order->order_number) {
+                return;
+            }
+
+            do {
+                $orderNumber = 'ORD-'.now()->format('Ymd').'-'.Str::upper(Str::random(6));
+            } while (static::where('order_number', $orderNumber)->exists());
+
+            $order->order_number = $orderNumber;
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -28,5 +45,10 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function returnRequest(): HasOne
+    {
+        return $this->hasOne(ReturnRequest::class);
     }
 }

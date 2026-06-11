@@ -53,12 +53,15 @@
                          class="product-card bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all cursor-pointer"
                          @click="$inertia.visit(`/products/${product.id}`)">
                         <div class="aspect-[3/4] overflow-hidden">
-                            <img :src="product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80'" 
-                                 :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                            <img v-if="product.images?.[0]?.url" :src="product.images[0].url" :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                            <div v-else class="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">No image</div>
                         </div>
                         <div class="p-4">
                             <h4 class="font-serif text-lg mb-1">{{ product.name }}</h4>
-                            <span class="font-semibold text-primary">₹{{ product.price.toLocaleString() }}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold text-primary">₹{{ (product.discount_price || product.price).toLocaleString() }}</span>
+                                <span v-if="product.discount_price" class="text-sm text-text-body/60 line-through">₹{{ product.price.toLocaleString() }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

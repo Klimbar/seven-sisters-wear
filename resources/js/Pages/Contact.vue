@@ -18,20 +18,24 @@
                                 <div>
                                     <label class="block text-sm font-medium mb-2">Name</label>
                                     <InputText v-model="form.name" class="w-full" required />
+                                    <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-2">Email</label>
                                     <InputText v-model="form.email" type="email" class="w-full" required />
+                                    <p v-if="form.errors.email" class="mt-1 text-sm text-red-600">{{ form.errors.email }}</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-2">Subject</label>
                                     <InputText v-model="form.subject" class="w-full" required />
+                                    <p v-if="form.errors.subject" class="mt-1 text-sm text-red-600">{{ form.errors.subject }}</p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-2">Message</label>
                                     <Textarea v-model="form.message" rows="5" class="w-full" required />
+                                    <p v-if="form.errors.message" class="mt-1 text-sm text-red-600">{{ form.errors.message }}</p>
                                 </div>
-                                <Button type="submit" label="Send Message" class="w-full" :loading="loading" />
+                                <Button type="submit" label="Send Message" class="w-full" :loading="form.processing" />
                             </div>
                         </form>
                     </div>
@@ -56,11 +60,11 @@
                             <div class="space-y-3">
                                 <div class="flex items-center gap-3">
                                     <i class="pi pi-phone text-primary"></i>
-                                    <span>+91 98765 43210</span>
+                                    <span>+91 9395435218</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <i class="pi pi-envelope text-primary"></i>
-                                    <span>hello@sevensisterswear.com</span>
+                                    <span>sevensisterswear@gmail.com</span>
                                 </div>
                             </div>
                         </div>
@@ -88,8 +92,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useToast } from 'primevue/usetoast';
+import { useForm } from '@inertiajs/vue3';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 import InputText from 'primevue/inputtext';
@@ -97,9 +101,7 @@ import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 
 const toast = useToast();
-const loading = ref(false);
-
-const form = ref({
+const form = useForm({
     name: '',
     email: '',
     subject: '',
@@ -107,12 +109,12 @@ const form = ref({
 });
 
 const submitForm = () => {
-    loading.value = true;
-    // Simulate form submission
-    setTimeout(() => {
-        loading.value = false;
-        toast.add({ severity: 'success', summary: 'Message Sent', detail: 'We will get back to you soon!', life: 3000 });
-        form.value = { name: '', email: '', subject: '', message: '' };
-    }, 1000);
+    form.post(route('contact.send'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.add({ severity: 'success', summary: 'Message Sent', detail: 'We will get back to you soon!', life: 3000 });
+            form.reset();
+        }
+    });
 };
 </script>

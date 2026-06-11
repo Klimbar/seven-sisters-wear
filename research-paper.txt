@@ -1,0 +1,119 @@
+Seven Sisters Wear: An E-Commerce Platform for Traditional Dresses of North East India
+
+Authors:
+1.	Klimbar Timung 
+2.	Iswar Chetri
+Department of Computer Science & Applications, Pandu College
+
+Abstract
+North East India is home to rich handloom traditions practiced by millions of weavers, predominantly women, across its tribal communities. The region accounts for approximately 60% of India's handloom weavers (around 16 lakh out of 26-31 lakh total weaver households nationally, per the Fourth All India Handloom Census 2019-20), with women comprising a significant majority (often cited around 70-88% in NER). Despite this cultural wealth, limited market access, middlemen exploitation, inadequate digital presence, infrastructure bottlenecks, and competition from powerloom imitations severely restrict economic opportunities for artisans. Many weavers earn less than ₹5,000 per month.
+This paper proposes “Seven Sisters Wear,” a dedicated e-commerce platform designed to connect tribal artisans directly with customers across India and globally. The study reviews current challenges in the handloom commerce ecosystem, outlines a modern web-based solution with cultural sensitivity, and discusses its potential impact on cultural preservation, women’s economic empowerment, rural development, and digital inclusion. The platform leverages contemporary technologies such as React.js frontend, Laravel backend, and secure payment integrations, while emphasizing authenticity verification, storytelling, artisan welfare, and community impact tracking.
+
+1. Introduction
+1.1 Background 
+North East India (often called the “Seven Sisters” — Arunachal Pradesh, Assam, Manipur, Meghalaya, Mizoram, Nagaland, and Tripura, sometimes including Sikkim) boasts extraordinary cultural and textile diversity. Traditional attires such as the Mekhela Chador (Assam), Puan and Puanchei (Mizoram), Jainsem (Meghalaya), various Naga shawls, Manipuri Phanek, and Arunachali weaves are not just garments but living symbols of identity, social status, rituals, and heritage.
+Weaving is predominantly a women-led activity, often conducted on traditional backstrap (loin) looms in rural households. These practices preserve intricate motifs that convey stories of ancestry, clan affiliations, marital status, and cosmology. The NER also contributes significantly to India's silk production, particularly Muga and Eri silks from Assam. Despite this, the sector remains largely unorganized, with production decentralized and reliant on traditional knowledge passed through generations.
+
+1.2 Problem Statement 
+Key challenges include:
+1.	Limited market access beyond local haats and melas.
+2.	Low digital adoption among artisans.
+3.	Inefficient supply chains and logistics in remote areas.
+4.	Prevalence of middlemen reducing artisan margins.
+5.	Issues of authenticity and quality perception in broader markets.
+1.3 Research Objectives
+·	Analyze the handloom sector and market gaps in North East India.
+·	Propose a tailored e-commerce platform.
+·	Evaluate technical and operational feasibility.
+·	Assess socio-economic and cultural impact.
+1.4 Significance 
+The platform could support cultural preservation, women’s economic empowerment, rural development, and digital inclusion.
+2. Literature Review
+2.1  E-commerce in India 
+India’s internet user base reached approximately 958 million active users in 2025, with rural areas driving growth. E-commerce continues to expand, especially in tier-2/3 cities and through quick commerce and social commerce.
+2.2 Handloom and Traditional Products 
+The handloom sector employs millions, with North East India accounting for a significant share (around 60% of handloom workers per recent census data). Women constitute the majority of weavers. Challenges persist in market linkage, infrastructure, and digital literacy.
+2.3 North East India Context 
+Reports highlight the region’s dominance in certain handloom products (e.g., shawls, Mekhela Chadors) and silk production (Muga, Eri). However, artisans face infrastructure issues, low income, and competition from powerloom imitations.
+2.4 Research Gap 
+While general e-commerce for handicrafts exists, dedicated platforms focused on North East tribal textiles—with strong cultural storytelling, authenticity verification, and artisan-centric features—are limited.
+3. Methodology 
+3.1 Research Design
+This research adopts a mixed-methods approach combining:
+1.	Literature Review: Comprehensive analysis of existing research, reports, and publications on traditional dress commerce and e-commerce platforms.
+2.	Requirements Analysis: Identification of user requirements through analysis of existing e-commerce platforms and target audience needs.
+3.	Technical Development: Design and implementation of the proposed platform using modern software development practices.
+
+3.2 System Development Methodology
+The platform is developed using the Agile Development Methodology, with iterative development cycles allowing for continuous improvement based on feedback. The development follows the Model-View-Controller (MVC) architecture for clean separation of concerns
+3.3 Key Functional Requirements 
+Based on the research, the following functional requirements have been identified:
+
+Requirement Category	Description
+User Management	Registration, login, profile management for customers and sellers
+Product Catalog	Listing, searching, filtering of traditional dresses by state, tribe, type
+Shopping Cart	Add to cart, quantity management, price calculation
+Checkout	Address management, payment gateway integration, order confirmation
+Order Management	Order tracking, status updates, delivery confirmation
+Reviews and Ratings	Customer feedback system for products and sellers
+Wishlist	Save favorite products for future purchase
+Admin Panel	Product management, order management, user management
+3.4 Non-Functional Requirements
+Requirement	Description
+Performance	Page load time under 3 seconds
+Security	Secure payment processing, data encryption
+Scalability	Support for 1000+ products and concurrent users
+Accessibility	Mobile-responsive design, multi-browser support
+Usability	Intuitive user interface suitable for non-technical users
+
+
+4. System ArchitectureTechnology Stack
+·	Frontend: Vue.js + Tailwind CSS (mobile-responsive).
+·	Backend: Laravel.
+·	Database: MySQL.
+·	Additional: Cloud hosting (AWS/GCP), Redis for caching, Razorpay/Stripe for payments, and logistics integrations (Delhivery, India Post, regional partners).
+Database Schema: Similar to original, with additions for artisan profiles, authenticity certificates, and cultural metadata.
+Key Features:
+·	Filtering by state, tribe, and occasion.
+·	Rich storytelling and “How to Wear” videos.
+·	Artisan profiles and direct impact tracking.
+·	Customization options where feasible.
+5. Features and Functionality 
+customer browsing with cultural context, seller dashboard for artisans, admin oversight, order tracking, reviews.
+Additional Features:
+·	Cultural education pages.
+·	Impact dashboard showing earnings to artisans.
+·	Training modules for digital literacy.
+6. Expected Economic Outcomes
+Reduced middlemen could increase artisan income (realistic estimates from studies suggest 30–50% potential uplift with better linkages). Job creation in logistics and support services.
+Cultural: Preservation through documentation and incentives; greater awareness.
+Social: Women empowerment and reduced urban migration.
+7. Challenges and Limitations
+·	Internet and infrastructure gaps in remote areas.
+·	Logistics difficulties.
+·	Quality consistency and returns for custom items.
+·	Building customer trust.
+·	Initial capital and marketing.
+8. Conclusion 
+“Seven Sisters Wear” offers a promising model to empower North East artisans by combining technology with cultural sensitivity. A pilot phase in select states, strong government/NGO partnerships, and focus on authenticity are recommended for success. Future scope includes a mobile app and AI-driven recommendations.
+
+References 
+1.	Internet and Mobile Association of India (IAMAI) & Kantar. (2026). Internet in India Report 2025. → https://www.indiadigitalsummit.in/wp-content/uploads/2026/01/Internet-in-India-2025-Press-Release-Final.pdf 
+2.	Ministry of Textiles, Government of India. (2025). Annual Report 2024-25. → https://www.texmin.gov.in/static/uploads/2025/12/c865d599cae0c357c02d247a8a82d24e.pdf 
+3.	Office of the Development Commissioner (Handlooms). (2019). Fourth All India Handloom Census 2019-20. → https://handlooms.nic.in/assets/img/Statistics/3736.pdf  
+4.	North Eastern Handicrafts and Handlooms Development Corporation (NEHHDC). (2024). Annual Report 2023-24. → https://nehhdc.com/files/annual-report-2024-25.pdf 
+5.	North East Council. Action Plan for Development of Handloom & Handicraft in NER. → https://necouncil.gov.in/sites/default/files/Final%20report%20-%20Action%20Plan%20for%20the%20Development%20of%20Handloom%20%26%20Handicraft%20in%20NER.pdf 
+6.	NEDFI. (2021). Techno-Commercial Feasibility Study on E-commerce Platform for Marketing of Handloom and Handicraft Products of NER. → https://www.nedfi.com/wp-content/uploads/2021/11/ES-74_merged.pdf 
+7.	Kripashree, B. (2025). The Artisanal Handloom Weaving Traditions in India’s Northeast Region. RRJ IKS. → https://rrjiks.co.in/index.php/RRJIKS/article/view/156
+8.	Mukherjee, S. (2025). Consumption Expenditure Inequality and Handloom Sector in Northeast India. → https://www.ijstjournal.com/wp-content/uploads/journal/published_paper/volume-2/issue-2/IJST241037.pdf 
+9.	Shah, A., & Patel, R. (2016). E-Commerce and Rural Handicraft Artisans. Voice of Research. (Cited in multiple papers) → https://ideas.repec.org/p/vor/issues/2016-12-07.html
+10.	Pahuja, B., & Brar, P. (2024). Navigating E-Commerce Platforms for Handicraft Product Listing. International Journal of Applied Home Science. → https://scientificresearchjournal.com/wp-content/uploads/2024/09/home-science-11-401-409.pdf
+11.	Devi, A. (2026). Weaving Resilience – Sustainability of Handloom Industry in North-East India. → https://www.atlantis-press.com/article/126023179.pdf 
+12.	Gurusamy, K. (2026). Perceived Authenticity of Assam Handloom Products. → https://www.atlantis-press.com/article/126022046.pdf 
+13.	Saikia, D., & Baruah, H. (Year). Traditional Handloom and its Impact on Weavers: A Study in Assam. → https://tojqi.net/index.php/journal/article/download/2262/1371/2461 
+14.	PIB Releases on Handloom Sector (2025). Government of India. → https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=154978&ModuleId=3&reg=3&lang=2
+15.	FICCI / Exim Bank Reports on Indian Handloom Industry (2024-25). → https://ficciflo.com/wp-content/uploads/2025/03/Indian-Handloom-Industry-Final.pdf
+16.	Dam, S., et al. (2025). Sustainability of the Handloom Industry for North-East India: A Perspective from Tripura. International Journal of Science and Research. → https://www.ijsr.net/archive/v14i6/SR25621110342.pdf 
+17.	Agrawal, M. A. (2024). Study on e-commerce site for handlooms and handicrafts. Brazilian Journal of Development. → https://ojs.brazilianjournals.com.br/ojs/index.php/BRJD/article/view/68002
+18.	Rising Northeast / Industry Reports on Textile & Handloom Sector Profile of North East India (2024-25). → https://risingnortheast.in/wp-content/uploads/2025/05/Textiles-Sector.pdf
+

@@ -13,9 +13,8 @@
             <div v-else class="grid md:grid-cols-4 gap-6">
                 <div v-for="item in wishlistItems" :key="item.id" class="product-card bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all">
                     <div class="relative aspect-[3/4] overflow-hidden">
-                        <img :src="item.product.images?.[0]?.url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80'" 
-                             :alt="item.product.name" class="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer"
-                             @click="$inertia.visit(`/products/${item.product.id}`)">
+                        <img v-if="item.product.images?.[0]?.url" :src="item.product.images[0].url" :alt="item.product.name" class="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer" @click="$inertia.visit(`/products/${item.product.id}`)">
+                        <div v-else class="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">No image</div>
                         <button class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 transition-all shadow-lg" @click="toggleWishlist(item.product)">
                             <i class="pi pi-heart-fill"></i>
                         </button>
@@ -24,7 +23,10 @@
                         <h3 class="font-serif text-lg text-text-dark mb-1">{{ item.product.name }}</h3>
                         <p class="text-sm text-text-body opacity-70 mb-3">{{ item.product.fabric }}</p>
                         <div class="flex items-center justify-between">
-                            <span class="font-semibold text-xl text-primary">₹{{ item.product.price.toLocaleString() }}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold text-xl text-primary">₹{{ (item.product.discount_price || item.product.price).toLocaleString() }}</span>
+                                <span v-if="item.product.discount_price" class="text-sm text-text-body/60 line-through">₹{{ item.product.price.toLocaleString() }}</span>
+                            </div>
                             <Button label="Add to Cart" size="small" @click="addToCart(item.product)" />
                         </div>
                     </div>

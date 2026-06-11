@@ -7,7 +7,7 @@
                         <img src="/images/logo.webp" alt="Seven Sisters Wear" class="w-9 h-9 object-contain" />
                         <span class="font-serif text-xl font-bold">Seven Sisters Wear</span>
                     </a>
-                    <p class="text-sm opacity-80 leading-relaxed mb-6">Preserving the art of traditional Assamese weaving. Each piece tells a story of heritage, craftsmanship, and cultural pride.</p>
+                    <p class="text-sm opacity-80 leading-relaxed mb-6">Preserving and celebrating traditional dress from North East India. Each piece tells a story of heritage, craftsmanship, and cultural pride.</p>
                     <div class="flex gap-3">
                         <a href="#" class="social-link w-10 h-10 border border-cream/30 rounded-full flex items-center justify-center hover:bg-accent hover:border-accent hover:text-text-dark transition-all">
                             <i class="ph ph-facebook-logo"></i>
@@ -24,9 +24,9 @@
                 <div>
                     <h4 class="font-serif text-lg mb-6">Shop</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Muga Silk</a></li>
-                        <li><a href="#" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Pat Silk</a></li>
-                        <li><a href="#" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Eri Silk</a></li>
+                        <li><a href="/shop" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Traditional Dresses</a></li>
+                        <li><a href="/states" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Shop by State</a></li>
+                        <li><a href="/tribes" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Shop by Tribe</a></li>
                         <li><a href="#" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">New Arrivals</a></li>
                         <li><a href="#" class="text-sm opacity-80 hover:opacity-100 hover:text-accent transition-all">Sale</a></li>
                     </ul>

@@ -52,7 +52,7 @@
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                    <Select v-model="form.status" :options="statusOptions" class="w-full" required />
+                    <Select v-model="form.status" :options="statusOptions" optionLabel="name" optionValue="value" class="w-full" required />
                 </div>
             </div>
             
@@ -62,8 +62,48 @@
             </div>
             
             <div class="mt-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Image URLs (one per line)</label>
-                <Textarea v-model="imageUrlsInput" rows="4" class="w-full" />
+                <label class="block text-sm font-medium text-gray-700 mb-2">Primary Product Image</label>
+                <input type="file" accept="image/*" class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-white hover:file:bg-opacity-90" @change="handlePrimaryImageChange" />
+                <p class="text-sm text-gray-500 mt-1">Upload a new file only if you want to replace the card/default image.</p>
+                <div v-if="primaryImagePreview" class="mt-3 h-32 w-32 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                    <img :src="primaryImagePreview.url" alt="Primary product preview" class="h-full w-full object-cover">
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Additional Images</label>
+                <input type="file" accept="image/*" multiple class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-gray-700 file:px-4 file:py-2 file:text-white hover:file:bg-gray-800" @change="handleAdditionalImagesChange" />
+                <p class="text-sm text-gray-500 mt-1">Select multiple files to add more gallery images. You can delete saved gallery images below.</p>
+                <div v-if="existingAdditionalImages.length" class="mt-3">
+                    <p class="mb-2 text-sm font-medium text-gray-700">Saved gallery images</p>
+                    <div class="flex flex-wrap gap-3">
+                        <div v-for="image in existingAdditionalImages" :key="image.id" class="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                            <img :src="image.url" alt="Saved additional product image" class="h-24 w-24 object-contain">
+                            <button
+                                type="button"
+                                class="absolute right-1 top-1 rounded bg-white/90 px-2 py-1 text-xs font-medium text-red-600 shadow hover:bg-white"
+                                @click="deleteAdditionalImage(image.id)"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="additionalImagePreviews.length" class="mt-3">
+                    <p class="mb-2 text-sm font-medium text-gray-700">New selected images</p>
+                    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-6">
+                        <div v-for="(preview, index) in additionalImagePreviews" :key="preview.url" class="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                            <img :src="preview.url" :alt="`Additional product preview ${index + 1}`" class="h-24 w-full object-contain">
+                            <button
+                                type="button"
+                                class="absolute right-1 top-1 rounded bg-white/90 px-2 py-1 text-xs font-medium text-red-600 shadow hover:bg-white"
+                                @click="removeAdditionalImage(index)"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Variants Section -->
@@ -112,7 +152,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -128,13 +168,22 @@ const props = defineProps({
 });
 
 const loading = ref(false);
-const imageUrlsInput = ref('');
+const primaryImage = ref(null);
+const primaryImagePreview = ref(null);
+const additionalImages = ref([]);
+const additionalImagePreviews = ref([]);
+const existingAdditionalImages = ref([]);
 const variants = ref([]);
 
 onMounted(() => {
     if (props.product) {
         form.value = { ...props.product };
-        imageUrlsInput.value = props.product.images?.map(img => img.image_path || img.url).join('\n') || '';
+        const existingPrimaryImage = props.product.images?.find(img => img.is_primary) || props.product.images?.[0] || null;
+        primaryImagePreview.value = existingPrimaryImage ? {
+            name: existingPrimaryImage.image_path,
+            url: existingPrimaryImage.url
+        } : null;
+        existingAdditionalImages.value = props.product.images?.filter(img => !img.is_primary) || [];
         variants.value = props.product.variants?.map(v => ({
             id: v.id,
             size: v.size,
@@ -178,13 +227,55 @@ const removeVariant = (index) => {
     variants.value.splice(index, 1);
 };
 
+const handlePrimaryImageChange = (event) => {
+    const file = event.target.files?.[0] || null;
+
+    if (primaryImagePreview.value?.url?.startsWith('blob:')) {
+        URL.revokeObjectURL(primaryImagePreview.value.url);
+    }
+
+    primaryImage.value = file;
+    primaryImagePreview.value = file ? {
+        name: file.name,
+        url: URL.createObjectURL(file)
+    } : primaryImagePreview.value;
+};
+
+const handleAdditionalImagesChange = (event) => {
+    const selectedFiles = Array.from(event.target.files || []);
+
+    additionalImages.value = [...additionalImages.value, ...selectedFiles];
+    additionalImagePreviews.value = [
+        ...additionalImagePreviews.value,
+        ...selectedFiles.map((file) => ({
+            name: file.name,
+            url: URL.createObjectURL(file)
+        }))
+    ];
+    event.target.value = '';
+};
+
+const removeAdditionalImage = (index) => {
+    URL.revokeObjectURL(additionalImagePreviews.value[index].url);
+    additionalImagePreviews.value.splice(index, 1);
+    additionalImages.value.splice(index, 1);
+};
+
+const deleteAdditionalImage = (imageId) => {
+    if (!confirm('Delete this gallery image?')) {
+        return;
+    }
+
+    router.delete(route('admin.products.images.destroy', [props.product.id, imageId]), {
+        preserveScroll: true,
+        onSuccess: () => {
+            existingAdditionalImages.value = existingAdditionalImages.value.filter(image => image.id !== imageId);
+        }
+    });
+};
+
 const submitForm = () => {
     loading.value = true;
-
-    const imageUrls = imageUrlsInput.value
-        .split('\n')
-        .map(url => url.trim())
-        .filter(url => url.length > 0);
 
     const filteredVariants = variants.value.filter(v => v.size || v.color).map(v => ({
         id: v.id || null,
@@ -194,11 +285,14 @@ const submitForm = () => {
         stock: v.stock || 0
     }));
 
-    router.patch(route('admin.products.update', props.product.id), {
+    router.post(route('admin.products.update', props.product.id), {
         ...form.value,
-        image_urls: imageUrls,
+        _method: 'patch',
+        primary_image: primaryImage.value,
+        additional_images: additionalImages.value,
         variants: filteredVariants
     }, {
+        forceFormData: true,
         onFinish: () => {
             loading.value = false;
         }

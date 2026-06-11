@@ -8,7 +8,7 @@
                 <h1 class="font-serif text-3xl text-center mb-8">Request Return</h1>
                 
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-                    <h3 class="font-semibold mb-4">Order #{{ order.id }}</h3>
+                    <h3 class="font-semibold mb-4">Order {{ order.order_number }}</h3>
                     <div class="space-y-2 text-text-body">
                         <p>Total: <span class="font-semibold">₹{{ order.total_amount?.toLocaleString() }}</span></p>
                         <p>Status: <span class="capitalize">{{ order.status }}</span></p>

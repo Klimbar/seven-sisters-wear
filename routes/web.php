@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
@@ -41,12 +42,8 @@ Route::get('/', function () {
         ->limit(8)
         ->get();
 
-    $collections = \App\Models\Category::whereIn('name', ['Muga Silk', 'Pat Silk', 'Eri Silk'])
-        ->get();
-
     return Inertia::render('Home', [
         'featuredProducts' => $featuredProducts,
-        'collections' => $collections,
     ]);
 });
 
@@ -67,6 +64,8 @@ Route::get('/tribes/{tribe}', [TribeController::class, 'show'])->name('tribes.sh
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review')->middleware('auth');
+Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update')->middleware('auth');
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy')->middleware('auth');
 
 // Cart routes (requires auth)
 Route::middleware('auth')->group(function () {
@@ -121,6 +120,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // User management
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users.index');
     Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.updateRole');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
     // Product management
     Route::get('/products', [AdminController::class, 'products'])->name('admin.products.index');
@@ -128,6 +128,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
     Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
+    Route::delete('/products/{product}/images/{image}', [AdminController::class, 'destroyProductImage'])->name('admin.products.images.destroy');
     Route::delete('/products/{product}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
 
     // Orders management
@@ -135,6 +136,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
     Route::get('/orders/{order}/invoice', [InvoiceController::class, 'adminShow'])->name('admin.orders.invoice');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
+    Route::patch('/orders/{order}/payment-status', [AdminController::class, 'updatePaymentStatus'])->name('admin.orders.updatePaymentStatus');
 
     // Returns management
     Route::get('/returns', [ReturnController::class, 'adminIndex'])->name('admin.returns.index');
@@ -146,6 +148,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
     Route::patch('/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
     Route::delete('/categories/{category}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy');
+
+    // Tribe management
+    Route::get('/tribes', [AdminController::class, 'tribes'])->name('admin.tribes.index');
+    Route::post('/tribes', [AdminController::class, 'storeTribe'])->name('admin.tribes.store');
+    Route::patch('/tribes/{tribe}', [AdminController::class, 'updateTribe'])->name('admin.tribes.update');
+    Route::delete('/tribes/{tribe}', [AdminController::class, 'destroyTribe'])->name('admin.tribes.destroy');
 
     // Coupon management
     Route::get('/coupons', [CouponController::class, 'index'])->name('admin.coupons.index');
@@ -166,6 +174,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.send');
 
 // Dashboard - redirect to shop
 Route::get('/dashboard', function () {

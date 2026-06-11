@@ -18,8 +18,7 @@ class OrderStatusUpdate extends Mailable
     public function envelope(): Envelope
     {
         $subject = match ($this->status) {
-            'confirmed' => 'Order Confirmed - Your Order is Being Processed',
-            'packed' => 'Order Packed - Ready for Shipping',
+            'processing' => 'Order Processing - Your Order is Being Prepared',
             'shipped' => 'Order Shipped - Track Your Package',
             'delivered' => 'Order Delivered - Thank You for Shopping!',
             'cancelled' => 'Order Cancelled - Refund Initiated',

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class ReturnRequest extends Model
 {
     protected $fillable = [
         'order_id',
+        'return_number',
         'user_id',
         'reason',
         'description',
@@ -26,6 +28,21 @@ class ReturnRequest extends Model
         'pickup_date' => 'datetime',
         'refund_date' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (ReturnRequest $returnRequest) {
+            if ($returnRequest->return_number) {
+                return;
+            }
+
+            do {
+                $returnNumber = 'RET-'.now()->format('Ymd').'-'.Str::upper(Str::random(6));
+            } while (static::where('return_number', $returnNumber)->exists());
+
+            $returnRequest->return_number = $returnNumber;
+        });
+    }
 
     public static function statuses(): array
     {

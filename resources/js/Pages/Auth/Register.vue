@@ -152,16 +152,6 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="flex items-start">
-                <input type="checkbox" id="terms" class="mt-1 h-4 w-4 rounded border-gray-300 text-orange-700 focus:ring-orange-700" required />
-                <label for="terms" class="ml-2 block text-sm text-gray-600">
-                    I agree to the
-                    <a href="#" class="font-medium text-orange-700 hover:text-orange-800 hover:underline">Terms of Service</a>
-                    and
-                    <a href="#" class="font-medium text-orange-700 hover:text-orange-800 hover:underline">Privacy Policy</a>
-                </label>
-            </div>
-
             <PrimaryButton
                 class="w-full justify-center rounded-lg bg-orange-700 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-orange-800 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 :class="{ 'opacity-50': form.processing }"

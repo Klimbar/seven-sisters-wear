@@ -23,7 +23,7 @@
         <p>Your order status has been updated:</p>
         
         <div class="order-details">
-            <p><strong>Order ID:</strong> #{{ $order->order_number }}</p>
+            <p><strong>Order ID:</strong> {{ $order->order_number }}</p>
             <p><strong>Current Status:</strong> <span class="status-badge">{{ ucfirst($status) }}</span></p>
             <p><strong>Order Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
             <p><strong>Payment Method:</strong> {{ ucfirst($order->payment_method) }}</p>

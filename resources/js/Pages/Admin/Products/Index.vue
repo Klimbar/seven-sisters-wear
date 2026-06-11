@@ -47,8 +47,8 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                                    <img :src="product.images?.[0]?.url || 'https://via.placeholder.com/100'" 
-                                         class="w-full h-full object-cover">
+                                    <img v-if="product.images?.[0]?.url" :src="product.images[0].url" class="w-full h-full object-cover">
+                                    <div v-else class="flex h-full w-full items-center justify-center text-xs text-gray-500">No image</div>
                                 </div>
                                 <div>
                                     <p class="font-medium text-gray-900">{{ product.name }}</p>
@@ -60,9 +60,9 @@
                             {{ product.category?.name || '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            <span class="font-semibold">₹{{ product.price?.toLocaleString() }}</span>
+                            <span class="font-semibold">₹{{ (product.discount_price || product.price)?.toLocaleString() }}</span>
                             <span v-if="product.discount_price" class="text-sm text-gray-400 line-through ml-2">
-                                ₹{{ product.discount_price?.toLocaleString() }}
+                                ₹{{ product.price?.toLocaleString() }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
@@ -102,7 +102,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';

@@ -60,7 +60,7 @@
                 </div>
                 <div>
                     <div class="section-title">Ship To</div>
-                    <div class="info-value">{{ $order->shipping_address }}</div>
+                    <div class="info-value">{!! nl2br(e($order->shipping_address)) !!}</div>
                 </div>
             </div>
         </div>
@@ -106,7 +106,7 @@
             <table>
                 <tr>
                     <td class="label">Subtotal</td>
-                    <td class="value">₹{{ number_format($order->total_amount + $order->discount_amount, 2) }}</td>
+                    <td class="value">₹{{ number_format($order->total_amount - 100 + $order->discount_amount, 2) }}</td>
                 </tr>
                 @if($order->discount_amount > 0)
                 <tr>
@@ -114,6 +114,10 @@
                     <td class="value" style="color: #27ae60;">-₹{{ number_format($order->discount_amount, 2) }}</td>
                 </tr>
                 @endif
+                <tr>
+                    <td class="label">Shipping</td>
+                    <td class="value">₹100.00</td>
+                </tr>
                 <tr>
                     <td class="label">Total</td>
                     <td class="value grand-total">₹{{ number_format($order->total_amount, 2) }}</td>

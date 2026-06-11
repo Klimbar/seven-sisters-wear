@@ -49,7 +49,8 @@
                     <div class="grid md:grid-cols-3 gap-6">
                         <Link v-for="product in products.data" :key="product.id" :href="`/products/${product.id}`" class="product-card bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all block">
                             <div class="relative aspect-[3/4] overflow-hidden group">
-                                <img :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                                <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                                <div v-else class="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-500">No image</div>
                                 <button class="product-wishlist absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-lg" @click.prevent="toggleWishlist(product)">
                                     <i :class="product.wishlists_count > 0 ? 'pi pi-heart-fill text-red-500' : 'pi pi-heart'"></i>
                                 </button>
@@ -60,9 +61,22 @@
                             <div class="p-5">
                                 <h3 class="font-serif text-lg text-text-dark mb-1">{{ product.name }}</h3>
                                 <p class="text-sm text-text-body opacity-70 mb-3">{{ product.category?.name }} • {{ product.fabric }}</p>
+                                <div class="mb-3 flex items-center gap-2 text-sm">
+                                    <div class="flex items-center gap-0.5 text-amber-500" aria-hidden="true">
+                                        <i
+                                            v-for="star in 5"
+                                            :key="star"
+                                            :class="star <= getRoundedRating(product) ? 'pi pi-star-fill' : 'pi pi-star'"
+                                            class="text-sm"
+                                        ></i>
+                                    </div>
+                                    <span class="text-text-body opacity-70">
+                                        {{ getReviewLabel(product) }}
+                                    </span>
+                                </div>
                                 <div class="flex items-center gap-3">
-                                    <span class="font-semibold text-xl text-primary">₹{{ product.price.toLocaleString() }}</span>
-                                    <span v-if="product.discount_price" class="text-sm text-text-body opacity-50 line-through">₹{{ product.discount_price.toLocaleString() }}</span>
+                                    <span class="font-semibold text-xl text-primary">₹{{ (product.discount_price || product.price).toLocaleString() }}</span>
+                                    <span v-if="product.discount_price" class="text-sm text-text-body opacity-50 line-through">₹{{ product.price.toLocaleString() }}</span>
                                 </div>
                             </div>
                         </Link>
@@ -148,10 +162,25 @@ const toggleWishlist = (product) => {
 };
 
 const getProductImage = (product) => {
-    if (product.images && product.images.length > 0) {
-        return product.images[0].image_path || product.images[0].url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
+    return product.images?.[0]?.url || null;
+};
+
+const getAverageRating = (product) => {
+    return Number(product.approved_reviews_avg_rating || 0);
+};
+
+const getRoundedRating = (product) => {
+    return Math.round(getAverageRating(product));
+};
+
+const getReviewLabel = (product) => {
+    const count = Number(product.approved_reviews_count || 0);
+
+    if (count === 0) {
+        return 'No reviews';
     }
-    return 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80';
+
+    return `${count} ${count === 1 ? 'review' : 'reviews'}`;
 };
 
 const quickAddToCart = (product) => {

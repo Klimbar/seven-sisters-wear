@@ -8,9 +8,9 @@
                 </a>
 
                 <ul class="nav-links hidden md:flex">
-                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/shop">Shop</a></li>
-                    <li><a href="/story">Our Story</a></li>
+                    <li><a href="/orders">My Orders</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
 
@@ -59,6 +59,9 @@
                                 <Link :href="route('profile.edit')" class="dropdown-item" @click="dropdownOpen = false">
                                     <i class="ph ph-user"></i> Profile
                                 </Link>
+                                <Link v-if="isAdmin" :href="route('admin.dashboard')" class="dropdown-item" @click="dropdownOpen = false">
+                                    <i class="ph ph-gauge"></i> Admin Dashboard
+                                </Link>
                                 <hr class="dropdown-divider">
                                 <Link :href="route('logout')" method="post" as="button" class="dropdown-item dropdown-item-danger" @click="dropdownOpen = false">
                                     <i class="ph ph-sign-out"></i> Log Out
@@ -77,9 +80,9 @@
                 <span class="drawer-title">Menu</span>
             </template>
             <div class="drawer-links">
-                <a href="#collections" @click="menuVisible = false">Collections</a>
+                <a href="/" @click="menuVisible = false">Home</a>
                 <a href="/shop" @click="menuVisible = false">Shop</a>
-                <a href="/story" @click="menuVisible = false">Our Story</a>
+                <a href="/orders" @click="menuVisible = false">My Orders</a>
                 <a href="/contact" @click="menuVisible = false">Contact</a>
             </div>
             <hr class="drawer-divider">
@@ -100,6 +103,9 @@
                 </Link>
                 <Link :href="route('profile.edit')" class="drawer-auth-link" @click="menuVisible = false">
                     <i class="ph ph-user"></i> Profile
+                </Link>
+                <Link v-if="isAdmin" :href="route('admin.dashboard')" class="drawer-auth-link" @click="menuVisible = false">
+                    <i class="ph ph-gauge"></i> Admin Dashboard
                 </Link>
                 <Link :href="route('logout')" method="post" as="button" class="drawer-auth-link drawer-auth-logout" @click="menuVisible = false">
                     <i class="ph ph-sign-out"></i> Log Out
@@ -124,6 +130,7 @@ const searchQuery = ref('');
 const searchInput = ref(null);
 const cartCount = computed(() => page.props.cartCount || 0);
 const user = computed(() => page.props.auth?.user || null);
+const isAdmin = computed(() => page.props.auth?.is_admin || false);
 const initials = computed(() => {
     if (!user.value?.name) return '?';
     return user.value.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
