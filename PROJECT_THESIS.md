@@ -80,22 +80,97 @@ Declaration
 1. Introduction
 2. Problem Statement
 3. Aim and Objectives
+   3.1 Aim
+   3.2 Objectives
 4. Scope of the Project
+   4.1 Included Features
+   4.2 Out of Scope for Current Version
 5. Literature Review
 6. Proposed System
+   6.1 User Roles
+   6.2 Advantages
 7. Feasibility Study
+   7.1 Technical Feasibility
+   7.2 Operational Feasibility
+   7.3 Economic Feasibility
+   7.4 Schedule Feasibility
+   7.5 Social and Cultural Feasibility
 8. Requirement Analysis
+   8.1 User Requirements
+   8.2 Functional Requirements
+   8.3 Non-Functional Requirements
+   8.4 Data Requirements
+   8.5 Use Case Summary
 9. System Architecture
+   9.1 Architectural Layers
 10. System Design
+    10.1 Customer Workflow
+    10.2 Admin Workflow
+    10.3 Level 0 DFD Description
+    10.4 Level 1 DFD Description
+    10.5 ER Diagram Description
+    10.6 Interface Design Principles
+    10.7 Input and Output Design
+    10.8 Diagram Placeholders
 11. Technology Stack
 12. System Requirements
+    12.1 Hardware Requirements
+    12.2 Software Requirements
 13. Database Design
+    13.1 Key Relationships
+    13.2 Important Table Descriptions
+    13.3 Data Integrity Rules
+    13.4 Database Design Advantages
 14. Module Description
+    14.1 Authentication Module
+    14.2 Product Catalog Module
+    14.3 Cart Module
+    14.4 Wishlist Module
+    14.5 Checkout and Coupon Module
+    14.6 Payment Module
+    14.7 Order Management Module
+    14.8 Review and Rating Module
+    14.9 Return Management Module
+    14.10 Admin Dashboard Module
+    14.11 Email Notification Module
+    14.12 Contact Module
 15. Implementation Methodology
+    15.1 Development Phases
+    15.2 Research Inputs
+    15.3 Development Pattern
 16. Testing and Validation
+    16.1 Test Areas
+    16.2 Existing Test Structure
+    16.3 Sample Test Cases
+    16.4 Validation Testing
+    16.5 Usability Testing
+    16.6 Admin Workflow Testing
+    16.7 Result Summary
 17. Screenshots and Output
+    17.1 Home Page
+    17.2 Shop Page
+    17.3 Product Details Page
+    17.4 Cart Page
+    17.5 Checkout Page
+    17.6 Order History Page
+    17.7 Order Details and Invoice Page
+    17.8 Wishlist Page
+    17.9 Review and Rating Section
+    17.10 Return Request Page
+    17.11 Admin Dashboard
+    17.12 Admin Product Management
+    17.13 Admin Order Management
+    17.14 Admin Coupon Management
+    17.15 Admin Return Management
 18. Deployment and Maintenance
+    18.1 Deployment Environment
+    18.2 Deployment Steps
+    18.3 Environment Configuration
+    18.4 Maintenance Activities
+    18.5 Backup and Recovery
+    18.6 Maintenance Benefits
 19. Security Considerations
+    19.1 Implemented and Recommended Security Measures
 20. Limitations
 21. Future Scope
 22. Conclusion
@@ -133,11 +208,11 @@ This creates a digital visibility gap for traditional products and makes it hard
 
 ## 3. Aim and Objectives
 
-### Aim
+### 3.1 Aim
 
 To design and develop a responsive, secure, and user-friendly e-commerce web application for traditional North-East Indian clothing and cultural products.
 
-### Objectives
+### 3.2 Objectives
 
 - To provide a dedicated online platform for traditional garments and handloom products.
 - To allow customers to browse products by category, state, tribe, fabric, and product type.
@@ -157,7 +232,7 @@ To design and develop a responsive, secure, and user-friendly e-commerce web app
 
 The project scope includes both customer-side and admin-side functionality.
 
-### Included Features
+### 4.1 Included Features
 
 | Area | Features |
 | --- | --- |
@@ -173,7 +248,7 @@ The project scope includes both customer-side and admin-side functionality.
 | Notifications | Email templates for OTP verification, order confirmation, order status, return status, and contact messages |
 | UI | Responsive Vue.js interface with Tailwind CSS and PrimeVue support |
 
-### Out of Scope for Current Version
+### 4.2 Out of Scope for Current Version
 
 - Native Android and iOS mobile applications.
 - Full multi-vendor seller dashboard.
@@ -212,14 +287,14 @@ Seven Sisters Wear is designed around these requirements.
 
 The proposed system is a centralized e-commerce platform where administrators manage product listings, inventory, orders, returns, reviews, coupons, and reports. Customers browse products, add items to cart or wishlist, apply coupons, place orders, make payments, view invoices, submit reviews, and request returns.
 
-### User Roles
+### 6.1 User Roles
 
 | Role | Description |
 | --- | --- |
 | Customer | Browses products, manages cart/wishlist, places orders, reviews products, requests returns |
 | Admin | Manages products, categories, users, orders, returns, reviews, coupons, reports, and payment statuses |
 
-### Advantages
+### 6.2 Advantages
 
 - Dedicated focus on traditional North-East Indian wear.
 - Better product discovery through cultural and regional categorization.
@@ -372,7 +447,7 @@ Vue.js Pages and Components
 
 **Figure 10.1:** System Architecture Diagram *(insert diagram here)*
 
-### Architectural Layers
+### 9.1 Architectural Layers
 
 | Layer | Responsibility |
 | --- | --- |
@@ -529,7 +604,7 @@ The following diagrams can be inserted in the final formatted thesis:
 
 ## 12. System Requirements
 
-### Hardware Requirements
+### 12.1 Hardware Requirements
 
 | Component | Minimum Requirement |
 | --- | --- |
@@ -538,7 +613,7 @@ The following diagrams can be inserted in the final formatted thesis:
 | Storage | 2 GB free space for application and dependencies |
 | Network | Internet connection for payment, email, and package services |
 
-### Software Requirements
+### 12.2 Software Requirements
 
 | Component | Requirement |
 | --- | --- |
@@ -576,7 +651,7 @@ The application uses relational database tables managed through Laravel migratio
 | Return Requests | Stores customer return requests and admin decisions |
 | Email Verification OTPs | Stores OTP records for email verification |
 
-### Key Relationships
+### 13.1 Key Relationships
 
 - A user can have many cart items, wishlist items, orders, reviews, addresses, and return requests.
 - A product belongs to a category and can have many images, variants, reviews, cart records, wishlist records, and order items.
@@ -584,7 +659,7 @@ The application uses relational database tables managed through Laravel migratio
 - A return request belongs to a user and is related to an order.
 - A review belongs to a product and a user, and can have multiple review images.
 
-### 13.1 Important Table Descriptions
+### 13.2 Important Table Descriptions
 
 | Table | Important Fields | Description |
 | --- | --- | --- |
@@ -604,7 +679,7 @@ The application uses relational database tables managed through Laravel migratio
 | states | id, name, description | Stores state-level cultural/product discovery data |
 | tribes | id, name, description | Stores tribe/community-level discovery data |
 
-### 13.2 Data Integrity Rules
+### 13.3 Data Integrity Rules
 
 - A cart item must belong to an authenticated user.
 - An order must contain at least one order item.
@@ -615,7 +690,7 @@ The application uses relational database tables managed through Laravel migratio
 - Payment status should be updated only through controlled payment or admin workflows.
 - Product stock should be reduced after successful order placement and restored when required by cancellation or return logic.
 
-### 13.3 Database Design Advantages
+### 13.4 Database Design Advantages
 
 The database design separates products, variants, images, orders, reviews, and returns into different tables. This avoids unnecessary duplication and makes the system easier to maintain. For example, product images are stored separately from products so that a product can have multiple images. Similarly, order items are stored separately from orders so that a single order can contain multiple products.
 
@@ -677,7 +752,7 @@ The contact module allows visitors and customers to send enquiries through the c
 
 The project follows an iterative development approach informed by mixed-method research. The research phase includes literature review, market analysis of existing e-commerce platforms, requirements analysis, and technical development. Each major feature is developed, tested, and refined as a separate module.
 
-### Development Phases
+### 15.1 Development Phases
 
 | Phase | Description |
 | --- | --- |
@@ -689,7 +764,7 @@ The project follows an iterative development approach informed by mixed-method r
 | Testing | Run unit and feature tests, validate workflows manually |
 | Deployment Preparation | Configure environment, database, storage, queue, email, and payment credentials |
 
-### Research Inputs
+### 15.2 Research Inputs
 
 | Input | Use in Project |
 | --- | --- |
@@ -699,7 +774,7 @@ The project follows an iterative development approach informed by mixed-method r
 | Technical feasibility | Select Laravel, Vue.js, Inertia.js, Tailwind CSS, and relational database design |
 | Impact analysis | Evaluate cultural preservation, digital inclusion, and income improvement potential |
 
-### Development Pattern
+### 15.3 Development Pattern
 
 The system uses:
 
@@ -715,7 +790,7 @@ The system uses:
 
 Testing is performed through Laravel's testing tools and manual validation of key user workflows.
 
-### Test Areas
+### 16.1 Test Areas
 
 | Area | Validation |
 | --- | --- |
@@ -731,11 +806,11 @@ Testing is performed through Laravel's testing tools and manual validation of ke
 | Contact | Contact message validation and email sending |
 | Admin | Role-protected dashboard and management pages |
 
-### Existing Test Structure
+### 16.2 Existing Test Structure
 
 The project contains Laravel feature tests for authentication, registration, email verification, password reset, password confirmation, password update, profile update, admin product behavior, product variant selection, and contact form behavior. Unit tests are also available as part of the test suite structure.
 
-### 16.1 Sample Test Cases
+### 16.3 Sample Test Cases
 
 | Test Case ID | Test Scenario | Expected Result |
 | --- | --- | --- |
@@ -758,19 +833,19 @@ The project contains Laravel feature tests for authentication, registration, ema
 | TC-17 | Select product variant before checkout | Variant is saved to cart and variant price is used |
 | TC-18 | Submit contact form | Contact email is sent to the configured support address |
 
-### 16.2 Validation Testing
+### 16.4 Validation Testing
 
 Validation testing ensures that incorrect or incomplete user inputs are handled properly. Examples include invalid email format during registration, empty product fields during admin product creation, invalid coupon codes during checkout, and invalid quantities in cart updates.
 
-### 16.3 Usability Testing
+### 16.5 Usability Testing
 
 Usability testing focuses on whether users can complete common tasks without confusion. Important tasks include finding products, viewing product details, adding products to cart, placing an order, checking order history, and submitting reviews. The interface is designed to remain readable and usable on mobile, tablet, and desktop screens.
 
-### 16.4 Admin Workflow Testing
+### 16.6 Admin Workflow Testing
 
 Admin workflow testing verifies that administrative functions are protected and operational. This includes product creation, image management, order status update, payment status update, return request handling, coupon management, and report viewing.
 
-### 16.5 Result Summary
+### 16.7 Result Summary
 
 The expected result of testing is that all major customer and admin workflows operate correctly and securely. Any failed test case should be corrected before final deployment. The testing process improves reliability and helps ensure that the platform performs as expected during real use.
 
@@ -925,7 +1000,7 @@ Proper maintenance improves system stability, protects customer data, reduces do
 
 Security is important because the system handles user accounts, orders, payments, and customer data.
 
-### Implemented and Recommended Security Measures
+### 19.1 Implemented and Recommended Security Measures
 
 - Password hashing through Laravel authentication.
 - CSRF protection for web forms.
