@@ -114,6 +114,45 @@ class ProductVariantSelectionTest extends TestCase
             );
     }
 
+    public function test_checkout_and_orders_use_configured_shipping_charge(): void
+    {
+        config(['shop.shipping_charge' => 175]);
+
+        $user = User::factory()->create();
+        $product = $this->createProduct();
+
+        Cart::create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'quantity' => 2,
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('checkout'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('shipping', 175)
+            );
+
+        $this->actingAs($user)
+            ->post(route('orders.store'), [
+                'full_name' => 'Test Customer',
+                'phone' => '9876543210',
+                'address_line1' => '123 Main Road',
+                'city' => 'Guwahati',
+                'state' => 'Assam',
+                'pincode' => '781001',
+                'country' => 'India',
+                'payment_method' => 'cod',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $user->id,
+            'total_amount' => 2173,
+        ]);
+    }
+
     private function createProduct(string $name = 'Assam Silk Dress', string $slug = 'assam-silk-dress'): Product
     {
         $category = Category::create([

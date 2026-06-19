@@ -73,7 +73,8 @@ import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 
 const props = defineProps({
-    cartItems: Array
+    cartItems: Array,
+    shipping: Number
 });
 
 const subtotal = computed(() => {
@@ -81,7 +82,7 @@ const subtotal = computed(() => {
 });
 
 const shipping = computed(() => {
-    return 100;
+    return props.shipping;
 });
 
 const total = computed(() => {

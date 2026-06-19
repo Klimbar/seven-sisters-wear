@@ -12,10 +12,11 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Tribe;
 use App\Models\Wishlist;
-use App\Services\Pay0ShopService;
+use App\Services\PaymentGatewayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -268,6 +269,7 @@ class ProductController extends Controller
 
         return inertia('Cart', [
             'cartItems' => $cartItems,
+            'shipping' => $this->shippingCharge(),
         ]);
     }
 
@@ -467,30 +469,32 @@ class ProductController extends Controller
             return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully');
         }
 
-        // For online payments, initiate PayIN payment
+        // For online payments, initiate the configured payment gateway.
         $user = Auth::user();
-        $pay0ShopService = new Pay0ShopService();
-        $callbackUrl = config('services.pay0shop.callback_url') . '/payment/callback';
+        $paymentGateway = app(PaymentGatewayService::class);
 
-        $response = $pay0ShopService->createOrder([
+        $response = $paymentGateway->createOrder([
             'customer_mobile' => $user->phone ?? '9999999999',
             'customer_name' => $user->name ?? 'Customer',
             'amount' => (float) $total,
             'order_id' => $order->order_number,
-            'redirect_url' => $callbackUrl,
             'remark1' => 'Order Payment',
             'remark2' => 'Seven Sisters Wear',
         ]);
 
-        if ($response['status'] ?? false) {
+        if ($response['success'] ?? false) {
             Cart::where('user_id', Auth::id())->delete();
 
             $order->update([
-                'payment_transaction_id' => $response['result']['orderId'] ?? null,
+                'payment_transaction_id' => $response['transaction_id'] ?? null,
             ]);
 
-            return redirect($response['result']['payment_url'] ?? route('orders.show', $order))
-                ->with('success', 'Redirecting to payment...');
+            if ($response['payment_url'] ?? null) {
+                return Inertia::location($response['payment_url']);
+            }
+
+            return redirect()->route('orders.show', $order)
+                ->with('warning', 'Order created but payment initiation failed. Please try again.');
         }
 
         // If payment initiation fails, order remains with pending payment
@@ -527,6 +531,6 @@ class ProductController extends Controller
 
     private function shippingCharge(): int
     {
-        return 100;
+        return (int) config('shop.shipping_charge', 100);
     }
 }

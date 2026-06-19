@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Services\Pay0ShopService;
+use App\Services\PaymentGatewayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
-    protected Pay0ShopService $pay0ShopService;
+    protected PaymentGatewayService $paymentGateway;
 
-    public function __construct(Pay0ShopService $pay0ShopService)
+    public function __construct(PaymentGatewayService $paymentGateway)
     {
-        $this->pay0ShopService = $pay0ShopService;
+        $this->paymentGateway = $paymentGateway;
     }
 
     /**
@@ -35,26 +35,24 @@ class PaymentController extends Controller
         }
 
         $user = Auth::user();
-        $callbackUrl = config('services.pay0shop.callback_url') . '/payment/callback';
 
-        $response = $this->pay0ShopService->createOrder([
+        $response = $this->paymentGateway->createOrder([
             'customer_mobile' => $user->phone ?? '9999999999',
             'customer_name' => $user->name ?? 'Customer',
             'amount' => (float) $order->total_amount,
             'order_id' => $order->order_number,
-            'redirect_url' => $callbackUrl,
             'remark1' => 'Order Payment',
             'remark2' => 'Seven Sisters Wear',
         ]);
 
-        if ($response['status'] ?? false) {
+        if ($response['success'] ?? false) {
             $order->update([
-                'payment_transaction_id' => $response['result']['orderId'] ?? null,
+                'payment_transaction_id' => $response['transaction_id'] ?? null,
             ]);
 
             return response()->json([
                 'success' => true,
-                'payment_url' => $response['result']['payment_url'] ?? null,
+                'payment_url' => $response['payment_url'] ?? null,
             ]);
         }
 
@@ -71,31 +69,31 @@ class PaymentController extends Controller
     {
         $orderId = $request->query('order_id') ?? $request->order_id;
 
-        if (!$orderId) {
+        if (! $orderId) {
             return redirect()->route('checkout')->with('error', 'Invalid payment response');
         }
 
         $order = Order::where('order_number', $orderId)->first();
 
-        if (!$order) {
+        if (! $order) {
             return redirect()->route('orders.index')->with('error', 'Order not found');
         }
 
-        $response = $this->pay0ShopService->checkOrderStatus($orderId);
+        $response = $this->paymentGateway->checkOrderStatus($orderId);
 
-        if ($response['status'] ?? false) {
-            $txnStatus = $response['result']['txnStatus'] ?? 'PENDING';
+        if ($response['success'] ?? false) {
+            $txnStatus = $response['payment_status'] ?? 'PENDING';
 
-            if ($txnStatus === 'SUCCESS') {
+            if (in_array($txnStatus, ['SUCCESS', 'success'], true)) {
                 $order->update([
                     'payment_status' => 'completed',
                     'status' => 'processing',
-                    'payment_utr' => $response['result']['utr'] ?? null,
+                    'payment_UTR' => $response['utr'] ?? null,
                 ]);
 
                 return redirect()->route('orders.show', $order)
                     ->with('success', 'Payment successful! Order is processing.');
-            } elseif ($txnStatus === 'PENDING') {
+            } elseif (in_array($txnStatus, ['PENDING', 'pending'], true)) {
                 $order->update(['payment_status' => 'pending']);
 
                 return redirect()->route('orders.show', $order)
@@ -109,16 +107,55 @@ class PaymentController extends Controller
     }
 
     /**
-     * Handle Pay0Shop webhook for payment updates
+     * Handle payment gateway webhook updates.
      */
     public function webhook(Request $request)
     {
+        if ($this->paymentGateway->gateway() === 'serdihin') {
+            $signature = $request->header('X-SerdihinPay-Signature');
+
+            if (! $this->paymentGateway->hasValidWebhookSignature($request->getContent(), $signature)) {
+                Log::warning('Serdihin Pay Webhook: Invalid signature');
+
+                return response()->json(['error' => 'Invalid signature'], 401);
+            }
+
+            Log::info('Serdihin Pay Webhook Received', $request->all());
+
+            $orderId = $request->order_id;
+
+            if (! $orderId) {
+                return response()->json(['error' => 'Missing order_id'], 400);
+            }
+
+            $order = Order::where('order_number', $orderId)->first();
+
+            if (! $order) {
+                Log::warning("Serdihin Pay Webhook: Order not found - {$orderId}");
+
+                return response()->json(['error' => 'Order not found'], 404);
+            }
+
+            if ($request->event === 'payment.success' || $request->status === 'success') {
+                $order->update([
+                    'payment_status' => 'completed',
+                    'status' => 'processing',
+                    'payment_UTR' => $request->utr ?? null,
+                ]);
+
+                Log::info("Serdihin Pay Webhook: Payment successful for order {$orderId}");
+            }
+
+            return response()->json(['success' => true]);
+        }
+
         // Verify secret key for security
         $secretKey = config('services.pay0shop.secret_key');
         $requestSecret = $request->header('X-Secret-Key') ?? $request->secret_key;
 
         if ($secretKey && $requestSecret !== $secretKey) {
             Log::warning('Pay0Shop Webhook: Invalid secret key');
+
             return response()->json(['error' => 'Invalid secret key'], 401);
         }
 
@@ -128,14 +165,15 @@ class PaymentController extends Controller
         $orderId = $request->order_id;
         $amount = $request->amount;
 
-        if (!$orderId) {
+        if (! $orderId) {
             return response()->json(['error' => 'Missing order_id'], 400);
         }
 
         $order = Order::where('order_number', $orderId)->first();
 
-        if (!$order) {
+        if (! $order) {
             Log::warning("Pay0Shop Webhook: Order not found - {$orderId}");
+
             return response()->json(['error' => 'Order not found'], 404);
         }
 

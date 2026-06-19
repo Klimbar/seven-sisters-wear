@@ -41,6 +41,16 @@ return [
         'callback_url' => env('PAY0SHOP_CALLBACK_URL'),
     ],
 
+    'payment' => [
+        'default_gateway' => env('PAYMENT_GATEWAY', 'pay0shop'),
+    ],
+
+    'serdihin' => [
+        'api_key' => env('SERDIHIN_PAY_API_KEY'),
+        'api_secret' => env('SERDIHIN_PAY_API_SECRET'),
+        'webhook_secret' => env('SERDIHIN_PAY_WEBHOOK_SECRET'),
+    ],
+
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
